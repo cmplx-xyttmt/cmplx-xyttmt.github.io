@@ -1,0 +1,4 @@
+baseURL = 'https://cmplx-xyttmt.github.io/'
+languageCode = 'en-us'
+title = 'Isaac Owomugisha'
+theme = 'paper'
