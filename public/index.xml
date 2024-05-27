@@ -20,7 +20,7 @@
       <link>http://localhost:1313/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/projects/</guid>
-      <description>Projects Sunbird-AI translate Twitter Data Analysis Tunga Works platform </description>
+      <description>Projects Below is a list of (open source) projects I have worked on.&#xA;Sunbird-AI translate Sunbird AI translate is a translation platform for Ugandan languages to and from English. I worked on this project while working at Sunbird AI. Notable contributions I made to the project were:&#xA;Deployed the AI models to the cloud (AWS and later on GCP). Lead developer of the Sunbird-AI-Translate API. Worked on the backend and deployment aspects.</description>
     </item>
   </channel>
 </rss>
