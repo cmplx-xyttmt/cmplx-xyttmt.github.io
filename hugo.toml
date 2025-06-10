@@ -30,3 +30,8 @@ theme = 'paper'
         name = "Resumé"
         url = "/resume/"
         weight = 10
+    [[menu.main]]
+        identifier = "algorithms"
+        name = "Algorithm Log"
+        url = "/algorithm-log/"
+        weight = 10
