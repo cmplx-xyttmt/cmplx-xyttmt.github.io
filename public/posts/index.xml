@@ -6,14 +6,14 @@
     <description>Recent content in Posts on cmplx-xyttmt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Sample Post</title>
-      <link>http://localhost:1313/posts/sample_post/</link>
-      <pubDate>Sat, 20 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/sample_post/</guid>
-      <description>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&#xA;This a heading So exciting This is just a sample article</description>
+      <title>Domino Covering XOR (ABC 407 D)</title>
+      <link>http://localhost:1313/posts/1_domino_covering/</link>
+      <pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/1_domino_covering/</guid>
+      <description>In this article, let&amp;rsquo;s take a look at Problem D: Domino Covering XOR from AtCoder Beginner Contest 407. When I first attempted this problem, I wasn&amp;rsquo;t able to solve it on my own. My initial approach led me down a rabbit hole: attempting to maximize the XOR by strategically choosing which numbers to exclude, bit by bit, from most significant to least. This quickly proved difficult to implement, as removing a single number (by covering it with a domino) necessarily meant covering an adjacent one as well.</description>
     </item>
   </channel>
 </rss>

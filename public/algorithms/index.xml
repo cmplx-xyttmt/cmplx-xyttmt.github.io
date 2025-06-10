@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cmplx-xyttmt</title>
+    <link>http://localhost:1313/algorithms/</link>
+    <description>Recent content on cmplx-xyttmt</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/algorithms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Domino Covering XOR (ABC 407 D)</title>
+      <link>http://localhost:1313/algorithms/1_domino_covering/</link>
+      <pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/algorithms/1_domino_covering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/algorithms/intro/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/algorithms/intro/</guid>
+      <description>Algorithms and Competitive Programming. After a two-year break from competitive programming, I&amp;rsquo;m diving back in. My goal this time around is more than just solving problems; I want to refresh my knowledge, sharpen my problem-solving skills, and become a more articulate and thoughtful programmer.&#xA;In the past, I often solved problems in bulk, rarely taking time for post-solution reflection or documentation. While that approach boosted my problem count, I believe it hindered my long-term progress and deeper understanding.</description>
+    </item>
+  </channel>
+</rss>
