@@ -1,9 +1,10 @@
-+++ 
-author = "Isaac Owomugisha" 
-title="Domino Covering XOR (ABC 407 D)" 
-date="2025-06-10" 
-description="An interesting problem with a solution that uses bitwise operations"
-+++
+---
+author: "Isaac Owomugisha" 
+title: "Domino Covering XOR (ABC 407 D)" 
+date: "2025-06-10" 
+description: "An interesting problem with a solution that uses bitwise operations"
+tags: ["algorithms", "atcoder", "bit manipulation"]
+---
 
 In this article, let's take a look at [***Problem D: Domino Covering XOR***](https://atcoder.jp/contests/abc407/tasks/abc407_d) from AtCoder Beginner Contest 407. 
 When I first attempted this problem, I wasn't able to solve it on my own. My initial approach led me down a rabbit hole: 

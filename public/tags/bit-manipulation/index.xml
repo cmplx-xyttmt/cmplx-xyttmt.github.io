@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bit Manipulation on cmplx-xyttmt</title>
+    <link>http://localhost:1313/tags/bit-manipulation/</link>
+    <description>Recent content in Bit Manipulation on cmplx-xyttmt</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/bit-manipulation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Domino Covering XOR (ABC 407 D)</title>
+      <link>http://localhost:1313/posts/1_domino_covering/</link>
+      <pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/1_domino_covering/</guid>
+      <description>In this article, let&amp;rsquo;s take a look at Problem D: Domino Covering XOR from AtCoder Beginner Contest 407. When I first attempted this problem, I wasn&amp;rsquo;t able to solve it on my own. My initial approach led me down a rabbit hole: attempting to maximize the XOR by strategically choosing which numbers to exclude, bit by bit, from most significant to least. This quickly proved difficult to implement, as removing a single number (by covering it with a domino) necessarily meant covering an adjacent one as well.</description>
+    </item>
+  </channel>
+</rss>
