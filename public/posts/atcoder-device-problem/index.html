@@ -54,7 +54,7 @@
   />
 
   
-  <title>Solving the AtCoder Device Problem - cmplx-xyttmt</title>
+  <title> - cmplx-xyttmt</title>
 
   
   <meta name="theme-color" />
@@ -63,9 +63,7 @@
   
   
   
-  <meta name="description" content="The Problem At the entrance of AtCoder Inc., there is a special pass-code input device. The device consists of a screen displaying one string, and two buttons.
-Let tt be the string shown on the screen. Initially, tt is the empty string. Pressing a button changes tt as follows:
-Pressing button A appends 0 to the end of tt. Pressing button B replaces every digit in tt with the next digit: for digits 0 through 8 the next digit is the one whose value is larger by 1; the next digit after 9 is 0." />
+  <meta name="description" content="" />
   <meta name="author" content="Hello, I&#39;m Isaac Owomugisha" />
   
 
@@ -312,12 +310,10 @@ Pressing button A appends 0 to the end of tt. Pressing button B replaces every d
 
 <article>
   <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">Solving the AtCoder Device Problem</h1>
+    <h1 class="!my-0 pb-2.5"></h1>
 
     
     <div class="text-sm antialiased opacity-60">
-      
-      <time>Mar 21, 2024</time>
       
       
       
@@ -326,256 +322,9 @@ Pressing button A appends 0 to the end of tt. Pressing button B replaces every d
     
   </header>
 
-  <section><h2 id="the-problem">The Problem</h2>
-<p>At the entrance of AtCoder Inc., there is a special pass-code input device. The device consists of a screen displaying one string, and two buttons.</p>
-<p>Let tt be the string shown on the screen. Initially, tt is the empty string. Pressing a button changes tt as follows:</p>
-<ul>
-<li>Pressing <strong>button A</strong> appends <code>0</code> to the end of tt.</li>
-<li>Pressing <strong>button B</strong> replaces every digit in tt with the next digit: for digits <code>0</code> through <code>8</code> the next digit is the one whose value is larger by 1; the next digit after <code>9</code> is <code>0</code>.</li>
-</ul>
-<p>For example, if tt is <code>1984</code> and button A is pressed, tt becomes <code>19840</code>; if button B is then pressed, tt becomes <code>20951</code>.</p>
-<p>You are given a string SS. Starting from the empty string, press the buttons zero or more times until tt coincides with SS. Find the minimum number of button presses required.</p>
-<h2 id="interactive-visualization">Interactive Visualization</h2>
-<p>Try out the device yourself! You can:</p>
-<ol>
-<li>Press Button A to append a 0</li>
-<li>Press Button B to increment all digits</li>
-<li>Enter a target string and find the minimum number of steps required</li>
-</ol>
-
-
-<div class="atcoder-device" id="abc407c-security-device-1749896924843793000">
-    <div class="device-screen">
-        <span class="display-text"></span>
-    </div>
-    <div class="device-buttons">
-        <button class="button-a">Button A</button>
-        <button class="button-b">Button B</button>
-        <button class="button-clear">Clear</button>
-    </div>
-    <div class="device-target">
-        <label for="target-input">Target String:</label>
-        <input type="text" id="target-input" placeholder="Enter target string">
-        <button class="solve-button">Find Minimum Steps</button>
-    </div>
-    <div class="device-result">
-        <p class="steps-display"></p>
-    </div>
-</div>
-
-<style>
-.atcoder-device {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border: 2px solid #333;
-    border-radius: 10px;
-    background: #f5f5f5;
-}
-
-.device-screen {
-    background: #000;
-    color: #0f0;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    font-family: monospace;
-    font-size: 1.5rem;
-    min-height: 2.5rem;
-    display: flex;
-    align-items: center;
-}
-
-.device-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.device-buttons button {
-    flex: 1;
-    padding: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.device-buttons button:hover {
-    background: #45a049;
-}
-
-.button-clear {
-    background: #f44336 !important;
-}
-
-.button-clear:hover {
-    background: #d32f2f !important;
-}
-
-.device-target {
-    margin: 1rem 0;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    color: #333;
-}
-
-.device-target label {
-    color: #333;
-    white-space: nowrap;
-}
-
-.device-target input {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fff;
-    color: #333;
-}
-
-.solve-button {
-    padding: 0.5rem 1rem;
-    background: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.solve-button:hover {
-    background: #1976D2;
-}
-
-.device-result {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: #fff;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const device = document.getElementById('abc407c-security-device-1749896924843793000');
-    const display = device.querySelector('.display-text');
-    const buttonA = device.querySelector('.button-a');
-    const buttonB = device.querySelector('.button-b');
-    const buttonClear = device.querySelector('.button-clear');
-    const targetInput = device.querySelector('#target-input');
-    const solveButton = device.querySelector('.solve-button');
-    const stepsDisplay = device.querySelector('.steps-display');
-    
-    let currentString = '';
-    
-    function updateDisplay() {
-        display.textContent = currentString || ' ';
-    }
-    
-    function pressButtonA() {
-        currentString += '0';
-        updateDisplay();
-    }
-    
-    function pressButtonB() {
-        currentString = currentString.split('').map(digit => {
-            if (digit === '9') return '0';
-            return String(Number(digit) + 1);
-        }).join('');
-        updateDisplay();
-    }
-
-    function clearDisplay() {
-        currentString = '';
-        updateDisplay();
-    }
-    
-    function findMinimumSteps(target) {
-        const queue = [['', 0]];
-        const visited = new Set(['']);
-        
-        while (queue.length > 0) {
-            const [current, steps] = queue.shift();
-            
-            if (current === target) {
-                return steps;
-            }
-            
-            
-            const nextA = current + '0';
-            if (!visited.has(nextA)) {
-                visited.add(nextA);
-                queue.push([nextA, steps + 1]);
-            }
-            
-            
-            const nextB = current.split('').map(digit => {
-                if (digit === '9') return '0';
-                return String(Number(digit) + 1);
-            }).join('');
-            
-            if (!visited.has(nextB)) {
-                visited.add(nextB);
-                queue.push([nextB, steps + 1]);
-            }
-        }
-        
-        return -1; 
-    }
-    
-    buttonA.addEventListener('click', pressButtonA);
-    buttonB.addEventListener('click', pressButtonB);
-    buttonClear.addEventListener('click', clearDisplay);
-    
-    solveButton.addEventListener('click', () => {
-        const target = targetInput.value;
-        if (!target) {
-            stepsDisplay.textContent = 'Please enter a target string';
-            return;
-        }
-        
-        const steps = findMinimumSteps(target);
-        if (steps === -1) {
-            stepsDisplay.textContent = 'No solution found';
-        } else {
-            stepsDisplay.textContent = `Minimum steps required: ${steps}`;
-        }
-    });
-    
-    updateDisplay();
-});
-</script> 
-
-</section>
+  <section></section>
 
   
-  
-  <footer class="mt-12 flex flex-wrap">
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:1313/tags/algorithms"
-      >algorithms</a
-    >
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:1313/tags/interactive"
-      >interactive</a
-    >
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:1313/tags/atcoder"
-      >atcoder</a
-    >
-    
-  </footer>
   
 
   

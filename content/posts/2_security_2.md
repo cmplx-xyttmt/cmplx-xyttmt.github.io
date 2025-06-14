@@ -1,6 +1,7 @@
 ---
 author: "Isaac Owomugisha" 
 title: "Security 2 (ABC 407 C)"
+description: "A deceptively simple atcoder problem with a cool visulization."
 date: 2025-06-14
 draft: false
 tags: ["algorithms", "interactive", "atcoder"]

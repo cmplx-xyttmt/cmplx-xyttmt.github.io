@@ -2,7 +2,7 @@
 author: "Isaac Owomugisha" 
 title: "Domino Covering XOR (ABC 407 D)" 
 date: "2025-06-10" 
-description: "An interesting problem with a solution that uses bitwise operations"
+description: "AtCoder's Domino Covering XOR problem solved using bit manipulation. The solution represents domino coverings as bitmasks to do an exhaustive search in order to get the maximum XOR value."
 tags: ["algorithms", "atcoder", "bit manipulation"]
 ---
 
