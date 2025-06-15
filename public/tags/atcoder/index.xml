@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/2_security_2/</link>
       <pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/2_security_2/</guid>
-      <description>The Problem At the entrance of AtCoder Inc., there is a special pass-code input device. The device consists of a screen displaying one string, and two buttons.&#xA;Let tt be the string shown on the screen. Initially, tt is the empty string. Pressing a button changes tt as follows:&#xA;Pressing button A appends 0 to the end of tt. Pressing button B replaces every digit in tt with the next digit: for digits 0 through 8 the next digit is the one whose value is larger by 1; the next digit after 9 is 0.</description>
+      <description>In this article, we look at another problem from Atcoder&amp;rsquo;s Beginner Contest 407: Problem C, titled &amp;ldquo;Security 2&amp;rdquo;. This problem was easier than problem D (discussed in my previous post), and I&amp;rsquo;ve also included an interactive visualization for the device in the problem.&#xA;We&amp;rsquo;ll discuss the problem, play with the mechanics and I&amp;rsquo;ll describe my solution approach.&#xA;The Problem You can find the full problem description here. But here&amp;rsquo;s the gist of it.</description>
     </item>
     <item>
       <title>Domino Covering XOR (ABC 407 D)</title>

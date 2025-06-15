@@ -1,0 +1,236 @@
+{{ $id := printf "atcoder-device-%d" (now.UnixNano) }}
+
+<div class="atcoder-device" id="{{ $id }}">
+    <div class="device-screen">
+        <span class="display-text"></span>
+    </div>
+    <div class="device-buttons">
+        <button class="button-a">Button A</button>
+        <button class="button-b">Button B</button>
+        <button class="button-clear">Clear</button>
+    </div>
+    <div class="device-challenge">
+        <div class="challenge-info">
+            <div class="target-string">Target: <span class="target-value"></span></div>
+            <div class="moves">Moves: <span class="moves-count">0</span></div>
+            <div class="expected-moves">Expected minimum moves: <span class="expected-value"></span></div>
+        </div>
+        <div class="challenge-status"></div>
+        <button class="new-challenge-btn">New Challenge</button>
+    </div>
+</div>
+
+<style>
+.atcoder-device {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background: #f5f5f5;
+}
+
+.device-screen {
+    background: #000;
+    color: #0f0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 1.5rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.device-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.device-buttons button {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.device-buttons button:hover {
+    background: #45a049;
+}
+
+.button-clear {
+    background: #f44336 !important;
+}
+
+.button-clear:hover {
+    background: #d32f2f !important;
+}
+
+.device-challenge {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.challenge-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.challenge-info > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.challenge-status {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.challenge-status.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.challenge-status.failure {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.new-challenge-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.new-challenge-btn:hover {
+    background: #1976D2;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const device = document.getElementById('{{ $id }}');
+    const display = device.querySelector('.display-text');
+    const buttonA = device.querySelector('.button-a');
+    const buttonB = device.querySelector('.button-b');
+    const buttonClear = device.querySelector('.button-clear');
+    const newChallengeBtn = device.querySelector('.new-challenge-btn');
+    const movesCount = device.querySelector('.moves-count');
+    const targetValue = device.querySelector('.target-value');
+    const expectedValue = device.querySelector('.expected-value');
+    const challengeStatus = device.querySelector('.challenge-status');
+    
+    let currentString = '';
+    let moves = 0;
+    
+    // Challenge configuration
+    const challenges = [
+        { target: "0", expected: 1 },
+        { target: "1", expected: 2 },
+        { target: "10", expected: 3 },
+        { target: "123", expected: 24 },
+        { target: "21", expected: 4 },
+        { target: "407", expected: 17 }
+    ];
+    let currentChallenge = 0;
+    
+    function updateDisplay() {
+        display.textContent = currentString || ' ';
+        movesCount.textContent = moves;
+        
+        // Enable/disable Button B based on display content
+        buttonB.disabled = currentString === '';
+        buttonB.style.opacity = currentString === '' ? '0.5' : '1';
+        buttonB.style.cursor = currentString === '' ? 'not-allowed' : 'pointer';
+        
+        // Check if target is reached
+        if (currentString === challenges[currentChallenge].target) {
+            if (moves === challenges[currentChallenge].expected) {
+                challengeStatus.textContent = "Perfect! You found the minimum number of moves!";
+                challengeStatus.className = "challenge-status success";
+            } else {
+                challengeStatus.textContent = `Good! You reached the target, but can you do it in ${challenges[currentChallenge].expected} moves?`;
+                challengeStatus.className = "challenge-status failure";
+            }
+        } else {
+            challengeStatus.textContent = "";
+            challengeStatus.className = "challenge-status";
+        }
+    }
+    
+    function pressButtonA() {
+        currentString += '0';
+        moves++;
+        updateDisplay();
+    }
+    
+    function pressButtonB() {
+        currentString = currentString.split('').map(digit => {
+            if (digit === '9') return '0';
+            return String(Number(digit) + 1);
+        }).join('');
+        moves++;
+        updateDisplay();
+    }
+
+    function clearDisplay() {
+        currentString = '';
+        moves = 0;
+        updateDisplay();
+    }
+    
+    function loadChallenge() {
+        const challenge = challenges[currentChallenge];
+        targetValue.textContent = challenge.target;
+        expectedValue.textContent = challenge.expected;
+        clearDisplay();
+    }
+
+    function getRandomChallenge() {
+        // Get a random index different from the current one
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * challenges.length);
+        } while (newIndex === currentChallenge && challenges.length > 1);
+        
+        currentChallenge = newIndex;
+        loadChallenge();
+    }
+    
+    buttonA.addEventListener('click', pressButtonA);
+    buttonB.addEventListener('click', pressButtonB);
+    buttonClear.addEventListener('click', clearDisplay);
+    newChallengeBtn.addEventListener('click', getRandomChallenge);
+    
+    // Initialize the first challenge
+    loadChallenge();
+});
+</script> 
