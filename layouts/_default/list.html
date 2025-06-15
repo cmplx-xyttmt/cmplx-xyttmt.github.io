@@ -53,23 +53,26 @@
     >Featured</span
   >
   {{ end }}
-  <h2 class="!my-0 pb-1 font-bold !leading-none">{{ .Title }}</h2>
-  <time class="text-sm antialiased opacity-60"
-    >{{ .Date | time.Format ":date_medium" }}</time
-  >
-  {{ if .Description }}
-  <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-    {{ .Description }}
-  </div>
-  {{ end }}
-  {{ if .Params.tags }}
-  <div class="mt-3 flex flex-wrap gap-2">
-    {{ range .Params.tags }}
-    <span class="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300">#{{ . }}</span>
+  <div class="article-content">
+    <a href="{{ .Permalink }}" class="block hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg p-2 -m-2 no-underline">
+      <h2 class="!my-0 pb-1 font-bold !leading-none hover:underline">{{ .Title }}</h2>
+      <time class="text-sm antialiased opacity-60"
+        >{{ .Date | time.Format ":date_medium" }}</time
+      >
+      {{ if .Description }}
+      <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        {{ .Description }}
+      </div>
+      {{ end }}
+    </a>
+    {{ if .Params.tags }}
+    <div class="mt-3 flex flex-wrap gap-2">
+      {{ range .Params.tags }}
+      <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">#{{ . }}</a>
+      {{ end }}
+    </div>
     {{ end }}
   </div>
-  {{ end }}
-  <a class="absolute inset-0 text-[0]" href="{{ .Permalink }}">{{ .Title }}</a>
 </section>
 {{ end }}
 
