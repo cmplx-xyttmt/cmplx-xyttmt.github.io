@@ -351,7 +351,7 @@ This problem was easier than problem D (discussed in my <a href="/posts/1_domino
 </ol>
 
 
-<div class="atcoder-device" id="atcoder-device-1749985076981839000">
+<div class="atcoder-device" id="atcoder-device-1749988748983620000">
     <div class="device-screen">
         <span class="display-text"></span>
     </div>
@@ -488,7 +488,7 @@ This problem was easier than problem D (discussed in my <a href="/posts/1_domino
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const device = document.getElementById('atcoder-device-1749985076981839000');
+    const device = document.getElementById('atcoder-device-1749988748983620000');
     const display = device.querySelector('.display-text');
     const buttonA = device.querySelector('.button-a');
     const buttonB = device.querySelector('.button-b');
@@ -585,6 +585,48 @@ document.addEventListener('DOMContentLoaded', function() {
     loadChallenge();
 });
 </script> 
+<h2 id="solution">Solution</h2>
+<p>My first thought when I saw the problem was to take a greedy approach. For each digit $d$, press button <code>A</code>, to get an additional slot, then press button <code>B</code> $d$ times; then repeat this process for all the digits.
+However, if you&rsquo;ve played with the visualization above, you&rsquo;ll notice that each button press affects all previous digits.</p>
+<p>So, we need to somehow plan our button presses such that when we&rsquo;re trying to form the last digit, all the previous digits line up to the target.</p>
+<p>Let&rsquo;s take 2 examples:</p>
+<ol>
+<li>Consider the example target string <code>&quot;32&quot;</code>:
+<ul>
+<li>We can press <code>A</code> to get <code>&quot;0&quot;</code>. Then <code>B</code> to get <code>&quot;1&quot;</code>. That&rsquo;s 2 operations. We can stop for now, because we know 2 button presses are coming up for the last digit.</li>
+<li>Press <code>A</code> again to get <code>&quot;10&quot;</code>. Then press <code>B</code> 2 times to get the target <code>&quot;32&quot;</code>. That&rsquo;s 3 operations.</li>
+<li>So, there are 5 total operations.</li>
+</ul>
+</li>
+<li>Consider the target string <code>&quot;12&quot;</code>. This is a little more complicated because you before adding the second digit, you have to unintuitively go up to <code>&quot;9&quot;</code> for the first digit (remember, the digits wrap around.)
+<ul>
+<li>Press <code>A</code>, then <code>B</code> 9 times to get to <code>&quot;9&quot;</code>. That&rsquo;s 10 operations.</li>
+<li>Press <code>A</code> to get <code>&quot;90&quot;</code>, then <code>B</code> 2 times to get to <code>&quot;12&quot;</code>. That&rsquo;s 3 operations.</li>
+<li>So, there are a total of 13 operations.</li>
+</ul>
+</li>
+</ol>
+<p>So, we need to know which number to place in the first positions before pressing the <code>B</code> button for the last digit.
+Since the total number of <code>B</code> presses affects previous numbers, we can start from the last digit, and keep track of how many <code>B</code> presses we have performed so far.
+Keeping track of these presses is a bit tricky though, since we need keep it modulo 10. Here&rsquo;s an outline of my solution:</p>
+<ul>
+<li>Keep track of the total number of <code>B</code> presses (which I call <code>total_b_presses</code> in the code).</li>
+<li>Start from the last digit.</li>
+<li>For each digit <code>d</code>, calculate which number will need to be in that position, such that when the <code>B</code> button is pressed <code>total_b_presses</code> times, the result is <code>d</code>. Let&rsquo;s call this number <code>local_presses</code>, because it will be the number of times <code>B</code> is pressed.
+For the last digit, <code>local_presses</code> is simply equal to <code>d</code>. For other digits, we can can calculate <code>local_presses = (10 + d - total_b_presses) % 10</code>. We add 10 to avoid negative numbers when calculating the modulo. Note that <code>total_b_presses</code> will also be calculated mod 10.</li>
+</ul>
+<p>Below is the python code, which is surprisingly short. You can find the full solution (with the input and output functions) <a href="https://github.com/cmplx-xyttmt/competitive-programming/blob/main/python/src/atcoder/abc407/C.py">on Github</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>S <span style="color:#f92672">=</span> read_line()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(len(S) + sum([int(a) for a in S]))</span>
+</span></span><span style="display:flex;"><span>total_b_presses <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>moves <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> digit <span style="color:#f92672">in</span> reversed(S):
+</span></span><span style="display:flex;"><span>    local_presses <span style="color:#f92672">=</span> (<span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> int(digit) <span style="color:#f92672">-</span> total_b_presses) <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>    moves <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> local_presses
+</span></span><span style="display:flex;"><span>    total_b_presses <span style="color:#f92672">=</span> (total_b_presses <span style="color:#f92672">+</span> local_presses) <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(moves)
+</span></span></code></pre></div><p>You can also checkout <a href="https://atcoder.jp/contests/abc407/editorial/13114">the official editorial on AtCoder</a>.</p>
 </section>
 
   
