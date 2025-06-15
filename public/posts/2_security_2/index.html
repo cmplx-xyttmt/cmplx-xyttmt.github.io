@@ -45,7 +45,7 @@
   style="--bg: #faf8f1"
   lang="en-us"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=65022&amp;path=livereload" data-no-instant defer></script>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -63,7 +63,7 @@
   
   
   
-  <meta name="description" content="In this article, we look at another problem from Atcoder&rsquo;s Beginner Contest 407: Problem C, titled &ldquo;Security 2&rdquo;. This problem was easier than problem D (discussed in my previous post), and I&rsquo;ve also included an interactive visualization for the device in the problem.
+  <meta name="description" content="Following up on my last post, we&rsquo;re diving into another challenge from Atcoder&rsquo;s Beginner Contest 407: Problem C, titled &ldquo;Security 2&rdquo;. This problem was more approachable than Problem D, and I&rsquo;ve even included an interactive visualization to help you explore its mechanics.
 We&rsquo;ll discuss the problem, play with the mechanics and I&rsquo;ll describe my solution approach.
 The Problem You can find the full problem description here. But here&rsquo;s the gist of it." />
   <meta name="author" content="Isaac Owomugisha" />
@@ -75,14 +75,14 @@ The Problem You can find the full problem description here. But here&rsquo;s the
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:65022/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:65022/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
@@ -94,11 +94,11 @@ The Problem You can find the full problem description here. But here&rsquo;s the
 
   
   
-  <link rel="preload" as="image" href="http://localhost:65022/twitter.svg" />
+  <link rel="preload" as="image" href="http://localhost:1313/twitter.svg" />
   
-  <link rel="preload" as="image" href="http://localhost:65022/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
   
-  <link rel="preload" as="image" href="http://localhost:65022/linkedin.svg" />
+  <link rel="preload" as="image" href="http://localhost:1313/linkedin.svg" />
   
   
 
@@ -106,7 +106,7 @@ The Problem You can find the full problem description here. But here&rsquo;s the
   
   <script
     defer
-    src="http://localhost:65022/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -153,8 +153,8 @@ The Problem You can find the full problem description here. But here&rsquo;s the
   
 
   
-  <link rel="icon" href="http://localhost:65022/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:65022/apple-touch-icon.png" />
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.124.1">
@@ -169,7 +169,7 @@ The Problem You can find the full problem description here. But here&rsquo;s the
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:65022/"
+      href="http://localhost:1313/"
       >cmplx-xyttmt</a
     >
     <div
@@ -329,21 +329,21 @@ The Problem You can find the full problem description here. But here&rsquo;s the
     
   </header>
 
-  <section><p>In this article, we look at another problem from Atcoder&rsquo;s Beginner Contest 407: Problem C, titled &ldquo;Security 2&rdquo;.
-This problem was easier than problem D (discussed in my <a href="/posts/1_domino_covering">previous post</a>), and I&rsquo;ve also included an interactive visualization for the device in the problem.</p>
+  <section><p>Following up on my last post, we&rsquo;re diving into another challenge from Atcoder&rsquo;s Beginner Contest 407: Problem C, titled &ldquo;Security 2&rdquo;.
+This problem was more approachable than Problem D, and I&rsquo;ve even included an interactive visualization to help you explore its mechanics.</p>
 <p>We&rsquo;ll discuss the problem, play with the mechanics and I&rsquo;ll describe my solution approach.</p>
 <h2 id="the-problemhttpsatcoderjpcontestsabc407tasksabc407_c"><a href="https://atcoder.jp/contests/abc407/tasks/abc407_c">The Problem</a></h2>
 <p>You can find the <a href="https://atcoder.jp/contests/abc407/tasks/abc407_c">full problem description here</a>. But here&rsquo;s the gist of it.</p>
-<p>here is a special pass-code input device. The device consists of a screen displaying one string, and two buttons.</p>
-<p>Let tt be the string shown on the screen. Initially, tt is the empty string. Pressing a button changes tt as follows:</p>
+<p>There is a special pass-code input device. The device consists of a screen displaying one string, and two buttons.</p>
+<p>Let <code>T</code> be the string shown on the screen. Initially, <code>T</code> is the empty string. Pressing a button changes <code>T</code> as follows:</p>
 <ul>
-<li>Pressing <strong>button A</strong> appends <code>0</code> to the end of tt.</li>
-<li>Pressing <strong>button B</strong> replaces every digit in tt with the next digit: for digits <code>0</code> through <code>8</code> the next digit is the one whose value is larger by 1; the next digit after <code>9</code> is <code>0</code>.</li>
+<li>Pressing <strong>button A</strong> appends <code>0</code> to the end of <code>T</code>.</li>
+<li>Pressing <strong>button B</strong> increments every digit in <code>T</code> by one (modulo 10): digits <code>0</code> through <code>8</code> become the next larger digit, and <code>9</code> wraps around to <code>0</code>.</li>
 </ul>
-<p>For example, if tt is <code>1984</code> and button A is pressed, tt becomes <code>19840</code>; if button B is then pressed, tt becomes <code>20951</code>.</p>
-<p>You are given a target string SS. Starting from an empty string, press the buttons zero or more times until tt coincides with SS. Find the minimum number of button presses required.</p>
+<p>For example, if <code>T</code> is <code>1984</code> and button A is pressed, <code>T</code> becomes <code>19840</code>; if button B is then pressed, <code>T</code> becomes <code>20951</code>.</p>
+<p>You are given a target string <code>S</code>. Starting from an empty string, press the buttons zero or more times until tt coincides with <code>S</code>. Find the minimum number of button presses required.</p>
 <h2 id="interactive-visualization">Interactive Visualization</h2>
-<p>Try out the device yourself! You can:</p>
+<p>Before diving into the solution, I highly recommend interacting with the device yourself to get a feel for its behavior. You can:</p>
 <ol>
 <li>Press Button A to append a 0</li>
 <li>Press Button B to increment all digits (mod 10)</li>
@@ -351,7 +351,7 @@ This problem was easier than problem D (discussed in my <a href="/posts/1_domino
 </ol>
 
 
-<div class="atcoder-device" id="atcoder-device-1749991848504545000">
+<div class="atcoder-device" id="atcoder-device-1750014277373505000">
     <div class="device-screen">
         <span class="display-text"></span>
     </div>
@@ -488,7 +488,7 @@ This problem was easier than problem D (discussed in my <a href="/posts/1_domino
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const device = document.getElementById('atcoder-device-1749991848504545000');
+    const device = document.getElementById('atcoder-device-1750014277373505000');
     const display = device.querySelector('.display-text');
     const buttonA = device.querySelector('.button-a');
     const buttonB = device.querySelector('.button-b');
@@ -586,9 +586,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script> 
 <h2 id="solution">Solution</h2>
-<p>My first thought when I saw the problem was to take a greedy approach. For each digit $d$, press button <code>A</code>, to get an additional slot, then press button <code>B</code> $d$ times; then repeat this process for all the digits.
-However, if you&rsquo;ve played with the visualization above, you&rsquo;ll notice that each button press affects all previous digits.</p>
-<p>So, we need to somehow plan our button presses such that when we&rsquo;re trying to form the last digit, all the previous digits line up to the target.</p>
+<p>My initial intuition for this problem leaned towards a greedy strategy: for each target digit, first press <code>A</code> to create a new slot, then press <code>B</code> a number of times equal to that digit&rsquo;s value, and simply repeat for the entire string.
+However, as you might have noticed from the interactive visualization, the critical challenge lies in how each press of button B affects all existing digits in the string.
+This interdependency means a simple greedy approach won&rsquo;t work.</p>
+<p>Instead, we need a strategy that ensures previous digits align correctly by the time we finalize the current one, especially when forming the last digit of our target string.</p>
 <p>Let&rsquo;s take 2 examples:</p>
 <ol>
 <li>Consider the example target string <code>&quot;32&quot;</code>:
@@ -606,9 +607,9 @@ However, if you&rsquo;ve played with the visualization above, you&rsquo;ll notic
 </ul>
 </li>
 </ol>
-<p>So, we need to know which number to place in the first positions before pressing the <code>B</code> button for the last digit.
+<p>This reveals the core insight: to correctly determine the presses for a given digit, we must account for all subsequent <code>B</code> presses that will affect it.
 Since the total number of <code>B</code> presses affects previous numbers, we can start from the last digit, and keep track of how many <code>B</code> presses we have performed so far.
-Keeping track of these presses is a bit tricky though, since we need keep it modulo 10. Here&rsquo;s an outline of my solution:</p>
+Keeping track of these presses is a bit tricky though, and importantly, must be tracked modulo 10. Here&rsquo;s an outline of my solution:</p>
 <ul>
 <li>Keep track of the total number of <code>B</code> presses (which I call <code>total_b_presses</code> in the code).</li>
 <li>Start from the last digit.</li>
@@ -617,7 +618,6 @@ For the last digit, <code>local_presses</code> is simply equal to <code>d</code>
 </ul>
 <p>Below is the python code, which is surprisingly short. You can find the full solution (with the input and output functions) <a href="https://github.com/cmplx-xyttmt/competitive-programming/blob/main/python/src/atcoder/abc407/C.py">on Github</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>S <span style="color:#f92672">=</span> read_line()
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(len(S) + sum([int(a) for a in S]))</span>
 </span></span><span style="display:flex;"><span>total_b_presses <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>moves <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> digit <span style="color:#f92672">in</span> reversed(S):
@@ -635,19 +635,19 @@ For the last digit, <code>local_presses</code> is simply equal to <code>d</code>
      
     <a
       class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:65022/tags/algorithms"
+      href="http://localhost:1313/tags/algorithms"
       >algorithms</a
     >
      
     <a
       class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:65022/tags/visualization"
+      href="http://localhost:1313/tags/visualization"
       >visualization</a
     >
      
     <a
       class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:65022/tags/atcoder"
+      href="http://localhost:1313/tags/atcoder"
       >atcoder</a
     >
     
@@ -663,7 +663,7 @@ For the last digit, <code>local_presses</code> is simply equal to <code>d</code>
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:65022/posts/1_domino_covering/"
+      href="http://localhost:1313/posts/1_domino_covering/"
       ><span>Domino Covering XOR (ABC 407 D)</span><span class="ml-1.5">→</span></a
     >
     
@@ -691,7 +691,7 @@ For the last digit, <code>local_presses</code> is simply equal to <code>d</code>
 >
   <div class="mr-auto">
     &copy; 2025
-    <a class="link" href="http://localhost:65022/">cmplx-xyttmt</a>
+    <a class="link" href="http://localhost:1313/">cmplx-xyttmt</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a
