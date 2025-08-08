@@ -31,8 +31,8 @@ theme = 'paper'
         name = "Resumé"
         url = "/resume/"
         weight = 10
-    [[menu.main]]
-        identifier = "algorithms"
-        name = "Algo Log"
-        url = "/algorithms/"
-        weight = 10
+#    [[menu.main]]
+#        identifier = "algorithms"
+#        name = "Algo Log"
+#        url = "/algorithms/"
+#        weight = 10

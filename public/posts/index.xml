@@ -6,8 +6,15 @@
     <description>Recent content in Posts on cmplx-xyttmt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AcuGemma Version 0.1</title>
+      <link>http://localhost:1313/posts/3_acugemma/</link>
+      <pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/3_acugemma/</guid>
+      <description>I recently took part in the Google Gemma 3n hackathon which inspired me to explore the exciting possibilities of on-device machine learning. I built an educational application targeting primary school students after reading a Daily monitor article that highlighted the challenges faced by teachers and students in Eastern Uganda under the Universal Primary Education program. This article&amp;rsquo;s publication coincided with the start of the competition, creating a powerful sense of purpose.</description>
+    </item>
     <item>
       <title>Security 2 (ABC 407 C)</title>
       <link>http://localhost:1313/posts/2_security_2/</link>
