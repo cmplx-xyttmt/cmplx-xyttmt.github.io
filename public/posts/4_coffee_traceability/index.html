@@ -1,0 +1,507 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="en-us"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Exploring EUDR Coffee Traceability for Uganda - cmplx-xyttmt</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="I recently found out about EUDR (European Union Deforestation Regulation) when I was looking at a job posting from Enveritas. For Uganda, where coffee is a vital lifeblood for smallholder farmers, this acronym represents a significant economic shift. The regulation is straightforward but strict: any coffee entering the EU must prove it wasn&rsquo;t produced on land deforested after December 31, 2020.
+Motivated by the work Enveritas is doing, I wanted to explore how one could prove, with scientific certainty, that a tiny plot on a hillside in Kapchorwa or Abim was already producing coffee four years ago." />
+  <meta name="author" content="Isaac Owomugisha" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/26762336?s=400&amp;u=897a77ff678657345a82d196b192f2fd8fcaca06&amp;v=4" />
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/twitter.svg" />
+  
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
+  
+  <link rel="preload" as="image" href="http://localhost:1313/linkedin.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css"
+  integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"
+  integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () =>
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ],
+      
+      throwOnError: false,
+    }),
+  );
+</script>
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.124.1">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >cmplx-xyttmt</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/"
+        >Posts</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/resume/"
+        >Resumé</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href="https://twitter.com/IsaacOwomugisha"
+        target="_blank"
+        rel="me"
+      >
+        twitter
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/cmplx-xyttmt"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./linkedin.svg)"
+        href="https://linkedin.com/in/owomugisha-isaac-32807912a"
+        target="_blank"
+        rel="me"
+      >
+        linkedin
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Exploring EUDR Coffee Traceability for Uganda</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jan 13, 2026</time>
+      
+      
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Isaac Owomugisha</span>
+      
+    </div>
+    
+  </header>
+
+  <section><p>I recently found out about EUDR (European Union Deforestation Regulation) when I was looking at a job posting from <a href="https://www.enveritas.org/">Enveritas</a>.
+For Uganda, where coffee is a vital lifeblood for smallholder farmers, this acronym represents a significant economic shift.
+The regulation is straightforward but strict: any coffee entering the EU must prove it wasn&rsquo;t produced on land deforested after December 31, 2020.</p>
+<p>Motivated by the work Enveritas is doing, I wanted to explore how one could prove, with scientific certainty, that a tiny plot on a hillside in Kapchorwa or Abim was already producing coffee four years ago.</p>
+<h2 id="the-data-foundation">The Data Foundation</h2>
+<p>Before I could build a dashboard, I needed data. I started by looking for a &ldquo;baseline&rdquo;—a record of where coffee was growing in Uganda in 2020.
+I found this through Google Earth Engine (GEE), which is essentially a massive cloud library of satellite imagery and planetary-scale datasets.</p>
+<p>The specific data I used was a 10m-resolution probability map derived from Sentinel-2 satellites. The 10m means that every single pixel represents a <code>10 x 10</code> meter square on the ground.</p>
+<p>The data in GEE was a Raster (basically an image) where brighter pixels meant a higher chance of coffee being there.</p>
+<p>To build a dashboard, where we can query specific locations, I had to turn these pixels into Shapes (GeoJSON).</p>
+<p>I used a script in the GEE Code Editor to perform a &ldquo;vectorization&rdquo;. Essentially, the script did this:
+&ldquo;Find all the pixels that have a high probability of being coffee, group the neighbors together, and draw a border around them.&rdquo;</p>
+<p>Note: I scaled the 10m-resolution to 100m in the vectorization to keep the file size manageable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">coffeeCollection</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ee</span>.<span style="color:#a6e22e">ImageCollection</span>(<span style="color:#e6db74">&#39;projects/forestdatapartnership/assets/coffee/model_2025a&#39;</span>).<span style="color:#a6e22e">filterDate</span>(<span style="color:#e6db74">&#39;2020-01-01&#39;</span>, <span style="color:#e6db74">&#39;2020-12-31&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">uganda</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ee</span>.<span style="color:#a6e22e">FeatureCollection</span>(<span style="color:#e6db74">&#39;USDOS/LSIB_SIMPLE/2017&#39;</span>).<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">ee</span>.<span style="color:#a6e22e">Filter</span>.<span style="color:#a6e22e">eq</span>(<span style="color:#e6db74">&#39;country_na&#39;</span>, <span style="color:#e6db74">&#39;Uganda&#39;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ugandaCoffee2020</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">coffeeCollection</span>.<span style="color:#a6e22e">mosaic</span>().<span style="color:#a6e22e">clip</span>(<span style="color:#a6e22e">uganda</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">highProbCoffee</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ugandaCoffee2020</span>.<span style="color:#a6e22e">gt</span>(<span style="color:#ae81ff">0.95</span>).<span style="color:#a6e22e">selfMask</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">coffeeVectors</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">highProbCoffee</span>.<span style="color:#a6e22e">reduceToVectors</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geometry</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">uganda</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">crs</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">highProbCoffee</span>.<span style="color:#a6e22e">projection</span>(),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geometryType</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;polygon&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">eightConnected</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labelProperty</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;zone&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bestEffort</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Export</span>.<span style="color:#a6e22e">table</span>.<span style="color:#a6e22e">toDrive</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">collection</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">coffeeVectors</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Uganda_Coffee_Polygons&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fileFormat</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GeoJSON&#39;</span>
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>This resulted in a geojson file with over 97,000 shapes.</p>
+<h2 id="the-backend-postgressql-postgis-geodjango">The Backend (PostgresSQL, PostGIS GeoDjango)</h2>
+<p>Now that I had a geojson file, I needed to get them into a system where they could be searched, filtered and analyzed. A regular database isn&rsquo;t enough for this. Here&rsquo;s are the 3 technologies I used:</p>
+<ol>
+<li>PostgreSQL: The &ldquo;container&rdquo; that stores all the data (names, IDs, dates).</li>
+<li>PostGIS: a powerful extension that allows the database to store a <code>GEOMETRY</code> &ndash; a list of coordinates that represent a real place on Earth.</li>
+<li>GeoDjango: This was the bridge. It&rsquo;s a specific part of the Django framework that allows python to talk to the PostGIS shapes without having to write complex SQL math by hand.</li>
+</ol>
+<p>Here&rsquo;s how a coffee plot was represented:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib.gis.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CoffeeZone</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    gee_id <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># This is where the magic happens:</span>
+</span></span><span style="display:flex;"><span>    mpoly <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>MultiPolygonField() 
+</span></span><span style="display:flex;"><span>    region_name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</span></span></code></pre></div><p>Mapping a plot to a district: In order to know which district a plot belonged to, I downloaded a geojson file of Ugandan districts shapes, added them to the database and performed a <strong>spatial join</strong> i.e asking the database to find which district boundary &lsquo;contains&rsquo; each coffee plot.</p>
+<h2 id="the-communication-layer-graphql">The Communication Layer (GraphQL)</h2>
+<p>I used GraphQL as the communication layer (with the Graphene-Django library). The challenge with map data is that it&rsquo;s &ldquo;heavy&rdquo;.
+If all the data is sent at once, the frontend would be slow. GraphQL allowed me to very specific: I could ask for the name of a district and only get the shapes for that specific area when a user clicks on it.</p>
+<p>One of the most useful things I build here was a <strong>Traceability Query</strong>. It works like this:</p>
+<ol>
+<li>The user clicks a point on the map.</li>
+<li>The latitude and longitude are sent to the backend.</li>
+<li>Django asks the databse: &ldquo;Is this point inside any of our 2020 coffee plots?&rdquo;</li>
+<li>The API sends back a simple &ldquo;Compliant&rdquo; or &ldquo;Non-Detect&rdquo; result.</li>
+</ol>
+<p>You can see the <a href="https://github.com/cmplx-xyttmt/uganda-coffee-traceability/blob/main/backend/map/schema.py">GraphQL schema here</a>.</p>
+<h2 id="the-frontend-react--leaflet">The Frontend (React &amp; Leaflet)</h2>
+<p>I used <strong>React</strong> and a library for interactive maps called <strong>Leaflet</strong></p>
+<p>Early on, I realized that trying to show all 97,000 coffee shapes at once would crash most browsers. To solve this, there are 2 views:</p>
+<ul>
+<li>National View: You see the simple outlines of Uganda&rsquo;s districts.</li>
+<li>District View: When you click on a district, the map zooms in, and only then does the app fetch and display the high-resolution coffee plots for that specific area.</li>
+</ul>
+<p>This kept the app fast and responsive, while still allowing the user to see the detail of the 10m satellite data.</p>
+<h2 id="the-traceability-check-in-action">The Traceability Check in Action</h2>
+<p>The core goal was to make this data useful. I added a feature where you can click anywhere on the map to run an instant &ldquo;Compliance Check.&rdquo;</p>
+<p>When you click, the app sends your coordinates to the backend, where PostGIS performs a point-in-polygon test. If your click lands inside one of our 2020 shapes, the app confirmst the plot was established before the cutoff. If not, it marks it as &ldquo;Non-Detect&rdquo;.</p>
+<h2 id="conclusion">Conclusion:</h2>
+<p>This project is a starting point. There is so much more to explore &ndash; from adding &ldquo;Change Detection&rdquo; to see if forests are currently being cleared, to optimizing the system for even larger datasets.
+I&rsquo;m excited to keep learning and to apply these geospatial skills to the real-world challenges facing Uganda and the global coffee industry.</p>
+<p>You can find all the <a href="https://github.com/cmplx-xyttmt/uganda-coffee-traceability">code for this project on github</a>.</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/spatial-data-analysis"
+      >spatial-data-analysis</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/django"
+      >django</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/geojson"
+      >geojson</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/fullstack"
+      >fullstack</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/graphql"
+      >graphql</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/react"
+      >react</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/leaflet"
+      >leaflet</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/3_acugemma/"
+      ><span>AcuGemma Version 0.1</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2026
+    <a class="link" href="http://localhost:1313/">cmplx-xyttmt</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

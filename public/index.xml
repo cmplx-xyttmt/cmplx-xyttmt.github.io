@@ -6,8 +6,15 @@
     <description>Recent content on cmplx-xyttmt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 08 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring EUDR Coffee Traceability for Uganda</title>
+      <link>http://localhost:1313/posts/4_coffee_traceability/</link>
+      <pubDate>Tue, 13 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/4_coffee_traceability/</guid>
+      <description>I recently found out about EUDR (European Union Deforestation Regulation) when I was looking at a job posting from Enveritas. For Uganda, where coffee is a vital lifeblood for smallholder farmers, this acronym represents a significant economic shift. The regulation is straightforward but strict: any coffee entering the EU must prove it wasn&amp;rsquo;t produced on land deforested after December 31, 2020.&#xA;Motivated by the work Enveritas is doing, I wanted to explore how one could prove, with scientific certainty, that a tiny plot on a hillside in Kapchorwa or Abim was already producing coffee four years ago.</description>
+    </item>
     <item>
       <title>AcuGemma Version 0.1</title>
       <link>http://localhost:1313/posts/3_acugemma/</link>

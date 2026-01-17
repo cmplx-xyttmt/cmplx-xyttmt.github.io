@@ -2,7 +2,7 @@
 author: "Isaac Owomugisha" 
 title: "Exploring EUDR Coffee Traceability for Uganda" 
 date: "2026-01-13" 
-description: "AtCoder's Domino Covering XOR problem solved using bit manipulation. The solution represents domino coverings as bitmasks to do an exhaustive search in order to get the maximum XOR value."
+description: "Using PostGIS and GeoJSON to visualize EUDR coffee traceability for Uganda."
 tags: ["spatial-data-analysis", "django", "geojson", "fullstack", "graphql", "react", "leaflet"]
 ---
 
