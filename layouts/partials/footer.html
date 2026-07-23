@@ -1,0 +1,35 @@
+{{/* Site-level override of the paper theme footer.
+     Keeps the original footer, and adds a faint organic ambient background
+     (blurred colour blobs + drifting leaves) on browse pages only — never on
+     single articles, to protect reading legibility. Delete this file to fall
+     back to the theme's plain footer and drop the organics entirely. */}}
+<footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; {{ now.Year }}
+    <a class="link" href="{{ `` | absURL }}">{{ site.Title }}</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+{{/* Organics only on non-article pages (home, section lists, taxonomies). */}}
+{{ if ne .Kind "page" }}
+<div class="organics" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+  <span class="leaf leaf-1"></span>
+  <span class="leaf leaf-2"></span>
+  <span class="leaf leaf-3"></span>
+</div>
+{{ end }}

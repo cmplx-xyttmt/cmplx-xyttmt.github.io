@@ -1,0 +1,18 @@
+{{/*
+  gelcard — a frosted "gel" glass container for grouping content or wrapping
+  a small demo. For interactive widgets with their own JS, prefer a dedicated
+  shortcode (see solution.html / atcoder-device.html) instead.
+
+  Usage:
+    {{< gelcard title="Try it" >}}
+    Markdown **content** goes here.
+    {{< /gelcard >}}
+
+  Styling lives in assets/custom.css (.gel-card, .gel-card__title).
+*/}}
+{{ $title := .Get "title" }}
+
+<div class="gel-card">
+  {{ with $title }}<p class="gel-card__title">{{ . }}</p>{{ end }}
+  {{ .Inner | markdownify }}
+</div>

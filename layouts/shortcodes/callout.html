@@ -1,0 +1,19 @@
+{{/*
+  callout — a labelled aside with a meaning-colored accent bar.
+
+  Usage:
+    {{< callout >}}Default (emerald) note.{{< /callout >}}
+    {{< callout type="amber" title="Heads up" >}}Caution text.{{< /callout >}}
+
+  type: "" (emerald, default) | "amber" | "clay"
+  Styling lives in assets/custom.css (.callout, .callout--amber, .callout--clay).
+*/}}
+{{ $type := .Get "type" }}
+{{ $title := .Get "title" }}
+{{ $class := "callout" }}
+{{ if $type }}{{ $class = printf "callout callout--%s" $type }}{{ end }}
+
+<div class="{{ $class }}">
+  {{ with $title }}<strong>{{ . }}</strong>{{ end }}
+  {{ .Inner | markdownify }}
+</div>

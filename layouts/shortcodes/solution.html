@@ -1,0 +1,54 @@
+{{/*
+  solution — a collapsible "reveal solution" gel card.
+
+  Usage in a post:
+    {{< solution >}}
+    Your explanation, **markdown**, code fences, math, etc.
+    {{< /solution >}}
+
+  Optional title:
+    {{< solution title="Approach" button="Show approach" >}} ... {{< /solution >}}
+
+  Styling comes from the shared component classes in assets/custom.css
+  (.gel-card, .gel-btn). The widget chrome is wrapped in `.not-prose` so the
+  theme's prose typography doesn't fight it; the revealed body is re-wrapped in
+  `.prose` so markdown still renders normally.
+*/}}
+{{ $id := printf "solution-%d" now.UnixNano }}
+{{ $title := .Get "title" | default "Solution" }}
+{{ $button := .Get "button" | default "Reveal solution" }}
+
+<div class="not-prose gel-card" id="{{ $id }}">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">
+    <span class="gel-card__title" style="margin:0;">{{ $title }}</span>
+    <button type="button" class="gel-btn pill" data-solution-toggle aria-expanded="false">
+      {{ $button }}
+    </button>
+  </div>
+  <div class="solution-body prose" hidden style="margin-top:1rem;">
+    {{ .Inner | markdownify }}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var card = document.getElementById("{{ $id }}");
+    if (!card) return;
+    var btn = card.querySelector("[data-solution-toggle]");
+    var body = card.querySelector(".solution-body");
+    // In a <script> context Hugo auto-quotes + JS-escapes this value.
+    var labelShow = {{ $button }};
+    btn.addEventListener("click", function () {
+      var open = body.hasAttribute("hidden");
+      if (open) {
+        body.removeAttribute("hidden");
+        btn.setAttribute("aria-expanded", "true");
+        btn.textContent = "Hide";
+      } else {
+        body.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = labelShow;
+      }
+    });
+  })();
+</script>

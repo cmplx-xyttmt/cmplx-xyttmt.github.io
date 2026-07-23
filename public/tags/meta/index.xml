@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meta on cmplx-xyttmt</title>
+    <link>http://localhost:1313/tags/meta/</link>
+    <description>Recent content in Meta on cmplx-xyttmt</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Jul 2026 09:00:00 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/meta/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Design System Demo (draft)</title>
+      <link>http://localhost:1313/posts/5_design_demo/</link>
+      <pubDate>Thu, 23 Jul 2026 09:00:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/5_design_demo/</guid>
+      <description>This is a throwaway page to preview the redesign. Delete it before publishing.&#xA;Reading type The body now sets in a warm serif for an editorial feel, on a soft cream gradient. Headings are forest green. Here&amp;rsquo;s some inline code, a link, and a blockquote:&#xA;Understand the user&amp;rsquo;s problems, goals, and perspective deeply.&#xA;A fenced code block:&#xA;def fib(n: int) -&amp;gt; int: a, b = 0, 1 for _ in range(n): a, b = b, a + b return a And some math, since math = true: $; e^{i\pi} + 1 = 0$.</description>
+    </item>
+  </channel>
+</rss>
