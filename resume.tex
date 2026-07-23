@@ -14,7 +14,7 @@
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{verbatim}
 \usepackage{enumitem}
-\usepackage[pdftex]{hyperref}
+\usepackage{hyperref}
 \usepackage{fancyhdr}
 
 
@@ -88,9 +88,9 @@
   {Backend Software Engineer (Django)}{Nov 2023 - Present}
   \resumeItemListStart
     \resumeItem{Architected AI Talent Matching and Outreach Agent (Tunga-agent)}
-      {Led end-to-end development of a multi-stage AI agent pipeline for developer matching and automated client outreach. Uses \textbf{RAG} with Pinecone vector search and OpenAI embeddings to semantically match developers to vacancies, generates personalized outreach emails via \textbf{GPT-4o-mini}, and automates follow-up sequences triggered by SendGrid engagement webhooks. Integrated Hunter.io for contact enrichment and Clay for lead ingestion. Supports hybrid LLM mode (OpenAI + local \textbf{Ollama}), reducing API costs by 90\%. Deployed on \textbf{Kubernetes} with \textbf{Celery/Redis} background processing. \\ \textbf{Core Technologies:} Python, Django, OpenAI, Pinecone, Ollama, Celery, Redis, SendGrid, Kubernetes.}
+      {Led end-to-end development of a multi-stage agentic pipeline that autonomously classifies companies, matches developers, and runs multi-variant email outreach with engagement-triggered follow-ups. Uses \textbf{RAG} with Pinecone vector search and OpenAI embeddings — top-K nearest-neighbour matching with cosine-similarity thresholds and relaxed-criteria fallback — and \textbf{GPT-4o-mini} for company ICP classification and personalized outreach. Cut LLM costs \textbf{$\sim$90\%} via hybrid OpenAI/local-\textbf{Ollama} inference, domain-keyed classification caching, and hard pre-filters. Exposed a \textbf{Model Context Protocol (MCP)} server surfacing live pipeline analytics; instrumented with \textbf{Sentry}, health probes, and a full pipeline audit trail. Deployed on \textbf{Kubernetes} with \textbf{Celery/Redis}. \\ \textbf{Core Technologies:} Python, Django, OpenAI, Pinecone, Ollama, MCP, Celery, Redis, SendGrid, Kubernetes, Sentry.}
     \resumeItem{Built AI-powered B2B Lead Identification System (Lead-ID)}
-      {Designed and led development of a multi-signal B2B lead scoring engine to expand Tunga's offering from talent matching to outbound lead generation. The system monitors companies for buying signals — hiring spikes, vendor comparisons, funding events — across 15+ configurable signal types with recency decay weighting, and surfaces high-priority leads with AI-generated "why now" outreach narratives. Built a configuration dashboard enabling the marketing team to tune signal weights and thresholds without code changes. Processes \textbf{500+ companies per batch} with score delta tracking across runs. \\ \textbf{Core Technologies:} Python, Django, OpenAI, Celery, Redis, PostgreSQL, Clay.}
+      {Designed and led a multi-signal lead-scoring engine detecting \textbf{40+ buying-intent signal types across 6 intent streams}, with recency-decay weighting, per-signal caps, and multi-stream reinforcement to rank companies by purchase intent. Generalized the platform to power \textbf{three independent verticals} (IT staffing, accounting \& finance, AI consulting) via DB-stored, per-use-case ICP rules, signal weights, and thresholds tunable without code changes. Uses GPT-4o-mini for job-description classification and "why now" outreach narratives, with regex fallback when the LLM is unavailable. Processes \textbf{500+ companies per batch} with score delta tracking across runs. \\ \textbf{Core Technologies:} Python, Django, OpenAI, Celery, Redis, PostgreSQL, Clay.}
     \resumeItem{Developed an AI-powered resume parser}
       {Implemented a feature that automatically populates developer profiles during onboarding by intelligently parsing resumes. This improved the efficiency of the profile creation workflow and reduced manual entry for developers.}
     \resumeItem{Optimized platform performance and billing}
@@ -188,7 +188,7 @@
    \item{
      \textbf{Languages}{: Python, Javascript, Kotlin}
      \hfill
-     \textbf{Technologies}{: Django, React, FastAPI, AWS, GCP, Celery/Redis, Pinecone, OpenAI API, Kubernetes}
+     \textbf{Technologies}{: Django, React, FastAPI, PostgreSQL, AWS, GCP, Celery/Redis, Pinecone, OpenAI API, MCP, Kubernetes}
    }
  \resumeSubHeadingListEnd
 
