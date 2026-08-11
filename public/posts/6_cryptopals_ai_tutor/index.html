@@ -1,0 +1,1709 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="en-us"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Learning Cryptography with an AI Guide: Cryptopals Set 1 - cmplx-xyttmt</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="Over the past few months, I&rsquo;ve been building and shipping features using AI agents and noticed that my ability to &ldquo;hand-write&rdquo; code has dramatically declined. While using agents to code is quite productive, it risks making you lazy and complacent. One of my favorite parts of programming and building software in general is solving the little or big puzzles that come up and going through the process of thinking through a problem and implementing the solution in some detail." />
+  <meta name="author" content="Isaac Owomugisha" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/26762336?s=400&amp;u=897a77ff678657345a82d196b192f2fd8fcaca06&amp;v=4" />
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/twitter.svg" />
+  
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
+  
+  <link rel="preload" as="image" href="http://localhost:1313/linkedin.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css"
+  integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"
+  integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () =>
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ],
+      
+      throwOnError: false,
+    }),
+  );
+</script>
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.124.1">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >cmplx-xyttmt</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/"
+        >Posts</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/projects/"
+        >Projects</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/resume/"
+        >Resumé</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href="https://twitter.com/IsaacOwomugisha"
+        target="_blank"
+        rel="me"
+      >
+        twitter
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/cmplx-xyttmt"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./linkedin.svg)"
+        href="https://linkedin.com/in/owomugisha-isaac-32807912a"
+        target="_blank"
+        rel="me"
+      >
+        linkedin
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Learning Cryptography with an AI Guide: Cryptopals Set 1</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Aug 10, 2026</time>
+      
+      
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Isaac Owomugisha</span>
+      
+    </div>
+    
+  </header>
+
+  <section><p>Over the past few months, I&rsquo;ve been building and shipping features using AI agents and noticed that my ability to
+&ldquo;hand-write&rdquo; code has dramatically declined. While using agents to code is quite productive, it risks making you lazy
+and complacent. One of my favorite parts of programming and building software in general is solving the little or
+big puzzles that come up and going through the process of thinking through a problem and implementing the solution in
+some detail. However, with AI coding agents like Claude Code, the answer is usually just a prompt away: &ldquo;why isn&rsquo;t this
+working&rdquo;, &ldquo;change this to that&rdquo;, and most of the time, I found myself not even checking the code or trying to understand
+how it worked, and what the fix was.</p>
+<p>I enjoy the process of learning new things, and solving problems; so this state of affairs led me to see if I could find
+more
+fulfillment from using agents as learning guides. Not just for production codebases, but for new skills or subjects or
+concepts I want to learn. The idea was to use the AI to &ldquo;teach me, and tell me when I&rsquo;m wrong&rdquo; rather than &ldquo;write this
+for me.&rdquo;</p>
+<p>Cryptography is a subject I always told myself I would like to learn, but never had the time to do so. So, I decided
+that
+this would be a great testing ground. I also like learning through small self-contained &ldquo;challenges&rdquo; and the
+<a href="https://cryptopals.com/">Cryptopals challenges</a> turned out to be the perfect testing ground for this learning
+experiment.</p>
+<p>So, this post is about this experiment and is as much about <em>how I learn with AI</em> (or at least how I&rsquo;m iterating on that
+process) as it is about cryptography.</p>
+<h2 id="the-rules-of-the-experiment">The rules of the experiment</h2>
+<p>Before writing a line of code, I set up the repo with a few deliberate constraints — rules
+for how the AI was allowed to help:</p>
+<ul>
+<li><strong>Tutor, not solver.</strong> Claude wasn&rsquo;t allowed to hand me working solutions to challenges I
+hadn&rsquo;t attempted. It could orient me, explain the concept, ask a leading question, or drop
+a graded hint — but the actual &ldquo;aha&rdquo; had to be mine. Once I had an attempt, <em>then</em> it
+switched into rigorous-reviewer mode: I would ask it to critique my code, and write extra tests to validate my
+solution.</li>
+<li><strong>Two versions of each challenge:</strong> My initial idea was to have 2 versions: one using the language&rsquo;s standard library
+or third-party libraries (<code>base64</code>, <code>hashlib</code>, a real AES library), and one where I re-implemented the interesting primitive
+by hand (e.g. my own Base64 encoder). In practice I didn&rsquo;t always do both: some primitives (like single-byte XOR) are already &ldquo;from scratch&rdquo; with nothing left to reimplement, and others (like AES) you <em>shouldn&rsquo;t</em> hand-roll, so the from-scratch version only appeared when it actually taught me something.</li>
+<li><strong>A running journal.</strong> I noted down most of the process of solving the challenges (with help from Claude, based on
+the prompts I was giving it): wrong turns, bugs, critiques, and suggested improvements got written down; not just the
+polished final answer. (This post is built from that journal.)</li>
+<li><strong>Interactive artifacts.</strong> When something was easier <em>seen than
+said</em>, we&rsquo;d build a small self-contained web page to play with it.</li>
+</ul>
+<p>What follows are the highlights of the experiment. You can find the repo
+on <a href="https://github.com/cmplx-xyttmt/cryptopals">GitHub</a> with the full journal.</p>
+<h2 id="bytes-vs-hex-vs-strings">Bytes vs Hex vs Strings</h2>
+<p>Challenge 1 is just &ldquo;convert hex to base64,&rdquo; and I solved it in about four lines. But my
+function returned something that printed as <code>b'SSdt...'</code>, and I didn&rsquo;t know what the <code>b</code>
+meant (I&rsquo;d seen it before in Python programs I&rsquo;ve worked with in the past, but never paid much attention to it, since
+I mostly worked with strings).</p>
+<p>I had a wrong mental model I didn&rsquo;t know I had: I thought raw bytes <em>were</em> hex. The critique
+unpicked it in one exchange — <strong>bytes are numbers</strong> (0–255); hex is just one of many ways to
+<em>write</em> those numbers down. <code>bytes.fromhex(&quot;49&quot;)</code> doesn&rsquo;t &ldquo;store hex,&rdquo; it produces the number
+<code>0x49</code> = <code>73</code>. Text (<code>str</code>) and bytes are genuinely different worlds, and crypto lives
+entirely in the bytes world because you can do <em>math</em> — like XOR — on numbers, not on letters.</p>
+<p>I asked Claude to build an artifact to clarify the difference between these: type any text and watch it cross the border
+into bytes, hex, and base64, with the per-character encoding laid out. Emojis are where it gets fun — one emoji is one
+character but four bytes.</p>
+
+<details class="not-prose bytes-vs-strings artifact-embed" id="bytes-vs-strings-1786449978790582000" open>
+  <summary class="ae-summary">Interactive &middot; Bytes vs strings</summary>
+  <div class="ae-content">
+
+  <h1>Bytes vs Strings</h1>
+  <p class="lede">A string is <em>text for humans</em>. Bytes are <em>numbers a
+  computer does math on</em>. Cryptography lives entirely in the bytes world.
+  Type below and watch text cross the border into bytes, hex, and base64.</p>
+
+  
+  <div class="card">
+    <label>Your text (a Python <code>str</code>)</label>
+    <input data-el="inp" type="text" value="Hi" autocomplete="off" spellcheck="false">
+    <div class="examples" data-el="examples"></div>
+
+    <div class="rowlabel">Stats</div>
+    <div>
+      <span class="stat">characters (<code>len(str)</code>): <b data-el="charlen">–</b></span>
+      <span class="stat">bytes (<code>len(bytes)</code>): <b data-el="bytelen">–</b></span>
+    </div>
+
+    <div class="rowlabel"><code>text.encode("utf-8")</code> — Python's bytes repr</div>
+    <div class="val" data-el="repr">–</div>
+
+    <div class="rowlabel"><code>list(text.encode())</code> — bytes really are just numbers 0–255</div>
+    <div class="val" data-el="ints">–</div>
+
+    <div class="rowlabel"><code>.hex()</code> — same bytes, written in hex notation</div>
+    <div class="val" data-el="hex">–</div>
+
+    <div class="rowlabel"><code>base64.b64encode(...)</code> — same bytes again, base64 notation</div>
+    <div class="val" data-el="b64">–</div>
+  </div>
+
+  <div class="callout">
+    <strong>The key idea:</strong> the byte list, the hex, and the base64 above
+    are all <em>the exact same bytes</em> — three costumes for one set of numbers.
+    Hex isn't "what bytes are"; it's just a convenient way to write them down.
+  </div>
+
+  
+  <h2>Where does each character go?</h2>
+  <p>A <code>str</code> is a sequence of <em>characters</em> (code points). Encoding
+  turns each character into one <em>or more</em> bytes. For plain English it's 1:1,
+  so bytes and text feel interchangeable — but emojis and accents break that.</p>
+  <div class="card">
+    <table>
+      <thead><tr><th>Char</th><th>Code point</th><th>UTF-8 bytes (hex)</th><th># bytes</th></tr></thead>
+      <tbody data-el="perchar"></tbody>
+    </table>
+  </div>
+
+  
+  <h2>Things you can do with bytes (but not strings)</h2>
+  <p>Because bytes are numbers, you can do arithmetic and bit-operations on them.
+  This is <em>why</em> crypto uses bytes — encryption is math. Live, using the
+  first two bytes of your input above:</p>
+  <div class="card">
+    <div class="two">
+      <div>
+        <div class="rowlabel">Indexing gives an <code>int</code></div>
+        <div class="val" data-el="op-index">–</div>
+      </div>
+      <div>
+        <div class="rowlabel">XOR two bytes (Challenge 2!)</div>
+        <div class="val" data-el="op-xor">–</div>
+      </div>
+    </div>
+    <div class="rowlabel">In Python, the same on a <code>str</code> fails:</div>
+    <div class="val"><span class="pyc"># str indexing gives a 1-char str, not a number</span>
+"Hi"[0]        <span class="ok">→ 'H'</span>   <span class="pyc">(a str)</span>
+b"Hi"[0]       <span class="ok">→ 72</span>    <span class="pyc">(an int!)</span>
+
+<span class="pyc"># you cannot XOR text</span>
+"Hi"[0] ^ 42   <span class="no">→ TypeError: unsupported operand type(s) for ^: 'str' and 'int'</span>
+b"Hi"[0] ^ 42  <span class="ok">→ 98</span></div>
+  </div>
+
+  
+  <h2>Things a string knows that raw bytes don't</h2>
+  <p>A <code>str</code> understands <em>characters</em> as whole units, no matter
+  how many bytes they take. Raw bytes are just a flat pile of numbers — they've
+  forgotten where one character ends and the next begins.</p>
+  <div class="card">
+    <div class="val"><span class="pyc"># One emoji is ONE character but FOUR bytes</span>
+s = "🔥"
+len(s)             <span class="ok">→ 1</span>     <span class="pyc"># str counts characters</span>
+len(s.encode())    <span class="no">→ 4</span>     <span class="pyc"># bytes counts bytes</span>
+list(s.encode())   <span class="pyc">→ [240, 159, 148, 165]</span>
+
+<span class="pyc"># Slicing bytes can rip a character in half — producing garbage</span>
+s.encode()[:2]                 <span class="pyc">→ b'\xf0\x9f'</span>
+s.encode()[:2].decode()        <span class="no">→ UnicodeDecodeError!</span>
+
+<span class="pyc"># Text operations (case, etc.) only make sense on str</span>
+"caf\u00e9".upper()     <span class="ok">→ 'CAFÉ'</span>
+b"caf\xc3\xa9".upper()  <span class="no">→ b'CAF\xc3\xa9'  (bytes .upper() only touches ASCII)</span></div>
+  </div>
+
+  <div class="callout callout--emerald">
+    <strong>The one sentence to keep:</strong> bytes are numbers you do math on;
+    <code>str</code> is text for humans; <code>.encode()</code>/<code>.decode()</code>
+    convert between them via an encoding (default <strong>UTF-8</strong>), and you
+    only convert at the <em>edges</em> of your program.
+  </div>
+
+  <p class="foot">Cryptopals · Challenge 1 companion · type anything above to explore</p>
+
+  </div>
+</details>
+
+<style>
+   
+  .bytes-vs-strings {
+    --cream: #f7f3e9;
+    --surface: #fffdf7;
+    --surface-border: #e4dcc7;
+    --forest: #1f3d2b;
+    --pine: #2f5a3d;
+    --emerald: #2e7d52;
+    --moss: #6b7a5a;
+    --amber: #c8862a;
+    --clay: #b1552f;
+    --ink: #16261c;
+    --muted: #6a7568;
+    --code-bg: #14251b;
+    --code-text: #e8f0e4;
+    --radius: 16px;
+    --font-serif: Georgia, "Times New Roman", serif;
+    --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  .dark .bytes-vs-strings {
+    --cream: #10180f; --surface: #17231a; --surface-border: #2b3d2f;
+    --forest: #cfe3d1; --pine: #a9d0b3; --emerald: #6fd39a; --ink: #e6f0e6;
+    --muted: #92a290; --code-bg: #0b130d; --code-text: #dcead9;
+  }
+  .bytes-vs-strings * { box-sizing: border-box; }
+  .bytes-vs-strings {
+    color: var(--ink);
+    font-family: var(--font-serif); line-height: 1.6;
+  }
+  .bytes-vs-strings.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
+  .bytes-vs-strings > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .bytes-vs-strings > .ae-summary::-webkit-details-marker { display:none; }
+  .bytes-vs-strings > .ae-summary::before { content:"\25B8"; }
+  .bytes-vs-strings[open] > .ae-summary::before { content:"\25BE"; }
+  .bytes-vs-strings[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .bytes-vs-strings > .ae-content { padding:1rem; }
+  .bytes-vs-strings h1 { font-size: 1.9rem; color: var(--forest); margin: 0 0 .3rem; }
+  .bytes-vs-strings h2 { font-size: 1.3rem; color: var(--pine); margin: 2.4rem 0 .6rem;
+       border-bottom: 2px solid var(--surface-border); padding-bottom: .3rem; }
+  .bytes-vs-strings p { margin: .6rem 0; }
+  .bytes-vs-strings .lede { color: var(--muted); font-size: 1.05rem; }
+  .bytes-vs-strings code, .bytes-vs-strings .mono { font-family: var(--font-mono); }
+  .bytes-vs-strings .card {
+    background: var(--surface); border: 1px solid var(--surface-border);
+    border-radius: var(--radius); padding: 1.1rem 1.2rem; margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(31,61,43,.06);
+  }
+  .bytes-vs-strings label { font-family: var(--font-sans); font-size: .8rem; text-transform: uppercase;
+          letter-spacing: .05em; color: var(--moss); display: block; margin-bottom: .35rem; }
+  .bytes-vs-strings input[type=text] {
+    width: 100%; font-family: var(--font-mono); font-size: 1.1rem;
+    padding: .6rem .7rem; border: 1px solid var(--surface-border);
+    border-radius: 10px; background: var(--cream); color: var(--ink);
+  }
+  .bytes-vs-strings input[type=text]:focus { outline: 2px solid var(--emerald); border-color: var(--emerald); }
+  .bytes-vs-strings .examples { display: flex; flex-wrap: wrap; gap: .4rem; margin: .7rem 0 0; }
+  .bytes-vs-strings .chip {
+    font-family: var(--font-mono); font-size: .85rem; cursor: pointer;
+    background: var(--cream); border: 1px solid var(--surface-border);
+    color: var(--pine); padding: .3rem .6rem; border-radius: 999px;
+    transition: background .15s, transform .1s;
+  }
+  .bytes-vs-strings .chip:hover { background: #e9f2e6; }
+  .bytes-vs-strings .chip:active { transform: translateY(1px); }
+  .bytes-vs-strings .chip small { color: var(--muted); }
+  .bytes-vs-strings .rowlabel { font-family: var(--font-sans); font-size: .8rem; color: var(--moss);
+              text-transform: uppercase; letter-spacing: .04em; margin-top: .9rem; }
+  .bytes-vs-strings .val { font-family: var(--font-mono); font-size: .95rem; background: var(--code-bg);
+         color: var(--code-text); padding: .55rem .7rem; border-radius: 8px;
+         overflow-x: auto; white-space: pre; }
+  .bytes-vs-strings .stat { display: inline-block; margin-right: 1.2rem; font-family: var(--font-sans); }
+  .bytes-vs-strings .stat b { color: var(--emerald); font-size: 1.15rem; }
+  .bytes-vs-strings table { width: 100%; border-collapse: collapse; margin-top: .6rem; font-size: .9rem; }
+  .bytes-vs-strings th, .bytes-vs-strings td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--surface-border); }
+  .bytes-vs-strings th { font-family: var(--font-sans); font-size: .75rem; text-transform: uppercase;
+       color: var(--moss); letter-spacing: .04em; }
+  .bytes-vs-strings td.mono { font-family: var(--font-mono); }
+  .bytes-vs-strings .char-cell { font-size: 1.2rem; }
+  .bytes-vs-strings .bytecount-1 { color: var(--emerald); }
+  .bytes-vs-strings .bytecount-multi { color: var(--clay); font-weight: bold; }
+  .bytes-vs-strings .callout { border-left: 4px solid var(--amber); background: rgba(200,134,42,.08);
+             padding: .7rem 1rem; border-radius: 8px; margin: 1rem 0; }
+  .bytes-vs-strings .callout--emerald { border-left-color: var(--emerald); background: rgba(46,125,82,.08); }
+  .bytes-vs-strings .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 560px) { .bytes-vs-strings .two { grid-template-columns: 1fr; } }
+  .bytes-vs-strings .ok { color: var(--emerald); } .bytes-vs-strings .no { color: var(--clay); }
+  .bytes-vs-strings .py { color: #9ecb8a; } .bytes-vs-strings .pyc { color: #7d8a76; font-style: italic; }  
+  .bytes-vs-strings .foot { color: var(--muted); font-size: .85rem; margin-top: 2.5rem; text-align: center; }
+   
+  .dark .bytes-vs-strings { --surface: transparent; --cream: transparent; }
+   
+  .bytes-vs-strings { color: var(--text, #16261c); }
+  .bytes-vs-strings h1, .bytes-vs-strings h2 { color: var(--heading, #1f3d2b); }
+  .bytes-vs-strings > .ae-summary { color: var(--heading, #1f3d2b); }
+   
+  .bytes-vs-strings, .dark .bytes-vs-strings { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
+  .bytes-vs-strings { --muted: rgba(26, 40, 28, 0.72); }
+  .dark .bytes-vs-strings { --muted: rgba(212, 218, 227, 0.70); }
+</style>
+
+<script>
+(function () {
+  const root = document.getElementById("bytes-vs-strings-1786449978790582000");
+  const $ = name => root.querySelector('[data-el="' + name + '"]');
+  const enc = new TextEncoder();               
+  const inp = $("inp");
+
+  const EXAMPLES = [
+    { t: "Hi",            note: "1 char = 1 byte" },
+    { t: "hello world",   note: "plain ASCII" },
+    { t: "caf\u00e9",          note: "accent -> 2 bytes" },
+    { t: "\u{1f525}",             note: "emoji -> 4 bytes" },
+    { t: "H\u00e9llo \u{1f30d}",       note: "mixed" },
+    { t: "I'm killing your brain", note: "Challenge 1 text" },
+  ];
+
+  
+  const exWrap = $("examples");
+  EXAMPLES.forEach(ex => {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.innerHTML = `${escapeHtml(ex.t)} <small>&middot; ${ex.note}</small>`;
+    b.onclick = () => { inp.value = ex.t; render(); inp.focus(); };
+    exWrap.appendChild(b);
+  });
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function toHex(bytes) {
+    return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  function bytesToBase64(bytes) {
+    let bin = "";
+    for (const b of bytes) bin += String.fromCharCode(b);
+    return btoa(bin);
+  }
+  
+  function pyRepr(bytes) {
+    let out = "b'";
+    for (const b of bytes) {
+      if (b === 0x5c) out += "\\\\";
+      else if (b === 0x27) out += "\\'";
+      else if (b === 0x09) out += "\\t";
+      else if (b === 0x0a) out += "\\n";
+      else if (b === 0x0d) out += "\\r";
+      else if (b >= 0x20 && b <= 0x7e) out += String.fromCharCode(b);
+      else out += "\\x" + b.toString(16).padStart(2, "0");
+    }
+    return out + "'";
+  }
+
+  function render() {
+    const text = inp.value;
+    const bytes = enc.encode(text);
+    const chars = Array.from(text);   
+
+    $("charlen").textContent = chars.length;
+    $("bytelen").textContent = bytes.length;
+    $("repr").textContent = pyRepr(bytes);
+    $("ints").textContent =
+      "[" + Array.from(bytes).join(", ") + "]";
+    $("hex").textContent = toHex(bytes) || "(empty)";
+    $("b64").textContent = bytesToBase64(bytes) || "(empty)";
+
+    
+    const tbody = $("perchar");
+    tbody.innerHTML = "";
+    chars.forEach(ch => {
+      const cb = enc.encode(ch);
+      const cp = ch.codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
+      const tr = document.createElement("tr");
+      const multi = cb.length > 1;
+      tr.innerHTML =
+        `<td class="char-cell">${escapeHtml(ch)}</td>` +
+        `<td class="mono">U+${cp}</td>` +
+        `<td class="mono">${toHex(cb).replace(/../g, "$& ").trim()}</td>` +
+        `<td class="mono ${multi ? "bytecount-multi" : "bytecount-1"}">${cb.length}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    
+    const idxEl = $("op-index");
+    const xorEl = $("op-xor");
+    if (bytes.length >= 1) {
+      idxEl.textContent = `data = ${pyRepr(bytes)}\ndata[0]  ->  ${bytes[0]}   (an int)`;
+    } else {
+      idxEl.textContent = "(type something above)";
+    }
+    if (bytes.length >= 2) {
+      const x = bytes[0] ^ bytes[1];
+      xorEl.textContent =
+        `${bytes[0]} ^ ${bytes[1]}  ->  ${x}\n` +
+        `bin: ${bytes[0].toString(2).padStart(8,"0")} ^ ${bytes[1].toString(2).padStart(8,"0")}\n` +
+        `   =                    ${x.toString(2).padStart(8,"0")}`;
+    } else {
+      xorEl.textContent = "(need at least 2 bytes)";
+    }
+  }
+
+  inp.addEventListener("input", render);
+  render();
+})();
+</script>
+
+<h2 id="three-versions-of-one-tiny-function">Three versions of one tiny function</h2>
+<p>The from-scratch Base64 encoder is where &ldquo;do it by hand&rdquo; got interesting. Base64 doesn&rsquo;t line
+up with bytes: you take <strong>three 8-bit bytes (24 bits)</strong> and re-slice them into <strong>four 6-bit
+groups</strong>, then turn each 6-bit number (0–63) into a character. My first version worked, but it
+was ~80 lines across two helpers. One of them existed just to build a dictionary mapping every
+6-bit value to its character:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build_index</span>():
+</span></span><span style="display:flex;"><span>    uppercase <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#34;</span>
+</span></span><span style="display:flex;"><span>    lowercase <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyz&#34;</span>
+</span></span><span style="display:flex;"><span>    numbers <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0123456789&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    b64_char_index <span style="color:#f92672">=</span> dict()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> value <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">26</span>):
+</span></span><span style="display:flex;"><span>        b64_char_index[value] <span style="color:#f92672">=</span> uppercase[value]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> value <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">52</span>):
+</span></span><span style="display:flex;"><span>        b64_char_index[value] <span style="color:#f92672">=</span> lowercase[value <span style="color:#f92672">-</span> <span style="color:#ae81ff">26</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> value <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">62</span>):
+</span></span><span style="display:flex;"><span>        b64_char_index[value] <span style="color:#f92672">=</span> numbers[value <span style="color:#f92672">-</span> <span style="color:#ae81ff">52</span>]
+</span></span><span style="display:flex;"><span>    b64_char_index[<span style="color:#ae81ff">62</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;+&#34;</span>
+</span></span><span style="display:flex;"><span>    b64_char_index[<span style="color:#ae81ff">63</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> b64_char_index
+</span></span></code></pre></div><p>&hellip;and a second helper did the actual bit-slicing into a list of 6-bit integers before mapping
+them through that dictionary.</p>
+<p>I ran it past <strong>Gemini</strong>, which nudged me toward something much tighter, and then <strong>Claude</strong>
+explained <em>why</em> it was tighter. The insight is lovely: <strong>a string is already a map from index
+to character.</strong> <code>&quot;ABC…+/&quot;[i]</code> does exactly what my <code>build_index()</code> dictionary did, because the
+indices <code>0…63</code> <em>are</em> the keys. So the whole helper collapses into a single line —</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ALPHABET <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&#34;</span>
+</span></span></code></pre></div><p>— and the encoder becomes one function that maps each 6-bit group straight through <code>ALPHABET</code>
+as it goes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert_hex_to_base64</span>(hex_string: str) <span style="color:#f92672">-&gt;</span> str:
+</span></span><span style="display:flex;"><span>    raw_bytes <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(hex_string)
+</span></span><span style="display:flex;"><span>    b64_chars <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    length <span style="color:#f92672">=</span> len(raw_bytes)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Full 3-byte groups</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, length <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>        chunk <span style="color:#f92672">=</span> (raw_bytes[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">|</span> (raw_bytes[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> raw_bytes[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>        b64_chars<span style="color:#f92672">.</span>extend([
+</span></span><span style="display:flex;"><span>            ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">18</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>], ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">12</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>],
+</span></span><span style="display:flex;"><span>            ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>], ALPHABET[chunk <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>],
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Leftover 1 or 2 bytes: pad with zero bits on the right, then add &#39;=&#39;</span>
+</span></span><span style="display:flex;"><span>    remainder <span style="color:#f92672">=</span> length <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> remainder <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+</span></span><span style="display:flex;"><span>        j <span style="color:#f92672">=</span> length <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        chunk <span style="color:#f92672">=</span> ((raw_bytes[j] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> raw_bytes[j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>   <span style="color:#75715e"># 16 -&gt; 18 bits</span>
+</span></span><span style="display:flex;"><span>        b64_chars<span style="color:#f92672">.</span>extend([
+</span></span><span style="display:flex;"><span>            ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">12</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>], ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>],
+</span></span><span style="display:flex;"><span>            ALPHABET[chunk <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>], <span style="color:#e6db74">&#34;=&#34;</span>,
+</span></span><span style="display:flex;"><span>        ])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> remainder <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        chunk <span style="color:#f92672">=</span> raw_bytes[length <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">4</span>                       <span style="color:#75715e"># 8 -&gt; 12 bits</span>
+</span></span><span style="display:flex;"><span>        b64_chars<span style="color:#f92672">.</span>extend([ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>], ALPHABET[chunk <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>], <span style="color:#e6db74">&#34;==&#34;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(b64_chars)
+</span></span></code></pre></div><p>Claude also pointed out that the <em>original</em> re-sliced the
+input on every loop (<code>raw_bytes = raw_bytes[3:]</code>), quietly copying the rest of the buffer each
+time and turning an $O(n)$ job into $O(n^2)$. Indexing into the buffer instead — the
+<code>range(0, length - 2, 3)</code> above — keeps it linear.</p>
+<p>Then, for fun, Claude showed a <strong>third</strong> approach that makes the awkward &ldquo;leftover 1 or 2
+bytes&rdquo; branches <em>disappear</em>: pad the input up to a multiple of 3 with zero bytes, run one clean
+loop, then replace the trailing characters with <code>=</code> — one for each byte you padded:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert_hex_to_base64</span>(hex_string: str) <span style="color:#f92672">-&gt;</span> str:
+</span></span><span style="display:flex;"><span>    raw <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(hex_string)
+</span></span><span style="display:flex;"><span>    pad <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span>len(raw)) <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>                  <span style="color:#75715e"># 0, 1, or 2 zero-bytes to add</span>
+</span></span><span style="display:flex;"><span>    raw <span style="color:#f92672">=</span> raw <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> pad
+</span></span><span style="display:flex;"><span>    out <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(raw), <span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>        chunk <span style="color:#f92672">=</span> (raw[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">|</span> (raw[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> raw[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> shift <span style="color:#f92672">in</span> (<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">0</span>):
+</span></span><span style="display:flex;"><span>            out<span style="color:#f92672">.</span>append(ALPHABET[(chunk <span style="color:#f92672">&gt;&gt;</span> shift) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">63</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> pad:                                <span style="color:#75715e"># the padding bytes become &#39;=&#39; chars</span>
+</span></span><span style="display:flex;"><span>        out[<span style="color:#f92672">-</span>pad:] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;=&#34;</span> <span style="color:#f92672">*</span> pad
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(out)
+</span></span></code></pre></div><p>For each version, I understood the problem a little better: my version made the mechanics painfully explicit, Gemini&rsquo;s
+showed me the string-is-a-lookup-table trick, and Claude&rsquo;s showed a &ldquo;normalise the input so the special case vanishes&rdquo;
+pattern. A very different experience from &ldquo;the agent wrote it, and it passed.&rdquo;</p>
+<h2 id="the-scorer-that-worked-for-the-wrong-reason">The scorer that worked for the wrong reason</h2>
+<p>Challenge 3 is where things get interesting: decrypt a message that&rsquo;s been XOR&rsquo;d with a single
+secret byte — no key — by brute-forcing all 256 possibilities and <em>scoring</em> each candidate for
+how English-like it looks.</p>
+<p>My scorer worked; it found the answer (&ldquo;Cooking MC&rsquo;s like a pound of bacon&rdquo;). But it was built
+on a shaky idea: I compared each character&rsquo;s raw <em>count</em> to its <em>rank</em> in an English-frequency
+table — two quantities that aren&rsquo;t even the same kind of thing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>position_diff <span style="color:#f92672">=</span> abs(counts[char] <span style="color:#f92672">-</span> positions[char])   <span style="color:#75715e"># a count vs a rank (!)</span>
+</span></span><span style="display:flex;"><span>score <span style="color:#f92672">+=</span> len(character_order) <span style="color:#f92672">-</span> position_diff
+</span></span></code></pre></div><p>Rather than just tell me it was wrong, Claude had me write a <strong>test that failed for the right
+reason</strong> — one encoding a property the scorer <em>should</em> have: repeating a text shouldn&rsquo;t change
+how English-like it is.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_invariant_to_repetition</span>():
+</span></span><span style="display:flex;"><span>    text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;the quick brown fox jumps over the lazy dog&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> english_score(text) <span style="color:#f92672">==</span> pytest<span style="color:#f92672">.</span>approx(english_score(text <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>))
+</span></span></code></pre></div><p>On my count-based scorer that number jumped from <strong>383 to 429</strong> when I doubled the text — red,
+and for exactly the right reason. The fix was to score by <em>frequency</em> (using English
+letter-frequency stats), length-normalised: the score stops depending on length, and the test
+goes green. (The full scorer and its tests live in
+<a href="https://github.com/cmplx-xyttmt/cryptopals/tree/main/python/cryptolib"><code>cryptolib</code></a>.)</p>
+<h2 id="breaking-vigenère-by-seeing-it">Breaking Vigenère by seeing it</h2>
+<p>Challenge 6 asks you to break repeating-key XOR when you know <em>nothing</em>, not even the key&rsquo;s length. It&rsquo;s
+the hardest in the set, and it&rsquo;s where the &ldquo;build an artifact&rdquo; idea worked best.</p>
+<p>The solution hinges on the fact that you can <em>guess the key length</em> by measuring the
+average <a href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> (number of differing bits) between chunks of the ciphertext, and the true key length
+produces the smallest normalised distance. I could implement it, but I didn&rsquo;t fully understand why bit-similarity
+could reveal a key length.</p>
+<p>Rather than just explain it, I asked Claude to build me a visualization: encrypt some text with a key of my
+choosing, sweep the candidate key lengths, and <em>watch</em> the Hamming distance dip at the true length.
+Then a couple of small experiments it suggested — comparing English-XOR-English against
+random-XOR-random — enabled me to derive the reason <strong>myself</strong>:</p>
+<pre tabindex="0"><code>c1 ⊕ c2 = (p1 ⊕ k) ⊕ (p2 ⊕ k)
+        = p1 ⊕ p2 ⊕ (k ⊕ k)
+        = p1 ⊕ p2            (because k ⊕ k = 0)
+</code></pre><p>At the right key length, two ciphertext bytes in the same position share the same key byte,
+so XOR-ing them <em>cancels the key</em> and leaves you comparing two English letters — which, since
+English letters cluster in a narrow range, differ in very few bits. At the wrong length, the
+key doesn&rsquo;t cancel and you get noise. This example reveals why I like this approach: not being
+<em>told</em> the answer, but being handed the right thing to look at, think about, and figure out on my own.</p>
+<p>The artifact grew into a full breaker — set a key length, watch the ciphertext transpose into
+columns, solve each column, and see the plaintext appear. Play with it:</p>
+
+<details class="not-prose vigenere-keysize artifact-embed" id="vigenere-keysize-1786449978790967000" open>
+  <summary class="ae-summary">Interactive &middot; Breaking repeating-key XOR</summary>
+  <div class="ae-content">
+
+  <h1>Repeating-key XOR &mdash; breaking it</h1>
+  <p class="lede">Break repeating-key (Vigen&egrave;re) XOR with no key and no key
+  length. Step 1: guess the length via <strong>Hamming distance</strong>. Step 2:
+  transpose the ciphertext into single-byte-XOR columns and solve each. Do the whole
+  thing interactively below &mdash; experiment before reading the answer.</p>
+
+  
+  <h2>1. What Hamming distance <em>is</em></h2>
+  <p>Two strings, compared bit by bit. Each byte is a little block: <strong>top row =
+  String A, bottom row = String B</strong>, with the byte's character shown beneath.
+  Differing bits are highlighted. (The Challenge 6 sanity check is pre-filled &mdash; it
+  should read 37.)</p>
+  <div class="card">
+    <div class="row">
+      <div><label>String A</label><input data-el="h1" type="text" value="this is a test"></div>
+      <div><label>String B</label><input data-el="h2i" type="text" value="wokka wokka!!!"></div>
+    </div>
+    <div class="bitlegend" style="margin-top:.8rem">Top row = A &nbsp;/&nbsp; bottom row = B &nbsp;/&nbsp; label = each byte's character:</div>
+    <div data-el="hamBits" class="bits"></div>
+    <div class="num">Hamming distance: <b data-el="hamDist">&ndash;</b>
+      <span class="hint">&nbsp; ( = <span data-el="hamNorm">&ndash;</span> bits per byte)</span></div>
+  </div>
+
+  
+  <h2>2. Find the key length</h2>
+  <p>For each candidate key length K, chop the ciphertext into K-byte blocks and measure
+  the average Hamming distance between blocks, <em>normalised</em> by dividing by K. Each
+  bar is one K.</p>
+  <div class="card">
+    <div class="modes">
+      <label><input type="radio" name="mode" value="encrypt" checked> Encrypt my own text</label>
+      <label><input type="radio" name="mode" value="paste"> Paste base64 ciphertext</label>
+    </div>
+    <div data-el="encryptInputs">
+      <div><label>Plaintext (English)</label><textarea data-el="pt"></textarea></div>
+      <div class="row" style="margin-top:.7rem">
+        <div style="flex:0 1 220px"><label>Key (its length is the secret)</label>
+          <input data-el="key" type="text" value="SPHINX"></div>
+      </div>
+    </div>
+    <div data-el="pasteInputs" class="hidden">
+      <label>Base64 ciphertext</label>
+      <textarea data-el="ctb64" placeholder="Paste base64-encoded ciphertext here..."></textarea>
+      <div data-el="pasteErr" class="err"></div>
+    </div>
+    <div class="row" style="margin-top:.7rem">
+      <div style="flex:0 1 260px">
+        <label>Blocks averaged: <span data-el="blocksVal">10</span></label>
+        <input data-el="blocks" class="slider" type="range" min="2" max="25" value="10">
+      </div>
+    </div>
+    <div class="hint" style="margin-top:.5rem">Ciphertext length: <span data-el="ctlen">&ndash;</span> bytes.
+      <strong>Taller = lower normalised distance = more likely the key length.</strong>
+      Best candidate is <span style="color:var(--emerald)">green</span>; its
+      <em>multiples</em> get a green ring. Click any bar to break with that K below.</div>
+    <div data-el="chart" class="chart"></div>
+    <div data-el="xaxis" class="xaxis"></div>
+  </div>
+
+  
+  <h2>3. Break it &mdash; the transpose, step by step</h2>
+  <p>Lay the ciphertext out <strong>K bytes per row</strong>. Then each <em>column</em> is
+  every K-th byte &mdash; the bytes all encrypted with the <em>same</em> key byte. So each
+  column is a single-byte-XOR puzzle: pick the key byte whose column decrypts to the most
+  English-looking text. Solve the columns left to right and the key appears.</p>
+  <div class="card">
+    <div class="breakctrls">
+      <span>Key length K:
+        <input data-el="kInput" type="number" min="2" max="40" value="6">
+        <span class="hint">suggested: <b data-el="suggK" class="num">&ndash;</b></span></span>
+      <span>
+        <button class="btn primary" data-el="runBtn">&#9654; Run the attack</button>
+        <button class="btn" data-el="prevBtn">&#9664; col</button>
+        <button class="btn" data-el="nextBtn">col &#9654;</button>
+      </span>
+      <span>speed <input data-el="speed" class="speed slider" type="range" min="1" max="10" value="5"></span>
+      <button class="btn" data-el="dispBtn">Display: hex</button>
+      <span class="hint">solved: <b data-el="stepInfo" class="num">0/0</b></span>
+    </div>
+
+    <div data-el="grid" class="tgrid"></div>
+    <div data-el="gridNote" class="hint"></div>
+    <div data-el="focusInfo" class="hint" style="margin-top:.3rem"></div>
+
+    <div class="keyout" data-el="keyOut">&ndash;</div>
+    <label>Decrypted text (full)</label>
+    <div class="ptout" data-el="ptOut">&ndash;</div>
+
+    <div class="quest">
+      Run it at the <em>true</em> keysize, then set K to a <em>multiple</em> (e.g. 2&times; the
+      key length), then a <em>wrong</em> one. When do the columns turn into readable English &mdash;
+      and what does the recovered key look like at a multiple?
+    </div>
+  </div>
+
+  
+  <h2>4. Look inside &mdash; bit by bit</h2>
+  <p>The first two K-byte blocks of the ciphertext for the current K
+  (<span class="pill" data-el="selK">K = ?</span>). <strong>Top row = block 0, bottom row =
+  block 1</strong>; the two bits in each column are bytes that sit <em>K apart</em>.</p>
+  <div class="card">
+    <div class="bitlegend">Block 0 vs Block 1 &nbsp;&middot;&nbsp; normalised Hamming: <b data-el="selNorm" class="num">&ndash;</b></div>
+    <div data-el="selBits" class="bits"></div>
+    <div class="quest">
+      Bytes in the same column were XOR'd with... what? And two English letters XOR'd together
+      tend to differ in how many bits, versus two <em>random</em> bytes? That is the "why".
+    </div>
+  </div>
+
+  
+  <h2>The answer</h2>
+  <details class="reveal">
+    <summary>Reveal: why Hamming distance finds the key length (open only after you've tried)</summary>
+    <div class="revealbody">
+      <p>At the <strong>correct</strong> keysize, the two bytes in a column were encrypted
+      with the <strong>same</strong> key byte. XOR-ing them cancels the key:</p>
+      <pre class="eq">c1 &oplus; c2 = (p1 &oplus; k) &oplus; (p2 &oplus; k)
+        = p1 &oplus; p2 &oplus; (k &oplus; k)
+        = p1 &oplus; p2            (because k &oplus; k = 0)</pre>
+      <p>So you are really XOR-ing two <em>English letters</em>. English letters cluster in a
+      narrow byte range (lowercase <code>a</code>&ndash;<code>z</code> all share the high bits
+      <code>011xxxxx</code>), so <code>p1 &oplus; p2</code> has <strong>few 1-bits</strong>
+      &rarr; low Hamming distance.</p>
+      <p>At a <strong>wrong</strong> keysize, the two bytes used <strong>different</strong>
+      key bytes, so the key does <em>not</em> cancel:</p>
+      <pre class="eq">c1 &oplus; c2 = p1 &oplus; p2 &oplus; (kA &oplus; kB)</pre>
+      <p>Now <code>kA &oplus; kB</code> is a nonzero constant that scrambles the result toward
+      random &rarr; <strong>more 1-bits</strong> &rarr; higher Hamming distance.</p>
+      <p>Dividing by K makes keysizes comparable; averaging over many block pairs smooths the
+      noise. Multiples of the true keysize dip too, because a repeated key (<code>key</code> vs
+      <code>keykey</code>) is equally valid &mdash; bytes 2K apart still share a key byte.</p>
+    </div>
+  </details>
+
+  <p class="foot">Cryptopals &middot; Set 1 Challenge 6 companion &middot; experiment before you read the answer</p>
+  </div>
+</details>
+
+<style>
+  .vigenere-keysize {
+    --cream: #f7f3e9; --surface: #fffdf7; --surface-border: #e4dcc7;
+    --forest: #1f3d2b; --pine: #2f5a3d; --emerald: #2e7d52; --moss: #6b7a5a;
+    --amber: #c8862a; --clay: #b1552f; --ink: #16261c; --muted: #6a7568;
+    --code-bg: #14251b; --code-text: #e8f0e4; --radius: 16px;
+    --font-serif: Georgia, "Times New Roman", serif;
+    --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  .dark .vigenere-keysize {
+    --cream:#10180f; --surface:#17231a; --surface-border:#2b3d2f; --forest:#cfe3d1;
+    --pine:#a9d0b3; --emerald:#6fd39a; --ink:#e6f0e6; --muted:#92a290;
+    --code-bg:#0b130d; --code-text:#dcead9;
+  }
+  .vigenere-keysize * { box-sizing: border-box; }
+  .vigenere-keysize { color:var(--ink);
+         font-family:var(--font-serif); line-height:1.6; }
+  .vigenere-keysize.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
+  .vigenere-keysize > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .vigenere-keysize > .ae-summary::-webkit-details-marker { display:none; }
+  .vigenere-keysize > .ae-summary::before { content:"\25B8"; }
+  .vigenere-keysize[open] > .ae-summary::before { content:"\25BE"; }
+  .vigenere-keysize[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .vigenere-keysize > .ae-content { padding:1rem; }
+  .vigenere-keysize h1 { font-size:1.8rem; color:var(--forest); margin:0 0 .3rem; }
+  .vigenere-keysize h2 { font-size:1.25rem; color:var(--pine); margin:2.2rem 0 .5rem;
+       border-bottom:2px solid var(--surface-border); padding-bottom:.3rem; }
+  .vigenere-keysize p { margin:.5rem 0; } .vigenere-keysize .lede { color:var(--muted); font-size:1.05rem; }
+  .vigenere-keysize code, .vigenere-keysize .mono { font-family:var(--font-mono); }
+  .vigenere-keysize .card { background:var(--surface); border:1px solid var(--surface-border);
+          border-radius:var(--radius); padding:1.1rem 1.2rem; margin:1rem 0;
+          box-shadow:0 2px 10px rgba(31,61,43,.06); }
+  .vigenere-keysize label { font-family:var(--font-sans); font-size:.8rem; text-transform:uppercase;
+          letter-spacing:.05em; color:var(--moss); display:block; margin-bottom:.35rem; }
+  .vigenere-keysize input[type=text], .vigenere-keysize textarea {
+    width:100%; font-family:var(--font-mono); font-size:.95rem; padding:.55rem .7rem;
+    border:1px solid var(--surface-border); border-radius:10px; background:var(--cream);
+    color:var(--ink); }
+  .vigenere-keysize textarea { min-height: 5.5rem; resize: vertical; line-height:1.4; }
+  .vigenere-keysize input:focus, .vigenere-keysize textarea:focus { outline:2px solid var(--emerald); border-color:var(--emerald); }
+  .vigenere-keysize .row { display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end; }
+  .vigenere-keysize .row > div { flex:1 1 auto; }
+  .vigenere-keysize .num { font-family:var(--font-sans); }
+  .vigenere-keysize .num b { color:var(--emerald); font-size:1.1rem; }
+  .vigenere-keysize .quest { border-left:4px solid var(--amber); background:rgba(200,134,42,.08);
+           padding:.6rem .9rem; border-radius:8px; margin:.9rem 0; font-size:.97rem; }
+  .vigenere-keysize .quest strong { color:var(--clay); }
+  .vigenere-keysize .modes { display:flex; gap:1.3rem; margin-bottom:.7rem; font-family:var(--font-sans); }
+  .vigenere-keysize .modes label { display:inline-flex; align-items:center; gap:.35rem; text-transform:none;
+                 letter-spacing:0; color:var(--ink); font-size:.92rem; margin:0; cursor:pointer; }
+  .vigenere-keysize .hidden { display:none; }
+   
+  .vigenere-keysize .bits { display:flex; flex-wrap:wrap; gap:7px; margin:.4rem 0 .6rem; }
+  .vigenere-keysize .byteblk { display:inline-flex; flex-direction:column; align-items:center; }
+  .vigenere-keysize .byterow { display:flex; gap:1px; }
+  .vigenere-keysize .byterow + .byterow { margin-top:2px; }
+  .vigenere-keysize .bit { width:1rem; height:1rem; display:flex; align-items:center; justify-content:center;
+         font-family:var(--font-mono); font-size:.7rem; border-radius:2px;
+         background:#e7eede; color:#3a4a38; }
+  .vigenere-keysize .bit.diff { background:var(--clay); color:#fff; font-weight:bold; }
+  .vigenere-keysize .bytelabel { font-family:var(--font-mono); font-size:.72rem; color:var(--muted);
+               margin-top:3px; min-height:1em; white-space:pre; }
+  .vigenere-keysize .bitlegend { font-family:var(--font-sans); font-size:.78rem; color:var(--moss); margin:.2rem 0 .3rem; }
+   
+  .vigenere-keysize .chart { display:flex; align-items:flex-end; gap:3px; height:180px; margin:.6rem 0 .2rem;
+           border-bottom:2px solid var(--surface-border); padding-top:4px; overflow-x:auto; }
+  .vigenere-keysize .bar { flex:1 0 14px; background:var(--moss); border-radius:3px 3px 0 0; position:relative;
+         cursor:pointer; transition:background .1s; min-width:14px; }
+  .vigenere-keysize .bar:hover { background:var(--pine); outline:2px solid var(--pine); }
+  .vigenere-keysize .bar.min { background:var(--emerald); }
+  .vigenere-keysize .bar.mult { box-shadow: inset 0 0 0 2px var(--emerald); }
+  .vigenere-keysize .bar.sel { outline:3px solid var(--amber); }
+  .vigenere-keysize .xaxis { display:flex; gap:3px; font-family:var(--font-mono); font-size:.62rem;
+           color:var(--muted); overflow-x:auto; }
+  .vigenere-keysize .xaxis span { flex:1 0 14px; min-width:14px; text-align:center; }
+  .vigenere-keysize .slider { width:100%; }
+  .vigenere-keysize .pill { display:inline-block; font-family:var(--font-mono); font-size:.8rem;
+          background:var(--cream); border:1px solid var(--surface-border); color:var(--pine);
+          border-radius:999px; padding:.15rem .55rem; }
+   
+  .vigenere-keysize .breakctrls { display:flex; flex-wrap:wrap; gap:.6rem 1.1rem; align-items:center;
+                font-family:var(--font-sans); font-size:.9rem; margin-bottom:.6rem; }
+  .vigenere-keysize .breakctrls input[type=number] { width:4rem; font-family:var(--font-mono); padding:.3rem .4rem;
+    border:1px solid var(--surface-border); border-radius:8px; background:var(--cream); color:var(--ink); }
+  .vigenere-keysize .btn { font-family:var(--font-sans); font-size:.85rem; cursor:pointer;
+         border:1px solid var(--surface-border); background:var(--cream); color:var(--pine);
+         border-radius:8px; padding:.3rem .7rem; }
+  .vigenere-keysize .btn:hover { background:#e9f2e6; }
+  .vigenere-keysize .btn.primary { background:var(--emerald); color:#fff; border-color:var(--emerald); }
+  .vigenere-keysize .speed { width:90px; }
+  .vigenere-keysize .tgrid { display:grid; gap:2px; overflow-x:auto; padding-bottom:5px; margin:.3rem 0; }
+  .vigenere-keysize .ghead { font-family:var(--font-mono); font-size:.58rem; color:var(--muted); text-align:center; }
+  .vigenere-keysize .ghead.solved { color:var(--emerald); font-weight:bold; }
+  .vigenere-keysize .gcell { font-family:var(--font-mono); font-size:.72rem; text-align:center; padding:.15rem 0;
+           background:var(--cream); color:var(--muted); border-radius:2px; cursor:pointer; }
+  .vigenere-keysize .gcell.solved { background:rgba(46,125,82,.20); color:var(--forest); font-weight:bold; }
+  .vigenere-keysize .gcell.focus { outline:2px solid var(--amber); }
+  .vigenere-keysize .gempty { background:transparent; cursor:default; }
+  .vigenere-keysize .keyout { font-family:var(--font-mono); font-size:.95rem; background:var(--code-bg);
+            color:var(--code-text); padding:.5rem .7rem; border-radius:8px; word-break:break-all;
+            margin:.5rem 0; }
+  .vigenere-keysize .ptout { font-family:var(--font-mono); font-size:.82rem; background:var(--code-bg);
+           color:var(--code-text); padding:.7rem .8rem; border-radius:8px; white-space:pre-wrap;
+           max-height:200px; overflow:auto; line-height:1.4; }
+  .vigenere-keysize .err { color:var(--clay); font-family:var(--font-sans); font-size:.88rem; }
+  .vigenere-keysize .foot { color:var(--muted); font-size:.85rem; margin-top:2.5rem; text-align:center; }
+  .vigenere-keysize .hint { color:var(--muted); font-size:.85rem; }
+  .vigenere-keysize details.reveal { background:var(--surface); border:1px solid var(--surface-border);
+                   border-radius:var(--radius); padding:.2rem 1.1rem; margin:1rem 0; }
+  .vigenere-keysize details.reveal > summary { cursor:pointer; font-family:var(--font-sans); font-weight:bold;
+                             color:var(--pine); padding:.7rem 0; list-style:revert; }
+  .vigenere-keysize .revealbody { padding-bottom:.8rem; }
+  .vigenere-keysize .revealbody code { font-family:var(--font-mono); }
+  .vigenere-keysize pre.eq { background:var(--code-bg); color:var(--code-text); padding:.8rem 1rem;
+           border-radius:8px; overflow-x:auto; font-family:var(--font-mono);
+           font-size:.85rem; line-height:1.55; }
+   
+  .dark .vigenere-keysize { --surface: transparent; --cream: transparent; }
+   
+  .vigenere-keysize { color: var(--text, #16261c); }
+  .vigenere-keysize h1, .vigenere-keysize h2 { color: var(--heading, #1f3d2b); }
+  .vigenere-keysize > .ae-summary { color: var(--heading, #1f3d2b); }
+   
+  .vigenere-keysize, .dark .vigenere-keysize { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
+  .vigenere-keysize { --muted: rgba(26, 40, 28, 0.72); }
+  .dark .vigenere-keysize { --muted: rgba(212, 218, 227, 0.70); }
+  .vigenere-keysize .bar { background: #6b7a5a; }
+  .vigenere-keysize .bar:hover { background: #2f5a3d; outline-color: #2f5a3d; }
+</style>
+
+<script>
+(function () {
+  const root = document.getElementById("vigenere-keysize-1786449978790967000");
+  const enc = new TextEncoder();
+  const DEFAULT_PT =
+    "The measure of intelligence is the ability to change, and the true " +
+    "sign of a restless mind is the willingness to be wrong out loud. When " +
+    "you cannot change your mind you cannot change anything at all, and so " +
+    "the world moves on without you, quietly and without malice, while the " +
+    "curious keep asking small questions that slowly rearrange everything " +
+    "they thought they knew about the ordinary world around them. Patience " +
+    "is not the absence of urgency but the discipline to let understanding " +
+    "arrive on its own schedule, one honest observation at a time, until the " +
+    "pattern that was hiding in plain sight finally stands up and introduces " +
+    "itself to you at last.";
+
+  const FREQ = { ' ':18.0,'e':10.2,'t':7.5,'a':6.5,'o':6.1,'i':5.7,'n':5.5,'h':4.9,
+    's':5.1,'r':4.8,'d':3.5,'l':3.3,'c':2.3,'u':2.3,'m':2.0,'w':1.6,'f':1.8,'g':1.6,
+    'y':1.6,'p':1.6,'b':1.3,'v':0.8,'k':0.6,'j':0.1,'x':0.1,'q':0.1,'z':0.1 };
+
+  const $ = name => root.querySelector('[data-el="' + name + '"]');
+  const popcount = x => { let c = 0; while (x) { c += x & 1; x >>= 1; } return c; };
+  const hamming = (a, b) => {
+    let d = 0; const n = Math.min(a.length, b.length);
+    for (let i = 0; i < n; i++) d += popcount(a[i] ^ b[i]);
+    return d;
+  };
+  const byteBits = b => b.toString(2).padStart(8, "0");
+  const printable = b => (b >= 32 && b <= 126) ? String.fromCharCode(b) : ".";
+  const toHex = arr => Array.from(arr).map(b => b.toString(16).padStart(2, "0")).join("");
+  const hex2 = b => b.toString(16).padStart(2, "0");
+  const bytesToText = arr =>
+    Array.from(arr).map(b => (b === 10 || (b >= 32 && b <= 126)) ? String.fromCharCode(b) : ".").join("");
+
+  function scoreBytes(arr) {
+    if (!arr.length) return 0;
+    let s = 0;
+    for (const b of arr) {
+      const ch = String.fromCharCode(b).toLowerCase();
+      if (FREQ[ch] !== undefined) s += FREQ[ch];
+      else if (b >= 32 && b <= 126) {   }
+      else s -= 15;
+    }
+    return s / arr.length;
+  }
+  function singleByteKey(col) {
+    let best = -Infinity, bestKey = 0;
+    for (let k = 0; k < 256; k++) {
+      const x = col.map(b => b ^ k);
+      const sc = scoreBytes(x);
+      if (sc > best) { best = sc; bestKey = k; }
+    }
+    return bestKey;
+  }
+  const rkx = (data, key) => {
+    const out = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; i++) out[i] = data[i] ^ key[i % key.length];
+    return out;
+  };
+  function column(cipher, K, i) {
+    const out = [];
+    for (let j = i; j < cipher.length; j += K) out.push(cipher[j]);
+    return Uint8Array.from(out);
+  }
+  function breakWithKeysize(cipher, K) {
+    const key = new Uint8Array(K);
+    for (let i = 0; i < K; i++) key[i] = singleByteKey(column(cipher, K, i));
+    return { key, plaintext: rkx(cipher, key) };
+  }
+
+  function renderBits(container, a, b, labelMode) {
+    container.innerHTML = "";
+    const n = Math.min(a.length, b.length);
+    for (let i = 0; i < n; i++) {
+      const ba = byteBits(a[i]), bb = byteBits(b[i]);
+      const blk = document.createElement("div"); blk.className = "byteblk";
+      const rowA = document.createElement("div"); rowA.className = "byterow";
+      const rowB = document.createElement("div"); rowB.className = "byterow";
+      for (let j = 0; j < 8; j++) {
+        const diff = ba[j] !== bb[j];
+        const cA = document.createElement("div"); cA.className = "bit" + (diff ? " diff" : ""); cA.textContent = ba[j];
+        const cB = document.createElement("div"); cB.className = "bit" + (diff ? " diff" : ""); cB.textContent = bb[j];
+        rowA.appendChild(cA); rowB.appendChild(cB);
+      }
+      blk.appendChild(rowA); blk.appendChild(rowB);
+      const lab = document.createElement("div"); lab.className = "bytelabel";
+      lab.textContent = labelMode === "char" ? printable(a[i]) + " " + printable(b[i]) : String(i);
+      blk.appendChild(lab);
+      container.appendChild(blk);
+    }
+  }
+
+  
+  function updateHamming() {
+    const a = enc.encode($("h1").value), b = enc.encode($("h2i").value);
+    renderBits($("hamBits"), a, b, "char");
+    const d = hamming(a, b), n = Math.min(a.length, b.length);
+    $("hamDist").textContent = d;
+    $("hamNorm").textContent = n ? (d / n).toFixed(2) : "0";
+  }
+  ["h1", "h2i"].forEach(id => $(id).addEventListener("input", updateHamming));
+
+  
+  const MAXK = 40, GRID_ROWS = 10;
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let cipher = new Uint8Array();
+  let selectedK = 6, bestK = 6, solvedCount = 0, focusCol = null, displayMode = "hex";
+  let curKey = new Uint8Array(), curPlain = new Uint8Array(), animTimer = null;
+
+  const currentMode = () => root.querySelector('input[name="mode"]:checked').value;
+
+  function getCipher() {
+    if (currentMode() === "paste") {
+      const raw = $("ctb64").value.replace(/\s+/g, "");
+      $("pasteErr").textContent = "";
+      if (!raw) return new Uint8Array();
+      try {
+        const bin = atob(raw);
+        const arr = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+        return arr;
+      } catch (e) { $("pasteErr").textContent = "That does not look like valid base64."; return new Uint8Array(); }
+    }
+    const pt = enc.encode($("pt").value), key = enc.encode($("key").value || "X");
+    return rkx(pt, key);
+  }
+
+  function normDistForK(bytes, K, numBlocks) {
+    const use = Math.min(numBlocks, Math.floor(bytes.length / K));
+    if (use < 2) return NaN;
+    let total = 0, pairs = 0;
+    for (let i = 0; i < use; i++)
+      for (let j = i + 1; j < use; j++) {
+        total += hamming(bytes.subarray(i * K, (i + 1) * K), bytes.subarray(j * K, (j + 1) * K)) / K;
+        pairs++;
+      }
+    return total / pairs;
+  }
+
+  function recompute() {
+    stopAnim();
+    cipher = getCipher();
+    $("ctlen").textContent = cipher.length;
+    $("blocksVal").textContent = $("blocks").value;
+
+    const chart = $("chart"), xaxis = $("xaxis");
+    chart.innerHTML = ""; xaxis.innerHTML = "";
+    const maxK = Math.min(MAXK, Math.floor(cipher.length / 2));
+    if (maxK < 2) {
+      $("grid").innerHTML = ""; $("keyOut").textContent = "-"; $("ptOut").textContent = "-";
+      $("selBits").innerHTML = ""; $("suggK").textContent = "-"; return;
+    }
+    const numBlocks = +$("blocks").value;
+    const scores = [];
+    for (let K = 2; K <= maxK; K++) scores.push({ K, v: normDistForK(cipher, K, numBlocks) });
+    const valid = scores.filter(s => !isNaN(s.v));
+    const min = Math.min(...valid.map(s => s.v)), max = Math.max(...valid.map(s => s.v));
+    bestK = valid.find(s => s.v === min).K;
+    $("suggK").textContent = bestK;
+
+    scores.forEach(s => {
+      const bar = document.createElement("div");
+      const isMult = s.K !== bestK && s.K % bestK === 0;
+      bar.className = "bar" + (s.v === min ? " min" : "") + (isMult ? " mult" : "") + (s.K === selectedK ? " sel" : "");
+      const frac = isNaN(s.v) ? 0 : (max - s.v) / (max - min || 1);
+      bar.style.height = (6 + 168 * frac) + "px";
+      bar.title = "K=" + s.K + ": " + (isNaN(s.v) ? "n/a" : s.v.toFixed(3)) + " bits/byte";
+      bar.onclick = () => setK(s.K);
+      chart.appendChild(bar);
+      const lab = document.createElement("span"); lab.textContent = s.K; xaxis.appendChild(lab);
+    });
+
+    if (selectedK < 2 || selectedK > maxK) selectedK = bestK;
+    computeBreak();
+    solvedCount = selectedK;   
+    focusCol = null;
+    $("kInput").value = selectedK;
+    renderBreak();
+    showBlocks();
+  }
+
+  function computeBreak() {
+    const r = breakWithKeysize(cipher, selectedK);
+    curKey = r.key; curPlain = r.plaintext;
+  }
+
+  function setK(k) {
+    stopAnim();
+    const maxK = Math.min(MAXK, Math.floor(cipher.length / 2));
+    selectedK = Math.max(2, Math.min(k, maxK));
+    
+    Array.from($("chart").children).forEach((bar, idx) => bar.classList.toggle("sel", (idx + 2) === selectedK));
+    $("kInput").value = selectedK;
+    computeBreak();
+    solvedCount = selectedK; focusCol = null;
+    renderBreak(); showBlocks();
+  }
+
+  function setSolved(n) {
+    solvedCount = Math.max(0, Math.min(n, selectedK));
+    renderBreak();
+  }
+
+  function renderBreak() {
+    const K = selectedK;
+    $("stepInfo").textContent = solvedCount + "/" + K;
+    $("dispBtn").textContent = "Display: " + displayMode;
+    const grid = $("grid");
+    grid.innerHTML = "";
+    grid.style.gridTemplateColumns = "repeat(" + K + ", 1.7rem)";
+
+    
+    for (let c = 0; c < K; c++) {
+      const h = document.createElement("div");
+      h.className = "ghead" + (c < solvedCount ? " solved" : "");
+      h.textContent = c;
+      grid.appendChild(h);
+    }
+    
+    const totalRows = Math.ceil(cipher.length / K);
+    const rows = Math.min(GRID_ROWS, totalRows);
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < K; c++) {
+        const idx = r * K + c;
+        const cell = document.createElement("div");
+        if (idx >= cipher.length) { cell.className = "gcell gempty"; grid.appendChild(cell); continue; }
+        const solved = c < solvedCount;
+        cell.className = "gcell" + (solved ? " solved" : "") + (c === focusCol ? " focus" : "");
+        const byte = cipher[idx];
+        if (displayMode === "hex") cell.textContent = hex2(byte);
+        else cell.textContent = solved ? printable(byte ^ curKey[c]) : printable(byte);
+        cell.onclick = () => { focusCol = c; setSolved(c + 1); };
+        grid.appendChild(cell);
+      }
+    }
+    $("gridNote").textContent =
+      "showing first " + rows + " of " + totalRows + " rows (" + cipher.length + " bytes), " + K + " per row";
+
+    if (focusCol !== null && focusCol < K) {
+      const kb = curKey[focusCol];
+      $("focusInfo").textContent =
+        "column " + focusCol + " = bytes at offsets " + focusCol + ", " + (focusCol + K) + ", " +
+        (focusCol + 2 * K) + ", ... solved with key byte 0x" + hex2(kb) + " ('" + printable(kb) + "')";
+    } else {
+      $("focusInfo").textContent = "click a column to inspect it";
+    }
+
+    const keyChars = Array.from(curKey.slice(0, solvedCount)).map(printable).join("");
+    $("keyOut").textContent = 'key so far (' + solvedCount + "/" + K + '): "' + keyChars + '"' +
+      (solvedCount === K ? "   [hex " + toHex(curKey) + "]" : "");
+    $("ptOut").textContent = bytesToText(curPlain).slice(0, 700);
+  }
+
+  function showBlocks() {
+    const K = selectedK;
+    $("selK").textContent = "K = " + K;
+    const a = cipher.subarray(0, K), b = cipher.subarray(K, 2 * K);
+    renderBits($("selBits"), a, b, "index");
+    $("selNorm").textContent = b.length ? (hamming(a, b) / K).toFixed(3) : "-";
+  }
+
+  
+  function stepDelay() { return 720 - (+$("speed").value) * 64; }
+  function stopAnim() { if (animTimer) { clearInterval(animTimer); animTimer = null; } }
+  function runAttack() {
+    stopAnim();
+    if (reducedMotion) { setSolved(selectedK); return; }
+    solvedCount = 0; focusCol = null; renderBreak();
+    animTimer = setInterval(() => {
+      if (solvedCount >= selectedK) { stopAnim(); return; }
+      solvedCount++; renderBreak();
+    }, stepDelay());
+  }
+
+  
+  ["pt", "key", "blocks", "ctb64"].forEach(id => $(id).addEventListener("input", recompute));
+  root.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", () => {
+    const paste = currentMode() === "paste";
+    $("encryptInputs").classList.toggle("hidden", paste);
+    $("pasteInputs").classList.toggle("hidden", !paste);
+    selectedK = 6; recompute();
+  }));
+  $("kInput").addEventListener("input", () => { const v = parseInt($("kInput").value, 10); if (v >= 2) setK(v); });
+  $("runBtn").addEventListener("click", runAttack);
+  $("prevBtn").addEventListener("click", () => { stopAnim(); setSolved(solvedCount - 1); });
+  $("nextBtn").addEventListener("click", () => { stopAnim(); setSolved(solvedCount + 1); });
+  $("dispBtn").addEventListener("click", () => { displayMode = displayMode === "hex" ? "chars" : "hex"; renderBreak(); });
+
+  
+  $("pt").value = DEFAULT_PT;
+  updateHamming();
+  recompute();
+})();
+</script>
+
+<h2 id="where-it-broke-down-and-the-guardrail-we-added">Where it broke down (and the guardrail we added)</h2>
+<p>It wasn&rsquo;t all smooth. During Challenge 5, Claude got enthusiastic and, while explaining a
+design choice, gave away most of the <em>next</em> challenge&rsquo;s attack — including a realization I&rsquo;d
+specifically wanted to reach myself. That&rsquo;s the failure mode of an eager tutor: too helpful.</p>
+<p>I flagged it, and we turned the correction into a durable rule (written into the project&rsquo;s
+config and the AI&rsquo;s memory): <strong>never mention or set up future challenges; let me discover the
+insights.</strong></p>
+<p>So, when using AI to <em>learn</em> rather than to <em>finish</em> — you have to actively defend the space where the struggle, and
+therefore the learning, happens. Worth knowing the tool will over-help unless you tell it not to.</p>
+<h2 id="knowing-what-you-dont-need-to-learn">Knowing what you <em>don&rsquo;t</em> need to learn</h2>
+<p>Challenges 7 and 8 introduce AES, and my first instinct was to go study the cipher&rsquo;s internals
+— S-boxes, key schedules, the works. The most useful early advice I got was essentially
+&ldquo;don&rsquo;t.&rdquo; For these challenges AES is a black box you hand to a library; the actual concept is
+<strong>ECB mode</strong> — the dead-simple rule of &ldquo;encrypt each 16-byte block independently.&rdquo; Calibrating
+<em>how deep to go</em> is its own skill, and a good tutor saves you from drowning in a rabbit hole
+that isn&rsquo;t the point.</p>
+<p>That black-box view was enough to solve both challenges. Challenge 8 — detect which ciphertext
+used ECB — has a lovely twist: you can do it <strong>without ever decrypting anything</strong>. Because ECB
+turns identical plaintext blocks into identical ciphertext blocks, you just look for a repeated
+16-byte block. (And a repeat essentially can&rsquo;t happen by chance: a block has $2^{128}$ possible
+values, so you&rsquo;d need on the order of $2^{64}$ blocks before a random collision.)</p>
+<p>The classic way to <em>see</em> why this matters is the &ldquo;ECB penguin&rdquo;: encrypt an image in ECB and
+its outline survives, because uniform regions are identical blocks that encrypt identically. A
+proper mode turns it to static. So of course we built one:</p>
+
+<details class="not-prose ecb-penguin artifact-embed" id="ecb-penguin-1786449978791222000" open>
+  <summary class="ae-summary">Interactive &middot; The ECB penguin</summary>
+  <div class="ae-content">
+  <h1>The ECB penguin</h1>
+  <p class="lede">ECB encrypts each block <em>independently and deterministically</em>:
+  the same input block always gives the same output block. So anything with repeated
+  or uniform regions &mdash; like a picture &mdash; keeps its structure through
+  "encryption". A proper mode makes every block come out different, so the same picture
+  becomes noise. Watch the difference.</p>
+
+  <div class="card">
+    <div class="ctrls">
+      <span>Block size: <input data-el="bs" class="slider" type="range" min="2" max="40" value="8">
+        <b data-el="bsVal">8</b> px</span>
+      <button class="btn" data-el="rerand">Re-randomize the proper-mode panel</button>
+    </div>
+    <div class="panels">
+      <div class="panel"><canvas data-el="orig" width="240" height="240"></canvas>
+        <div class="cap"><b>Original</b><br>the "plaintext" image</div></div>
+      <div class="panel"><canvas data-el="ecb" width="240" height="240"></canvas>
+        <div class="cap"><b>ECB</b><br>each block encrypted the same way &rarr; structure survives</div></div>
+      <div class="panel"><canvas data-el="rnd" width="240" height="240"></canvas>
+        <div class="cap"><b>A proper mode</b><br>every block randomized &rarr; noise</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    In the ECB panel the colours are scrambled, but the penguin is still there. Uniform
+    regions (all-white background, the black body) are made of <em>identical</em> blocks,
+    so ECB maps them to <em>identical</em> output blocks &mdash; the shape is preserved.
+    Shrink the block size and it sharpens; grow it and it gets chunkier, but the outline
+    never disappears. The proper-mode panel has no repeats, so it is pure static.
+  </div>
+
+  <h2>What this is really showing</h2>
+  <p>This is the Challenge 8 signal, made visible. "Repeated plaintext block &rarr; repeated
+  ciphertext block" is why you could detect ECB by searching for duplicate 16-byte blocks &mdash;
+  and it is exactly why an image betrays its outline here.</p>
+  <details class="reveal">
+    <summary>How the simulation works (it's honest about the mechanism)</summary>
+    <div>
+      <p>Each panel chops the image into blocks. For <b>ECB</b>, every block is coloured by a
+      hash of its own pixels &mdash; deterministic, so two identical blocks get the identical
+      colour (just like AES-ECB gives identical ciphertext for identical plaintext). For the
+      <b>proper mode</b>, each block gets a fresh random colour regardless of its contents, so
+      equal regions no longer look equal. That single difference &mdash; deterministic per-block
+      vs randomized &mdash; is the whole story.</p>
+    </div>
+  </details>
+
+  <p class="foot">Cryptopals &middot; Set 1 &middot; the classic ECB-mode visualization</p>
+  </div>
+</details>
+
+<style>
+  .ecb-penguin {
+    --cream:#f7f3e9; --surface:#fffdf7; --surface-border:#e4dcc7;
+    --forest:#1f3d2b; --pine:#2f5a3d; --emerald:#2e7d52; --moss:#6b7a5a;
+    --amber:#c8862a; --clay:#b1552f; --ink:#16261c; --muted:#6a7568;
+    --code-bg:#14251b; --code-text:#e8f0e4; --radius:16px;
+    --font-serif:Georgia,"Times New Roman",serif;
+    --font-sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  .dark .ecb-penguin { --cream:#10180f; --surface:#17231a; --surface-border:#2b3d2f; --forest:#cfe3d1;
+          --pine:#a9d0b3; --emerald:#6fd39a; --ink:#e6f0e6; --muted:#92a290;
+          --code-bg:#0b130d; --code-text:#dcead9; }
+  .ecb-penguin * { box-sizing:border-box; }
+  .ecb-penguin { color:var(--ink);
+         font-family:var(--font-serif); line-height:1.6; }
+  .ecb-penguin h1 { font-size:1.8rem; color:var(--forest); margin:0 0 .3rem; }
+  .ecb-penguin h2 { font-size:1.2rem; color:var(--pine); margin:2rem 0 .5rem;
+       border-bottom:2px solid var(--surface-border); padding-bottom:.3rem; }
+  .ecb-penguin p { margin:.5rem 0; } .ecb-penguin .lede { color:var(--muted); font-size:1.05rem; }
+  .ecb-penguin code { font-family:var(--font-mono); }
+  .ecb-penguin .card { background:var(--surface); border:1px solid var(--surface-border);
+          border-radius:var(--radius); padding:1.1rem 1.2rem; margin:1rem 0;
+          box-shadow:0 2px 10px rgba(31,61,43,.06); }
+  .ecb-penguin .panels { display:flex; flex-wrap:wrap; gap:1.1rem; justify-content:center; }
+  .ecb-penguin .panel { text-align:center; }
+  .ecb-penguin .panel canvas { width:220px; height:220px; border:1px solid var(--surface-border);
+                  border-radius:10px; background:#fff; image-rendering:pixelated; }
+  .ecb-penguin .panel .cap { font-family:var(--font-sans); font-size:.85rem; color:var(--moss);
+                margin-top:.4rem; }
+  .ecb-penguin .panel .cap b { color:var(--forest); }
+  .ecb-penguin .ctrls { display:flex; flex-wrap:wrap; gap:.6rem 1.3rem; align-items:center;
+           font-family:var(--font-sans); font-size:.9rem; margin-bottom:1rem; }
+  .ecb-penguin .btn { font-family:var(--font-sans); font-size:.85rem; cursor:pointer;
+         border:1px solid var(--surface-border); background:var(--cream); color:var(--pine);
+         border-radius:8px; padding:.3rem .7rem; }
+  .ecb-penguin .btn:hover { background:#e9f2e6; }
+  .ecb-penguin .slider { width:150px; vertical-align:middle; }
+  .ecb-penguin .callout { border-left:4px solid var(--emerald); background:rgba(46,125,82,.08);
+             padding:.7rem 1rem; border-radius:8px; margin:1rem 0; }
+  .ecb-penguin details.reveal { background:var(--surface); border:1px solid var(--surface-border);
+                   border-radius:var(--radius); padding:.2rem 1.1rem; margin:1rem 0; }
+  .ecb-penguin details.reveal > summary { cursor:pointer; font-family:var(--font-sans); font-weight:bold;
+                             color:var(--pine); padding:.7rem 0; }
+  .ecb-penguin .foot { color:var(--muted); font-size:.85rem; margin-top:2.5rem; text-align:center; }
+  .ecb-penguin.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
+  .ecb-penguin > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .ecb-penguin > .ae-summary::-webkit-details-marker { display:none; }
+  .ecb-penguin > .ae-summary::before { content:"\25B8"; }
+  .ecb-penguin[open] > .ae-summary::before { content:"\25BE"; }
+  .ecb-penguin[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .ecb-penguin > .ae-content { padding:1rem; }
+   
+  .dark .ecb-penguin { --surface: transparent; --cream: transparent; }
+   
+  .ecb-penguin { color: var(--text, #16261c); }
+  .ecb-penguin h1, .ecb-penguin h2 { color: var(--heading, #1f3d2b); }
+  .ecb-penguin > .ae-summary { color: var(--heading, #1f3d2b); }
+   
+  .ecb-penguin, .dark .ecb-penguin { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
+  .ecb-penguin { --muted: rgba(26, 40, 28, 0.72); }
+  .dark .ecb-penguin { --muted: rgba(212, 218, 227, 0.70); }
+</style>
+
+<script>
+(function () {
+  const root = document.getElementById("ecb-penguin-1786449978791222000");
+  const $ = name => root.querySelector('[data-el="' + name + '"]');
+  const W = 240, H = 240;
+  const orig = $("orig"), ecb = $("ecb"), rnd = $("rnd");
+  const octx = orig.getContext("2d"), ectx = ecb.getContext("2d"), rctx = rnd.getContext("2d");
+
+  function drawPenguin(ctx) {
+    ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H);
+    const ell = (cx, cy, rx, ry, color) => {
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = color; ctx.fill();
+    };
+    ell(120, 128, 74, 98, "#101418");   
+    ell(120, 150, 46, 72, "#ffffff");   
+    ell(101, 74, 15, 17, "#ffffff");    
+    ell(139, 74, 15, 17, "#ffffff");    
+    ell(103, 77, 6, 6, "#101418");      
+    ell(137, 77, 6, 6, "#101418");      
+    
+    ctx.beginPath(); ctx.moveTo(120, 84); ctx.lineTo(104, 100); ctx.lineTo(136, 100);
+    ctx.closePath(); ctx.fillStyle = "#e8912a"; ctx.fill();
+    
+    ell(101, 224, 24, 11, "#e8912a");
+    ell(139, 224, 24, 11, "#e8912a");
+  }
+
+  
+  function blockColor(data, x0, y0, bw, bh) {
+    let h = 2166136261 >>> 0;
+    for (let y = y0; y < y0 + bh; y++) {
+      for (let x = x0; x < x0 + bw; x++) {
+        const o = (y * W + x) * 4;
+        h = Math.imul(h ^ data[o], 16777619) >>> 0;
+        h = Math.imul(h ^ data[o + 1], 16777619) >>> 0;
+        h = Math.imul(h ^ data[o + 2], 16777619) >>> 0;
+      }
+    }
+    return "#" + (h & 0xffffff).toString(16).padStart(6, "0");
+  }
+  const randColor = () => "#" + Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, "0");
+
+  function render() {
+    const bs = +$("bs").value;
+    $("bsVal").textContent = bs;
+    drawPenguin(octx);
+    const data = octx.getImageData(0, 0, W, H).data;
+    ectx.clearRect(0, 0, W, H); rctx.clearRect(0, 0, W, H);
+    for (let y = 0; y < H; y += bs) {
+      for (let x = 0; x < W; x += bs) {
+        const bw = Math.min(bs, W - x), bh = Math.min(bs, H - y);
+        ectx.fillStyle = blockColor(data, x, y, bw, bh);
+        ectx.fillRect(x, y, bw, bh);
+        rctx.fillStyle = randColor();
+        rctx.fillRect(x, y, bw, bh);
+      }
+    }
+  }
+
+  $("bs").addEventListener("input", render);
+  $("rerand").addEventListener("click", render);
+  render();
+})();
+</script>
+
+<h2 id="what-i-learned-about-learning-with-ai">What I learned about learning with AI</h2>
+<p>Set 1 is eight challenges; the cryptography I picked up (XOR, frequency analysis, breaking
+Vigenère, ECB&rsquo;s fatal determinism) is genuinely satisfying. I&rsquo;ll continue with the other sets using this same approach.
+A few take-aways from the experiment so far:</p>
+<ul>
+<li><strong>Critique beats generation, for learning.</strong> The value wasn&rsquo;t in code being written for me;
+it was in a rigorous second pair of eyes on code <em>I</em> wrote — catching &ldquo;right answer, wrong
+reason,&rdquo; hardcoded examples, and subtle bugs, and explaining the <em>why</em> each time.</li>
+<li><strong>A second model is a cheap sanity check.</strong> Running the same solution past both Claude and
+Gemini surfaced different things: Gemini nudged my Base64 encoder tighter, and Claude then
+explained <em>why</em> it was tighter and caught a complexity bug neither of us had flagged. Two
+critics disagree in useful ways.</li>
+<li><strong>Interactive artifacts turn &ldquo;trust me&rdquo; into &ldquo;see for yourself.&rdquo;</strong> Three times, an idea I
+couldn&rsquo;t picture became obvious the moment I could play with it. Being able to spin those up
+on demand is, honestly, a new superpower for self-teaching.</li>
+<li><strong>You have to defend the struggle.</strong> The AI&rsquo;s default is to be maximally helpful, which for
+<em>learning</em> is a bug. Explicit rules — no spoilers, critique-only-after-attempt — are what
+kept it a tutor instead of a ghostwriter.</li>
+<li><strong>A journal makes it real.</strong> Writing down the wrong turns, in the moment, is what let me turn
+a pile of solved challenges into something I understand — and into this post.</li>
+</ul>
+<p>I came out of Set 1 actually understanding XOR, frequency analysis, and why ECB leaks, and I had fun getting there. Set 2 is next; the <a href="https://github.com/cmplx-xyttmt/cryptopals">code and the full journal are on GitHub</a>, wrong turns and all.</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/cryptography"
+      >cryptography</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/learning"
+      >learning</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/ai"
+      >ai</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/cryptopals"
+      >cryptopals</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="http://localhost:1313/tags/python"
+      >python</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/5_design_demo/"
+      ><span>Design System Demo (draft)</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    
+<footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2026
+    <a class="link" href="http://localhost:1313/">cmplx-xyttmt</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+
+
+
+  </body>
+</html>

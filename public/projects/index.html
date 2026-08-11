@@ -63,9 +63,10 @@
   
   
   
-  <meta name="description" content="Projects Below is a list of (open source) projects I have worked on.
-Sunbird-AI translate Sunbird AI translate is a translation platform for Ugandan languages to and from English. I worked on this project while working at Sunbird AI. Notable contributions I made to the project were:
-Deployed the AI models to the cloud (AWS and later on GCP). Lead developer of the Sunbird-AI-Translate API. Worked on the backend and deployment aspects." />
+  <meta name="description" content="Projects A mix of things I&rsquo;ve built: some for work, some for people I care about, and some just to learn.
+Personal projects Acu2Brain (in development) A personal knowledge and self-improvement tool built around one loop: capture → resurface → train → engage — somewhere between a &ldquo;second brain&rdquo; and a spaced-repetition trainer, with semantic search over the things you capture. Currently building it out; deploying soon.
+Technologies used
+Django &#43; DRF (backend) Next." />
   <meta name="author" content="Hello, I&#39;m Isaac Owomugisha" />
   
 
@@ -312,8 +313,53 @@ Deployed the AI models to the cloud (AWS and later on GCP). Lead developer of th
   </header>
 
   <section><h1 id="projects">Projects</h1>
-<p>Below is a list of (open source) projects I have worked on.</p>
-<h2 id="sunbird-ai-translatehttpsgithubcomsunbirdaisunbird-ai-api"><a href="https://github.com/SunbirdAI/sunbird-ai-api">Sunbird-AI translate</a></h2>
+<p>A mix of things I&rsquo;ve built: some for work, some for people I care about, and some just to learn.</p>
+<h2 id="personal-projects">Personal projects</h2>
+<h3 id="acu2brainhttpsgithubcomcmplx-xyttmtacu-2brain-in-development"><a href="https://github.com/cmplx-xyttmt/acu-2brain">Acu2Brain</a> <em>(in development)</em></h3>
+<p>A personal knowledge and self-improvement tool built around one loop: <strong>capture → resurface →
+train → engage</strong> — somewhere between a &ldquo;second brain&rdquo; and a spaced-repetition trainer, with
+semantic search over the things you capture. Currently building it out; deploying soon.</p>
+<p><strong>Technologies used</strong></p>
+<ul>
+<li>Django + DRF (backend)</li>
+<li>Next.js + Tailwind (web)</li>
+<li>PostgreSQL with pgvector (embeddings / semantic search)</li>
+<li>Redis</li>
+</ul>
+<h3 id="acugemmahttpsgithubcomcmplx-xyttmtacu-gemma"><a href="https://github.com/cmplx-xyttmt/acu-gemma">AcuGemma</a></h3>
+<p>An offline-first, on-device AI tutoring app aimed at primary-school learners in rural Uganda,
+built for the Google Gemma 3n hackathon. I wrote about the motivation and design in
+<a href="/posts/3_acugemma/">AcuGemma Version 0.1</a>.</p>
+<p><strong>Technologies used</strong></p>
+<ul>
+<li>Android (Kotlin)</li>
+<li>Gemma 3n (on-device LLM)</li>
+<li>MediaPipe</li>
+</ul>
+<h3 id="uganda-coffee-traceabilityhttpsgithubcomcmplx-xyttmtuganda-coffee-traceability"><a href="https://github.com/cmplx-xyttmt/uganda-coffee-traceability">Uganda Coffee Traceability</a></h3>
+<p>A prototype for EUDR (EU Deforestation Regulation) coffee traceability in Uganda: mapping farm
+plots and helping prove that coffee wasn&rsquo;t grown on land deforested after 2020. Write-up:
+<a href="/posts/4_coffee_traceability/">Exploring EUDR Coffee Traceability for Uganda</a>.</p>
+<p><strong>Technologies used</strong></p>
+<ul>
+<li>Django + GraphQL (backend)</li>
+<li>PostGIS / GeoJSON (spatial data)</li>
+<li>React + Leaflet (map frontend)</li>
+</ul>
+<h2 id="learning-by-building">Learning by building</h2>
+<h3 id="cryptopalshttpsgithubcomcmplx-xyttmtcryptopals"><a href="https://github.com/cmplx-xyttmt/cryptopals">Cryptopals</a></h3>
+<p>Working through the <a href="https://cryptopals.com/">Cryptopals</a> cryptography challenges to learn crypto
+from the ground up: using an AI as a learning guide (critiquing my code rather than writing it),
+and building small interactive visualizations for the trickier ideas. The full story is in
+<a href="/posts/6_cryptopals_ai_tutor/">Learning Cryptography with an AI Guide</a> — and it&rsquo;s
+an ongoing series.</p>
+<p><strong>Technologies used</strong></p>
+<ul>
+<li>Python (+ pytest)</li>
+<li>Vanilla HTML / JS for the interactive artifacts</li>
+</ul>
+<h2 id="at-sunbird-ai">At Sunbird AI</h2>
+<h3 id="sunbird-ai-translatehttpsgithubcomsunbirdaisunbird-ai-api"><a href="https://github.com/SunbirdAI/sunbird-ai-api">Sunbird-AI translate</a></h3>
 <p>Sunbird AI translate is a translation platform for Ugandan languages to and from English. I worked on this project while working at Sunbird AI.
 Notable contributions I made to the project were:</p>
 <ul>
@@ -328,7 +374,7 @@ Notable contributions I made to the project were:</p>
 <li>GCP Cloud Run for app deployment.</li>
 <li>React for the translation portal frontend</li>
 </ul>
-<h2 id="twitter-data-analysis-for-ugandan-covid-19-discourse-on-twitterhttpsgithubcomsunbirdaicovid19-uganda-twitter-data-analysis"><a href="https://github.com/SunbirdAI/covid19-uganda-twitter-data-analysis">Twitter Data Analysis for Ugandan Covid-19 Discourse on Twitter</a></h2>
+<h3 id="twitter-data-analysis-for-ugandan-covid-19-discourse-on-twitterhttpsgithubcomsunbirdaicovid19-uganda-twitter-data-analysis"><a href="https://github.com/SunbirdAI/covid19-uganda-twitter-data-analysis">Twitter Data Analysis for Ugandan Covid-19 Discourse on Twitter</a></h3>
 <p>This project involved collecting tweets from Uganda about Covid-19 around 2020/2021. This data would then be used to extract sentiment about government SOPs put in place, track misinformation and help the Ministry of Health have more targetted messaging about the pandemic.
 My contributions to this project were:</p>
 <ul>
@@ -342,7 +388,7 @@ My contributions to this project were:</p>
 <li>Seaborn for data visualization</li>
 <li>Streamlit (for a basic interface)</li>
 </ul>
-<h2 id="noise-monitoringhttpsgithubcomsunbirdainoise-sensors-monitoring"><a href="https://github.com/SunbirdAI/noise-sensors-monitoring">Noise Monitoring</a></h2>
+<h3 id="noise-monitoringhttpsgithubcomsunbirdainoise-sensors-monitoring"><a href="https://github.com/SunbirdAI/noise-sensors-monitoring">Noise Monitoring</a></h3>
 <p>This project aims to monitor the noise levels in Ugandan cities. We deployed noise sensors in some location and measure the decibel levels, and create reports based on environmental regulations.
 My contributions to this project were:</p>
 <ul>

@@ -6,8 +6,15 @@
     <description>Recent content on cmplx-xyttmt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2026 09:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Cryptography with an AI Guide: Cryptopals Set 1</title>
+      <link>http://localhost:1313/posts/6_cryptopals_ai_tutor/</link>
+      <pubDate>Mon, 10 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/6_cryptopals_ai_tutor/</guid>
+      <description>Over the past few months, I&amp;rsquo;ve been building and shipping features using AI agents and noticed that my ability to &amp;ldquo;hand-write&amp;rdquo; code has dramatically declined. While using agents to code is quite productive, it risks making you lazy and complacent. One of my favorite parts of programming and building software in general is solving the little or big puzzles that come up and going through the process of thinking through a problem and implementing the solution in some detail.</description>
+    </item>
     <item>
       <title>Design System Demo (draft)</title>
       <link>http://localhost:1313/posts/5_design_demo/</link>
@@ -55,7 +62,7 @@
       <link>http://localhost:1313/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/projects/</guid>
-      <description>Projects Below is a list of (open source) projects I have worked on.&#xA;Sunbird-AI translate Sunbird AI translate is a translation platform for Ugandan languages to and from English. I worked on this project while working at Sunbird AI. Notable contributions I made to the project were:&#xA;Deployed the AI models to the cloud (AWS and later on GCP). Lead developer of the Sunbird-AI-Translate API. Worked on the backend and deployment aspects.</description>
+      <description>Projects A mix of things I&amp;rsquo;ve built: some for work, some for people I care about, and some just to learn.&#xA;Personal projects Acu2Brain (in development) A personal knowledge and self-improvement tool built around one loop: capture → resurface → train → engage — somewhere between a &amp;ldquo;second brain&amp;rdquo; and a spaced-repetition trainer, with semantic search over the things you capture. Currently building it out; deploying soon.&#xA;Technologies used&#xA;Django + DRF (backend) Next.</description>
     </item>
     <item>
       <title></title>

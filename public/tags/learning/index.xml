@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ai on cmplx-xyttmt</title>
-    <link>http://localhost:1313/tags/ai/</link>
-    <description>Recent content in Ai on cmplx-xyttmt</description>
+    <title>Learning on cmplx-xyttmt</title>
+    <link>http://localhost:1313/tags/learning/</link>
+    <description>Recent content in Learning on cmplx-xyttmt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 10 Aug 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/learning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning Cryptography with an AI Guide: Cryptopals Set 1</title>
       <link>http://localhost:1313/posts/6_cryptopals_ai_tutor/</link>
       <pubDate>Mon, 10 Aug 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/6_cryptopals_ai_tutor/</guid>
       <description>Over the past few months, I&amp;rsquo;ve been building and shipping features using AI agents and noticed that my ability to &amp;ldquo;hand-write&amp;rdquo; code has dramatically declined. While using agents to code is quite productive, it risks making you lazy and complacent. One of my favorite parts of programming and building software in general is solving the little or big puzzles that come up and going through the process of thinking through a problem and implementing the solution in some detail.</description>
-    </item>
-    <item>
-      <title>AcuGemma Version 0.1</title>
-      <link>http://localhost:1313/posts/3_acugemma/</link>
-      <pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/3_acugemma/</guid>
-      <description>I recently took part in the Google Gemma 3n hackathon which inspired me to explore the exciting possibilities of on-device machine learning. I built an educational application targeting primary school students after reading a Daily monitor article that highlighted the challenges faced by teachers and students in Eastern Uganda under the Universal Primary Education program. This article&amp;rsquo;s publication coincided with the start of the competition, creating a powerful sense of purpose.</description>
     </item>
   </channel>
 </rss>

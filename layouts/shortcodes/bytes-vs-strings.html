@@ -1,0 +1,318 @@
+{{ $id := printf "bytes-vs-strings-%d" now.UnixNano }}
+<details class="not-prose bytes-vs-strings artifact-embed" id="{{ $id }}" open>
+  <summary class="ae-summary">Interactive &middot; Bytes vs strings</summary>
+  <div class="ae-content">
+
+  <h1>Bytes vs Strings</h1>
+  <p class="lede">A string is <em>text for humans</em>. Bytes are <em>numbers a
+  computer does math on</em>. Cryptography lives entirely in the bytes world.
+  Type below and watch text cross the border into bytes, hex, and base64.</p>
+
+  <!-- ─────────────  LIVE CONVERTER  ───────────── -->
+  <div class="card">
+    <label>Your text (a Python <code>str</code>)</label>
+    <input data-el="inp" type="text" value="Hi" autocomplete="off" spellcheck="false">
+    <div class="examples" data-el="examples"></div>
+
+    <div class="rowlabel">Stats</div>
+    <div>
+      <span class="stat">characters (<code>len(str)</code>): <b data-el="charlen">–</b></span>
+      <span class="stat">bytes (<code>len(bytes)</code>): <b data-el="bytelen">–</b></span>
+    </div>
+
+    <div class="rowlabel"><code>text.encode("utf-8")</code> — Python's bytes repr</div>
+    <div class="val" data-el="repr">–</div>
+
+    <div class="rowlabel"><code>list(text.encode())</code> — bytes really are just numbers 0–255</div>
+    <div class="val" data-el="ints">–</div>
+
+    <div class="rowlabel"><code>.hex()</code> — same bytes, written in hex notation</div>
+    <div class="val" data-el="hex">–</div>
+
+    <div class="rowlabel"><code>base64.b64encode(...)</code> — same bytes again, base64 notation</div>
+    <div class="val" data-el="b64">–</div>
+  </div>
+
+  <div class="callout">
+    <strong>The key idea:</strong> the byte list, the hex, and the base64 above
+    are all <em>the exact same bytes</em> — three costumes for one set of numbers.
+    Hex isn't "what bytes are"; it's just a convenient way to write them down.
+  </div>
+
+  <!-- ─────────────  PER-CHARACTER BREAKDOWN  ───────────── -->
+  <h2>Where does each character go?</h2>
+  <p>A <code>str</code> is a sequence of <em>characters</em> (code points). Encoding
+  turns each character into one <em>or more</em> bytes. For plain English it's 1:1,
+  so bytes and text feel interchangeable — but emojis and accents break that.</p>
+  <div class="card">
+    <table>
+      <thead><tr><th>Char</th><th>Code point</th><th>UTF-8 bytes (hex)</th><th># bytes</th></tr></thead>
+      <tbody data-el="perchar"></tbody>
+    </table>
+  </div>
+
+  <!-- ─────────────  WHAT YOU CAN DO WITH BYTES  ───────────── -->
+  <h2>Things you can do with bytes (but not strings)</h2>
+  <p>Because bytes are numbers, you can do arithmetic and bit-operations on them.
+  This is <em>why</em> crypto uses bytes — encryption is math. Live, using the
+  first two bytes of your input above:</p>
+  <div class="card">
+    <div class="two">
+      <div>
+        <div class="rowlabel">Indexing gives an <code>int</code></div>
+        <div class="val" data-el="op-index">–</div>
+      </div>
+      <div>
+        <div class="rowlabel">XOR two bytes (Challenge 2!)</div>
+        <div class="val" data-el="op-xor">–</div>
+      </div>
+    </div>
+    <div class="rowlabel">In Python, the same on a <code>str</code> fails:</div>
+    <div class="val"><span class="pyc"># str indexing gives a 1-char str, not a number</span>
+"Hi"[0]        <span class="ok">→ 'H'</span>   <span class="pyc">(a str)</span>
+b"Hi"[0]       <span class="ok">→ 72</span>    <span class="pyc">(an int!)</span>
+
+<span class="pyc"># you cannot XOR text</span>
+"Hi"[0] ^ 42   <span class="no">→ TypeError: unsupported operand type(s) for ^: 'str' and 'int'</span>
+b"Hi"[0] ^ 42  <span class="ok">→ 98</span></div>
+  </div>
+
+  <!-- ─────────────  WHAT STRINGS TRACK  ───────────── -->
+  <h2>Things a string knows that raw bytes don't</h2>
+  <p>A <code>str</code> understands <em>characters</em> as whole units, no matter
+  how many bytes they take. Raw bytes are just a flat pile of numbers — they've
+  forgotten where one character ends and the next begins.</p>
+  <div class="card">
+    <div class="val"><span class="pyc"># One emoji is ONE character but FOUR bytes</span>
+s = "🔥"
+len(s)             <span class="ok">→ 1</span>     <span class="pyc"># str counts characters</span>
+len(s.encode())    <span class="no">→ 4</span>     <span class="pyc"># bytes counts bytes</span>
+list(s.encode())   <span class="pyc">→ [240, 159, 148, 165]</span>
+
+<span class="pyc"># Slicing bytes can rip a character in half — producing garbage</span>
+s.encode()[:2]                 <span class="pyc">→ b'\xf0\x9f'</span>
+s.encode()[:2].decode()        <span class="no">→ UnicodeDecodeError!</span>
+
+<span class="pyc"># Text operations (case, etc.) only make sense on str</span>
+"caf\u00e9".upper()     <span class="ok">→ 'CAFÉ'</span>
+b"caf\xc3\xa9".upper()  <span class="no">→ b'CAF\xc3\xa9'  (bytes .upper() only touches ASCII)</span></div>
+  </div>
+
+  <div class="callout callout--emerald">
+    <strong>The one sentence to keep:</strong> bytes are numbers you do math on;
+    <code>str</code> is text for humans; <code>.encode()</code>/<code>.decode()</code>
+    convert between them via an encoding (default <strong>UTF-8</strong>), and you
+    only convert at the <em>edges</em> of your program.
+  </div>
+
+  <p class="foot">Cryptopals · Challenge 1 companion · type anything above to explore</p>
+
+  </div>
+</details>
+
+<style>
+  /* Loosely mirrors the blog's "Verdant Glass" tokens so this ports easily. */
+  .bytes-vs-strings {
+    --cream: #f7f3e9;
+    --surface: #fffdf7;
+    --surface-border: #e4dcc7;
+    --forest: #1f3d2b;
+    --pine: #2f5a3d;
+    --emerald: #2e7d52;
+    --moss: #6b7a5a;
+    --amber: #c8862a;
+    --clay: #b1552f;
+    --ink: #16261c;
+    --muted: #6a7568;
+    --code-bg: #14251b;
+    --code-text: #e8f0e4;
+    --radius: 16px;
+    --font-serif: Georgia, "Times New Roman", serif;
+    --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  .dark .bytes-vs-strings {
+    --cream: #10180f; --surface: #17231a; --surface-border: #2b3d2f;
+    --forest: #cfe3d1; --pine: #a9d0b3; --emerald: #6fd39a; --ink: #e6f0e6;
+    --muted: #92a290; --code-bg: #0b130d; --code-text: #dcead9;
+  }
+  .bytes-vs-strings * { box-sizing: border-box; }
+  .bytes-vs-strings {
+    color: var(--ink);
+    font-family: var(--font-serif); line-height: 1.6;
+  }
+  .bytes-vs-strings.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
+  .bytes-vs-strings > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .bytes-vs-strings > .ae-summary::-webkit-details-marker { display:none; }
+  .bytes-vs-strings > .ae-summary::before { content:"\25B8"; }
+  .bytes-vs-strings[open] > .ae-summary::before { content:"\25BE"; }
+  .bytes-vs-strings[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .bytes-vs-strings > .ae-content { padding:1rem; }
+  .bytes-vs-strings h1 { font-size: 1.9rem; color: var(--forest); margin: 0 0 .3rem; }
+  .bytes-vs-strings h2 { font-size: 1.3rem; color: var(--pine); margin: 2.4rem 0 .6rem;
+       border-bottom: 2px solid var(--surface-border); padding-bottom: .3rem; }
+  .bytes-vs-strings p { margin: .6rem 0; }
+  .bytes-vs-strings .lede { color: var(--muted); font-size: 1.05rem; }
+  .bytes-vs-strings code, .bytes-vs-strings .mono { font-family: var(--font-mono); }
+  .bytes-vs-strings .card {
+    background: var(--surface); border: 1px solid var(--surface-border);
+    border-radius: var(--radius); padding: 1.1rem 1.2rem; margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(31,61,43,.06);
+  }
+  .bytes-vs-strings label { font-family: var(--font-sans); font-size: .8rem; text-transform: uppercase;
+          letter-spacing: .05em; color: var(--moss); display: block; margin-bottom: .35rem; }
+  .bytes-vs-strings input[type=text] {
+    width: 100%; font-family: var(--font-mono); font-size: 1.1rem;
+    padding: .6rem .7rem; border: 1px solid var(--surface-border);
+    border-radius: 10px; background: var(--cream); color: var(--ink);
+  }
+  .bytes-vs-strings input[type=text]:focus { outline: 2px solid var(--emerald); border-color: var(--emerald); }
+  .bytes-vs-strings .examples { display: flex; flex-wrap: wrap; gap: .4rem; margin: .7rem 0 0; }
+  .bytes-vs-strings .chip {
+    font-family: var(--font-mono); font-size: .85rem; cursor: pointer;
+    background: var(--cream); border: 1px solid var(--surface-border);
+    color: var(--pine); padding: .3rem .6rem; border-radius: 999px;
+    transition: background .15s, transform .1s;
+  }
+  .bytes-vs-strings .chip:hover { background: #e9f2e6; }
+  .bytes-vs-strings .chip:active { transform: translateY(1px); }
+  .bytes-vs-strings .chip small { color: var(--muted); }
+  .bytes-vs-strings .rowlabel { font-family: var(--font-sans); font-size: .8rem; color: var(--moss);
+              text-transform: uppercase; letter-spacing: .04em; margin-top: .9rem; }
+  .bytes-vs-strings .val { font-family: var(--font-mono); font-size: .95rem; background: var(--code-bg);
+         color: var(--code-text); padding: .55rem .7rem; border-radius: 8px;
+         overflow-x: auto; white-space: pre; }
+  .bytes-vs-strings .stat { display: inline-block; margin-right: 1.2rem; font-family: var(--font-sans); }
+  .bytes-vs-strings .stat b { color: var(--emerald); font-size: 1.15rem; }
+  .bytes-vs-strings table { width: 100%; border-collapse: collapse; margin-top: .6rem; font-size: .9rem; }
+  .bytes-vs-strings th, .bytes-vs-strings td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--surface-border); }
+  .bytes-vs-strings th { font-family: var(--font-sans); font-size: .75rem; text-transform: uppercase;
+       color: var(--moss); letter-spacing: .04em; }
+  .bytes-vs-strings td.mono { font-family: var(--font-mono); }
+  .bytes-vs-strings .char-cell { font-size: 1.2rem; }
+  .bytes-vs-strings .bytecount-1 { color: var(--emerald); }
+  .bytes-vs-strings .bytecount-multi { color: var(--clay); font-weight: bold; }
+  .bytes-vs-strings .callout { border-left: 4px solid var(--amber); background: rgba(200,134,42,.08);
+             padding: .7rem 1rem; border-radius: 8px; margin: 1rem 0; }
+  .bytes-vs-strings .callout--emerald { border-left-color: var(--emerald); background: rgba(46,125,82,.08); }
+  .bytes-vs-strings .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 560px) { .bytes-vs-strings .two { grid-template-columns: 1fr; } }
+  .bytes-vs-strings .ok { color: var(--emerald); } .bytes-vs-strings .no { color: var(--clay); }
+  .bytes-vs-strings .py { color: #9ecb8a; } .bytes-vs-strings .pyc { color: #7d8a76; font-style: italic; } /* comment */
+  .bytes-vs-strings .foot { color: var(--muted); font-size: .85rem; margin-top: 2.5rem; text-align: center; }
+  /* dark mode: drop the green-tinted surfaces so the artifact reads transparent */
+  .dark .bytes-vs-strings { --surface: transparent; --cream: transparent; }
+  /* text: match the article's reading + heading colours (accents kept) */
+  .bytes-vs-strings { color: var(--text, #16261c); }
+  .bytes-vs-strings h1, .bytes-vs-strings h2 { color: var(--heading, #1f3d2b); }
+  .bytes-vs-strings > .ae-summary { color: var(--heading, #1f3d2b); }
+  /* reading text -> article tokens (functional accents kept) */
+  .bytes-vs-strings, .dark .bytes-vs-strings { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
+  .bytes-vs-strings { --muted: rgba(26, 40, 28, 0.72); }
+  .dark .bytes-vs-strings { --muted: rgba(212, 218, 227, 0.70); }
+</style>
+
+<script>
+(function () {
+  const root = document.getElementById("{{ $id }}");
+  const $ = name => root.querySelector('[data-el="' + name + '"]');
+  const enc = new TextEncoder();               // always UTF-8
+  const inp = $("inp");
+
+  const EXAMPLES = [
+    { t: "Hi",            note: "1 char = 1 byte" },
+    { t: "hello world",   note: "plain ASCII" },
+    { t: "caf\u00e9",          note: "accent -> 2 bytes" },
+    { t: "\u{1f525}",             note: "emoji -> 4 bytes" },
+    { t: "H\u00e9llo \u{1f30d}",       note: "mixed" },
+    { t: "I'm killing your brain", note: "Challenge 1 text" },
+  ];
+
+  // build example chips
+  const exWrap = $("examples");
+  EXAMPLES.forEach(ex => {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.innerHTML = `${escapeHtml(ex.t)} <small>&middot; ${ex.note}</small>`;
+    b.onclick = () => { inp.value = ex.t; render(); inp.focus(); };
+    exWrap.appendChild(b);
+  });
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function toHex(bytes) {
+    return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  function bytesToBase64(bytes) {
+    let bin = "";
+    for (const b of bytes) bin += String.fromCharCode(b);
+    return btoa(bin);
+  }
+  // mimic Python's bytes repr: printable ASCII as-is, else \xNN / escapes
+  function pyRepr(bytes) {
+    let out = "b'";
+    for (const b of bytes) {
+      if (b === 0x5c) out += "\\\\";
+      else if (b === 0x27) out += "\\'";
+      else if (b === 0x09) out += "\\t";
+      else if (b === 0x0a) out += "\\n";
+      else if (b === 0x0d) out += "\\r";
+      else if (b >= 0x20 && b <= 0x7e) out += String.fromCharCode(b);
+      else out += "\\x" + b.toString(16).padStart(2, "0");
+    }
+    return out + "'";
+  }
+
+  function render() {
+    const text = inp.value;
+    const bytes = enc.encode(text);
+    const chars = Array.from(text);   // splits by code point (emoji-safe)
+
+    $("charlen").textContent = chars.length;
+    $("bytelen").textContent = bytes.length;
+    $("repr").textContent = pyRepr(bytes);
+    $("ints").textContent =
+      "[" + Array.from(bytes).join(", ") + "]";
+    $("hex").textContent = toHex(bytes) || "(empty)";
+    $("b64").textContent = bytesToBase64(bytes) || "(empty)";
+
+    // per-character table
+    const tbody = $("perchar");
+    tbody.innerHTML = "";
+    chars.forEach(ch => {
+      const cb = enc.encode(ch);
+      const cp = ch.codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
+      const tr = document.createElement("tr");
+      const multi = cb.length > 1;
+      tr.innerHTML =
+        `<td class="char-cell">${escapeHtml(ch)}</td>` +
+        `<td class="mono">U+${cp}</td>` +
+        `<td class="mono">${toHex(cb).replace(/../g, "$& ").trim()}</td>` +
+        `<td class="mono ${multi ? "bytecount-multi" : "bytecount-1"}">${cb.length}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    // byte-operation demos on the first two bytes
+    const idxEl = $("op-index");
+    const xorEl = $("op-xor");
+    if (bytes.length >= 1) {
+      idxEl.textContent = `data = ${pyRepr(bytes)}\ndata[0]  ->  ${bytes[0]}   (an int)`;
+    } else {
+      idxEl.textContent = "(type something above)";
+    }
+    if (bytes.length >= 2) {
+      const x = bytes[0] ^ bytes[1];
+      xorEl.textContent =
+        `${bytes[0]} ^ ${bytes[1]}  ->  ${x}\n` +
+        `bin: ${bytes[0].toString(2).padStart(8,"0")} ^ ${bytes[1].toString(2).padStart(8,"0")}\n` +
+        `   =                    ${x.toString(2).padStart(8,"0")}`;
+    } else {
+      xorEl.textContent = "(need at least 2 bytes)";
+    }
+  }
+
+  inp.addEventListener("input", render);
+  render();
+})();
+</script>

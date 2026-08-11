@@ -6,8 +6,15 @@
     <description>Recent content in Posts on cmplx-xyttmt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2026 09:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Cryptography with an AI Guide: Cryptopals Set 1</title>
+      <link>http://localhost:1313/posts/6_cryptopals_ai_tutor/</link>
+      <pubDate>Mon, 10 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/6_cryptopals_ai_tutor/</guid>
+      <description>Over the past few months, I&amp;rsquo;ve been building and shipping features using AI agents and noticed that my ability to &amp;ldquo;hand-write&amp;rdquo; code has dramatically declined. While using agents to code is quite productive, it risks making you lazy and complacent. One of my favorite parts of programming and building software in general is solving the little or big puzzles that come up and going through the process of thinking through a problem and implementing the solution in some detail.</description>
+    </item>
     <item>
       <title>Design System Demo (draft)</title>
       <link>http://localhost:1313/posts/5_design_demo/</link>

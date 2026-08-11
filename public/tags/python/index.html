@@ -54,7 +54,7 @@
   />
 
   
-  <title>Design System Demo (draft) - cmplx-xyttmt</title>
+  <title>Python - cmplx-xyttmt</title>
 
   
   <meta name="theme-color" />
@@ -63,11 +63,11 @@
   
   
   
-  <meta name="description" content="This is a throwaway page to preview the redesign. Delete it before publishing.
-Reading type The body now sets in a warm serif for an editorial feel, on a soft cream gradient. Headings are forest green. Here&rsquo;s some inline code, a link, and a blockquote:
-Understand the user&rsquo;s problems, goals, and perspective deeply.
-A fenced code block:
-def fib(n: int) -&gt; int: a, b = 0, 1 for _ in range(n): a, b = b, a &#43; b return a And some math, since math = true: $; e^{i\pi} &#43; 1 = 0$." />
+  
+  <meta
+    name="description"
+    content="A personal blog"
+  />
   <meta name="author" content="Hello, I&#39;m Isaac Owomugisha" />
   
 
@@ -105,12 +105,6 @@ def fib(n: int) -&gt; int: a, b = 0, 1 for _ in range(n): a, b = b, a &#43; b re
   
 
   
-  
-  <script
-    defer
-    src="http://localhost:1313/highlight.min.js"
-    onload="hljs.initHighlightingOnLoad();"
-  ></script>
   
 
   
@@ -306,172 +300,55 @@ def fib(n: int) -&gt; int: a, b = 0, 1 for _ in range(n): a, b = b, a &#43; b re
     >
       
 
-<article>
-  <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">Design System Demo (draft)</h1>
 
+
+<h1 class="mb-16">#Python</h1>
+
+
+
+
+
+
+
+ 
+
+
+
+
+<section class="relative my-6 first-of-type:mt-0 last-of-type:mb-0">
+  <div class="post-card">
     
-    <div class="text-sm antialiased opacity-60">
+    
+    <a href="http://localhost:1313/posts/6_cryptopals_ai_tutor/" class="post-card__link no-underline">
+      <h2 class="post-card__title !my-0 pb-1 font-bold !leading-tight">Learning Cryptography with an AI Guide: Cryptopals Set 1</h2>
+      <time class="post-card__meta"
+        >Aug 10, 2026</time
+      >
       
-      <time>Jul 23, 2026</time>
+      <div class="post-card__desc">My experience working through the first set of Cryptopals to learn cryptography, with Claude Code as an interactive learning guide — critiquing my code and helping me build visualizations for the ideas that are easier seen than explained.</div>
       
+    </a>
+    
+    <div class="post-card__tags">
       
+      <a href="/tags/cryptography" class="tag no-underline">#cryptography</a>
       
+      <a href="/tags/learning" class="tag no-underline">#learning</a>
+      
+      <a href="/tags/ai" class="tag no-underline">#ai</a>
+      
+      <a href="/tags/cryptopals" class="tag no-underline">#cryptopals</a>
+      
+      <a href="/tags/python" class="tag no-underline">#python</a>
       
     </div>
     
-  </header>
-
-  <section><p>This is a throwaway page to preview the redesign. Delete it before publishing.</p>
-<h2 id="reading-type">Reading type</h2>
-<p>The body now sets in a warm serif for an editorial feel, on a soft cream
-gradient. Headings are forest green. Here&rsquo;s some <code>inline code</code>, a <a href="/">link</a>,
-and a blockquote:</p>
-<blockquote>
-<p>Understand the user&rsquo;s problems, goals, and perspective deeply.</p>
-</blockquote>
-<p>A fenced code block:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fib</span>(n: int) <span style="color:#f92672">-&gt;</span> int:
-</span></span><span style="display:flex;"><span>    a, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(n):
-</span></span><span style="display:flex;"><span>        a, b <span style="color:#f92672">=</span> b, a <span style="color:#f92672">+</span> b
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a
-</span></span></code></pre></div><p>And some math, since <code>math = true</code>: $; e^{i\pi} + 1 = 0$.</p>
-<h2 id="interactive-shortcode">Interactive shortcode</h2>
-<p>Below the fold is a collapsible solution card — the signature &ldquo;gel&rdquo; surface
-with a gradient button. Click it:</p>
-
-
-
-
-
-<div class="not-prose gel-card" id="solution-1786449978772780000">
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">
-    <span class="gel-card__title" style="margin:0;">Closed form</span>
-    <button type="button" class="gel-btn pill" data-solution-toggle aria-expanded="false">
-      Reveal solution
-    </button>
   </div>
-  <div class="solution-body prose" hidden style="margin-top:1rem;">
-    <p>The $n$-th Fibonacci number has a closed form (Binet&rsquo;s formula):</p>
-<p>$$F_n = \frac{\varphi^n - \psi^n}{\sqrt{5}}, \quad \varphi = \frac{1+\sqrt5}{2}.$$</p>
-<p>So you <em>can</em> skip the loop — at the cost of floating-point precision.</p>
-
-  </div>
-</div>
-
-<script>
-  (function () {
-    var card = document.getElementById("solution-1786449978772780000");
-    if (!card) return;
-    var btn = card.querySelector("[data-solution-toggle]");
-    var body = card.querySelector(".solution-body");
-    
-    var labelShow = "Reveal solution";
-    btn.addEventListener("click", function () {
-      var open = body.hasAttribute("hidden");
-      if (open) {
-        body.removeAttribute("hidden");
-        btn.setAttribute("aria-expanded", "true");
-        btn.textContent = "Hide";
-      } else {
-        body.setAttribute("hidden", "");
-        btn.setAttribute("aria-expanded", "false");
-        btn.textContent = labelShow;
-      }
-    });
-  })();
-</script>
-
-<h2 id="callouts">Callouts</h2>
-<p>Callouts are shortcodes (raw HTML in markdown is stripped by Hugo), with a
-meaning-colored accent bar:</p>
-
-
-
-
-
-
-<div class="callout">
-  <strong>Note</strong>
-  The default callout uses the emerald accent.
-</div>
-
-
-
-
-
-
-
-<div class="callout callout--amber">
-  <strong>Heads up</strong>
-  The amber variant signals caution.
-</div>
-
-<h2 id="gel-card">Gel card</h2>
-
-
-
-<div class="gel-card">
-  <p class="gel-card__title">Grouped content</p>
-  A frosted glass container for grouping notes or wrapping a small demo.
-</div>
-
 </section>
 
-  
-  
-  <footer class="mt-12 flex flex-wrap">
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:1313/tags/meta"
-      >meta</a
-    >
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="http://localhost:1313/tags/design"
-      >design</a
-    >
-    
-  </footer>
-  
-
-  
-  
-  
-  
-  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
-    
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/6_cryptopals_ai_tutor/"
-      ><span class="mr-1.5">←</span><span>Learning Cryptography with an AI Guide: Cryptopals Set 1</span></a
-    >
-    
-    
-    <a
-      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/4_coffee_traceability/"
-      ><span>Exploring EUDR Coffee Traceability for Uganda</span><span class="ml-1.5">→</span></a
-    >
-    
-  </nav>
-  
-  
-
-  
-  
-
-  
-  
-
-  
 
 
-  
-</article>
+
 
 
     </main>
@@ -497,6 +374,15 @@ meaning-colored accent bar:</p>
 </footer>
 
 
+
+<div class="organics" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+  <span class="leaf leaf-1"></span>
+  <span class="leaf leaf-2"></span>
+  <span class="leaf leaf-3"></span>
+</div>
 
 
   </body>

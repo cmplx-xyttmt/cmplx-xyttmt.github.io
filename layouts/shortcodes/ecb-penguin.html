@@ -1,0 +1,184 @@
+{{ $id := printf "ecb-penguin-%d" now.UnixNano }}
+<details class="not-prose ecb-penguin artifact-embed" id="{{ $id }}" open>
+  <summary class="ae-summary">Interactive &middot; The ECB penguin</summary>
+  <div class="ae-content">
+  <h1>The ECB penguin</h1>
+  <p class="lede">ECB encrypts each block <em>independently and deterministically</em>:
+  the same input block always gives the same output block. So anything with repeated
+  or uniform regions &mdash; like a picture &mdash; keeps its structure through
+  "encryption". A proper mode makes every block come out different, so the same picture
+  becomes noise. Watch the difference.</p>
+
+  <div class="card">
+    <div class="ctrls">
+      <span>Block size: <input data-el="bs" class="slider" type="range" min="2" max="40" value="8">
+        <b data-el="bsVal">8</b> px</span>
+      <button class="btn" data-el="rerand">Re-randomize the proper-mode panel</button>
+    </div>
+    <div class="panels">
+      <div class="panel"><canvas data-el="orig" width="240" height="240"></canvas>
+        <div class="cap"><b>Original</b><br>the "plaintext" image</div></div>
+      <div class="panel"><canvas data-el="ecb" width="240" height="240"></canvas>
+        <div class="cap"><b>ECB</b><br>each block encrypted the same way &rarr; structure survives</div></div>
+      <div class="panel"><canvas data-el="rnd" width="240" height="240"></canvas>
+        <div class="cap"><b>A proper mode</b><br>every block randomized &rarr; noise</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    In the ECB panel the colours are scrambled, but the penguin is still there. Uniform
+    regions (all-white background, the black body) are made of <em>identical</em> blocks,
+    so ECB maps them to <em>identical</em> output blocks &mdash; the shape is preserved.
+    Shrink the block size and it sharpens; grow it and it gets chunkier, but the outline
+    never disappears. The proper-mode panel has no repeats, so it is pure static.
+  </div>
+
+  <h2>What this is really showing</h2>
+  <p>This is the Challenge 8 signal, made visible. "Repeated plaintext block &rarr; repeated
+  ciphertext block" is why you could detect ECB by searching for duplicate 16-byte blocks &mdash;
+  and it is exactly why an image betrays its outline here.</p>
+  <details class="reveal">
+    <summary>How the simulation works (it's honest about the mechanism)</summary>
+    <div>
+      <p>Each panel chops the image into blocks. For <b>ECB</b>, every block is coloured by a
+      hash of its own pixels &mdash; deterministic, so two identical blocks get the identical
+      colour (just like AES-ECB gives identical ciphertext for identical plaintext). For the
+      <b>proper mode</b>, each block gets a fresh random colour regardless of its contents, so
+      equal regions no longer look equal. That single difference &mdash; deterministic per-block
+      vs randomized &mdash; is the whole story.</p>
+    </div>
+  </details>
+
+  <p class="foot">Cryptopals &middot; Set 1 &middot; the classic ECB-mode visualization</p>
+  </div>
+</details>
+
+<style>
+  .ecb-penguin {
+    --cream:#f7f3e9; --surface:#fffdf7; --surface-border:#e4dcc7;
+    --forest:#1f3d2b; --pine:#2f5a3d; --emerald:#2e7d52; --moss:#6b7a5a;
+    --amber:#c8862a; --clay:#b1552f; --ink:#16261c; --muted:#6a7568;
+    --code-bg:#14251b; --code-text:#e8f0e4; --radius:16px;
+    --font-serif:Georgia,"Times New Roman",serif;
+    --font-sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  .dark .ecb-penguin { --cream:#10180f; --surface:#17231a; --surface-border:#2b3d2f; --forest:#cfe3d1;
+          --pine:#a9d0b3; --emerald:#6fd39a; --ink:#e6f0e6; --muted:#92a290;
+          --code-bg:#0b130d; --code-text:#dcead9; }
+  .ecb-penguin * { box-sizing:border-box; }
+  .ecb-penguin { color:var(--ink);
+         font-family:var(--font-serif); line-height:1.6; }
+  .ecb-penguin h1 { font-size:1.8rem; color:var(--forest); margin:0 0 .3rem; }
+  .ecb-penguin h2 { font-size:1.2rem; color:var(--pine); margin:2rem 0 .5rem;
+       border-bottom:2px solid var(--surface-border); padding-bottom:.3rem; }
+  .ecb-penguin p { margin:.5rem 0; } .ecb-penguin .lede { color:var(--muted); font-size:1.05rem; }
+  .ecb-penguin code { font-family:var(--font-mono); }
+  .ecb-penguin .card { background:var(--surface); border:1px solid var(--surface-border);
+          border-radius:var(--radius); padding:1.1rem 1.2rem; margin:1rem 0;
+          box-shadow:0 2px 10px rgba(31,61,43,.06); }
+  .ecb-penguin .panels { display:flex; flex-wrap:wrap; gap:1.1rem; justify-content:center; }
+  .ecb-penguin .panel { text-align:center; }
+  .ecb-penguin .panel canvas { width:220px; height:220px; border:1px solid var(--surface-border);
+                  border-radius:10px; background:#fff; image-rendering:pixelated; }
+  .ecb-penguin .panel .cap { font-family:var(--font-sans); font-size:.85rem; color:var(--moss);
+                margin-top:.4rem; }
+  .ecb-penguin .panel .cap b { color:var(--forest); }
+  .ecb-penguin .ctrls { display:flex; flex-wrap:wrap; gap:.6rem 1.3rem; align-items:center;
+           font-family:var(--font-sans); font-size:.9rem; margin-bottom:1rem; }
+  .ecb-penguin .btn { font-family:var(--font-sans); font-size:.85rem; cursor:pointer;
+         border:1px solid var(--surface-border); background:var(--cream); color:var(--pine);
+         border-radius:8px; padding:.3rem .7rem; }
+  .ecb-penguin .btn:hover { background:#e9f2e6; }
+  .ecb-penguin .slider { width:150px; vertical-align:middle; }
+  .ecb-penguin .callout { border-left:4px solid var(--emerald); background:rgba(46,125,82,.08);
+             padding:.7rem 1rem; border-radius:8px; margin:1rem 0; }
+  .ecb-penguin details.reveal { background:var(--surface); border:1px solid var(--surface-border);
+                   border-radius:var(--radius); padding:.2rem 1.1rem; margin:1rem 0; }
+  .ecb-penguin details.reveal > summary { cursor:pointer; font-family:var(--font-sans); font-weight:bold;
+                             color:var(--pine); padding:.7rem 0; }
+  .ecb-penguin .foot { color:var(--muted); font-size:.85rem; margin-top:2.5rem; text-align:center; }
+  .ecb-penguin.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
+  .ecb-penguin > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .ecb-penguin > .ae-summary::-webkit-details-marker { display:none; }
+  .ecb-penguin > .ae-summary::before { content:"\25B8"; }
+  .ecb-penguin[open] > .ae-summary::before { content:"\25BE"; }
+  .ecb-penguin[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .ecb-penguin > .ae-content { padding:1rem; }
+  /* dark mode: drop the green-tinted surfaces so the artifact reads transparent */
+  .dark .ecb-penguin { --surface: transparent; --cream: transparent; }
+  /* text: match the article's reading + heading colours (accents kept) */
+  .ecb-penguin { color: var(--text, #16261c); }
+  .ecb-penguin h1, .ecb-penguin h2 { color: var(--heading, #1f3d2b); }
+  .ecb-penguin > .ae-summary { color: var(--heading, #1f3d2b); }
+  /* reading text -> article tokens (functional accents kept) */
+  .ecb-penguin, .dark .ecb-penguin { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
+  .ecb-penguin { --muted: rgba(26, 40, 28, 0.72); }
+  .dark .ecb-penguin { --muted: rgba(212, 218, 227, 0.70); }
+</style>
+
+<script>
+(function () {
+  const root = document.getElementById("{{ $id }}");
+  const $ = name => root.querySelector('[data-el="' + name + '"]');
+  const W = 240, H = 240;
+  const orig = $("orig"), ecb = $("ecb"), rnd = $("rnd");
+  const octx = orig.getContext("2d"), ectx = ecb.getContext("2d"), rctx = rnd.getContext("2d");
+
+  function drawPenguin(ctx) {
+    ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H);
+    const ell = (cx, cy, rx, ry, color) => {
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = color; ctx.fill();
+    };
+    ell(120, 128, 74, 98, "#101418");   // body
+    ell(120, 150, 46, 72, "#ffffff");   // belly
+    ell(101, 74, 15, 17, "#ffffff");    // left eye white
+    ell(139, 74, 15, 17, "#ffffff");    // right eye white
+    ell(103, 77, 6, 6, "#101418");      // left pupil
+    ell(137, 77, 6, 6, "#101418");      // right pupil
+    // beak
+    ctx.beginPath(); ctx.moveTo(120, 84); ctx.lineTo(104, 100); ctx.lineTo(136, 100);
+    ctx.closePath(); ctx.fillStyle = "#e8912a"; ctx.fill();
+    // feet
+    ell(101, 224, 24, 11, "#e8912a");
+    ell(139, 224, 24, 11, "#e8912a");
+  }
+
+  // FNV-1a hash over a block's RGB bytes -> a deterministic colour
+  function blockColor(data, x0, y0, bw, bh) {
+    let h = 2166136261 >>> 0;
+    for (let y = y0; y < y0 + bh; y++) {
+      for (let x = x0; x < x0 + bw; x++) {
+        const o = (y * W + x) * 4;
+        h = Math.imul(h ^ data[o], 16777619) >>> 0;
+        h = Math.imul(h ^ data[o + 1], 16777619) >>> 0;
+        h = Math.imul(h ^ data[o + 2], 16777619) >>> 0;
+      }
+    }
+    return "#" + (h & 0xffffff).toString(16).padStart(6, "0");
+  }
+  const randColor = () => "#" + Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, "0");
+
+  function render() {
+    const bs = +$("bs").value;
+    $("bsVal").textContent = bs;
+    drawPenguin(octx);
+    const data = octx.getImageData(0, 0, W, H).data;
+    ectx.clearRect(0, 0, W, H); rctx.clearRect(0, 0, W, H);
+    for (let y = 0; y < H; y += bs) {
+      for (let x = 0; x < W; x += bs) {
+        const bw = Math.min(bs, W - x), bh = Math.min(bs, H - y);
+        ectx.fillStyle = blockColor(data, x, y, bw, bh);
+        ectx.fillRect(x, y, bw, bh);
+        rctx.fillStyle = randColor();
+        rctx.fillRect(x, y, bw, bh);
+      }
+    }
+  }
+
+  $("bs").addEventListener("input", render);
+  $("rerand").addEventListener("click", render);
+  render();
+})();
+</script>
