@@ -374,7 +374,7 @@ entirely in the bytes world because you can do <em>math</em> — like XOR — on
 into bytes, hex, and base64, with the per-character encoding laid out. Emojis are where it gets fun — one emoji is one
 character but four bytes.</p>
 
-<details class="not-prose bytes-vs-strings artifact-embed" id="bytes-vs-strings-1786449978790582000" open>
+<details class="not-prose bytes-vs-strings artifact-embed" id="bytes-vs-strings-1790716165985974000" open>
   <summary class="ae-summary">Interactive &middot; Bytes vs strings</summary>
   <div class="ae-content">
 
@@ -589,7 +589,7 @@ b"caf\xc3\xa9".upper()  <span class="no">→ b'CAF\xc3\xa9'  (bytes .upper() onl
 
 <script>
 (function () {
-  const root = document.getElementById("bytes-vs-strings-1786449978790582000");
+  const root = document.getElementById("bytes-vs-strings-1790716165985974000");
   const $ = name => root.querySelector('[data-el="' + name + '"]');
   const enc = new TextEncoder();               
   const inp = $("inp");
@@ -812,7 +812,7 @@ key doesn&rsquo;t cancel and you get noise. This example reveals why I like this
 <p>The artifact grew into a full breaker — set a key length, watch the ciphertext transpose into
 columns, solve each column, and see the plaintext appear. Play with it:</p>
 
-<details class="not-prose vigenere-keysize artifact-embed" id="vigenere-keysize-1786449978790967000" open>
+<details class="not-prose vigenere-keysize artifact-embed" id="vigenere-keysize-1790716165986342000" open>
   <summary class="ae-summary">Interactive &middot; Breaking repeating-key XOR</summary>
   <div class="ae-content">
 
@@ -1087,7 +1087,7 @@ columns, solve each column, and see the plaintext appear. Play with it:</p>
 
 <script>
 (function () {
-  const root = document.getElementById("vigenere-keysize-1786449978790967000");
+  const root = document.getElementById("vigenere-keysize-1790716165986342000");
   const enc = new TextEncoder();
   const DEFAULT_PT =
     "The measure of intelligence is the ability to change, and the true " +
@@ -1405,7 +1405,7 @@ values, so you&rsquo;d need on the order of $2^{64}$ blocks before a random coll
 its outline survives, because uniform regions are identical blocks that encrypt identically. A
 proper mode turns it to static. So of course we built one:</p>
 
-<details class="not-prose ecb-penguin artifact-embed" id="ecb-penguin-1786449978791222000" open>
+<details class="not-prose ecb-penguin artifact-embed" id="ecb-penguin-1790716165986889000" open>
   <summary class="ae-summary">Interactive &middot; The ECB penguin</summary>
   <div class="ae-content">
   <h1>The ECB penguin</h1>
@@ -1525,7 +1525,7 @@ proper mode turns it to static. So of course we built one:</p>
 
 <script>
 (function () {
-  const root = document.getElementById("ecb-penguin-1786449978791222000");
+  const root = document.getElementById("ecb-penguin-1790716165986889000");
   const $ = name => root.querySelector('[data-el="' + name + '"]');
   const W = 240, H = 240;
   const orig = $("orig"), ecb = $("ecb"), rnd = $("rnd");
@@ -1655,6 +1655,12 @@ a pile of solved challenges into something I understand — and into this post.<
   
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/7_monotonic_deque/"
+      ><span class="mr-1.5">←</span><span>The elements that can never win, part 1: the monotonic deque</span></a
+    >
     
     
     <a

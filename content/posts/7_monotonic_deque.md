@@ -3,7 +3,7 @@ author: "Isaac Owomugisha"
 title: "The elements that can never win, part 1: the monotonic deque"
 date: "2026-09-27"
 draft: true
-description: "Sliding Window Maximum, from a heap with lazy deletion to an O(n) monotonic deque, explained by stepping through it."
+description: "Exploring the monnotic deque by solving Sliding Window Maximum from Leetcode. We step through the algorithm, and take a look at a real world example."
 tags: [ "algorithms", "data-structures", "leetcode", "visualization" ]
 ---
 
