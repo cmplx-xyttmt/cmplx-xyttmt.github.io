@@ -1,0 +1,445 @@
+{{ $id := printf "monotonic-deque-%d" now.UnixNano }}
+<details class="not-prose monodeque artifact-embed" id="{{ $id }}" open>
+  <summary class="ae-summary">Interactive &middot; Sliding window maximum</summary>
+  <div class="ae-content md-stage" data-el="stage" tabindex="0" aria-label="Sliding window maximum stepper. Left and right arrows step, space plays or pauses.">
+
+  <p class="md-lede">Pick a preset or type your own array, then step through it. Each step says which rule fired.</p>
+
+  <div class="md-presets" data-el="presets" role="group" aria-label="Presets">
+    <button type="button" class="md-chip" data-preset="leetcode">Problem example</button>
+    <button type="button" class="md-chip" data-preset="increasing">Increasing</button>
+    <button type="button" class="md-chip" data-preset="decreasing">Decreasing</button>
+    <button type="button" class="md-chip" data-preset="equal">All equal</button>
+    <button type="button" class="md-chip" data-preset="sawtooth">Sawtooth</button>
+  </div>
+  <p class="md-caption" data-el="caption"></p>
+
+  <form class="md-own" data-el="form" autocomplete="off">
+    <label class="md-field md-field--nums">Your array
+      <input type="text" data-el="numsIn" inputmode="text" placeholder="e.g. 4, 2, 12, 3, 8">
+    </label>
+    <label class="md-field md-field--k">k
+      <input type="text" data-el="kIn" inputmode="numeric" placeholder="3">
+    </label>
+    <button type="submit" class="md-btn">Run it</button>
+  </form>
+  <p class="md-error" data-el="error" role="alert" hidden></p>
+
+  <div class="md-controls">
+    <button type="button" class="md-btn md-btn--ghost" data-el="reset" aria-label="Back to the start">&#x23EE;</button>
+    <button type="button" class="md-btn md-btn--ghost" data-el="prev" aria-label="Step back">&#x25C0;</button>
+    <button type="button" class="md-btn" data-el="play">Play</button>
+    <button type="button" class="md-btn md-btn--ghost" data-el="next" aria-label="Step forward">&#x25B6;</button>
+    <label class="md-speed">Speed
+      <input type="range" min="1" max="5" step="1" value="3" data-el="speed">
+    </label>
+    <span class="md-count" data-el="count"></span>
+  </div>
+
+  <p class="md-rule" data-el="rule" aria-live="polite"></p>
+
+  <div class="md-array-wrap">
+    <div class="md-rowlabel">nums</div>
+    <div class="md-array" data-el="array"></div>
+    <div class="md-rowlabel">pushed</div>
+    <div class="md-ops" data-el="opsPush"></div>
+    <div class="md-rowlabel">popped</div>
+    <div class="md-ops" data-el="opsPop"></div>
+  </div>
+  <p class="md-legend">
+    <span class="md-key md-key--win"></span> window
+    <span class="md-key md-key--dq"></span> in the deque
+    <span class="md-key md-key--dead"></span> beaten, can never win
+    &nbsp;|&nbsp; popped: <span class="md-tag md-tag--back">1</span> from the back
+    <span class="md-tag md-tag--front">1</span> from the front
+  </p>
+  <p class="md-total" data-el="total"></p>
+
+  <label class="md-toggle"><input type="checkbox" data-el="heapToggle"> Show the heap version beside it</label>
+
+  <div class="md-panels" data-el="panels">
+    <section class="md-panel">
+      <h3 class="md-h">Deque <span class="md-size" data-el="dqSize"></span></h3>
+      <div class="md-ends"><span>front</span><span>back</span></div>
+      <div class="md-deque" data-el="deque"></div>
+      <div class="md-out">Output: <span data-el="out"></span></div>
+    </section>
+    <section class="md-panel md-panel--heap" data-el="heapPanel" hidden>
+      <h3 class="md-h">Heap, lazy deletion <span class="md-size" data-el="heapSize"></span></h3>
+      <p class="md-heaptext" data-el="heapText"></p>
+      <div class="md-heap" data-el="heap"></div>
+      <div class="md-out">Output: <span data-el="heapOut"></span></div>
+      <div class="md-hist-label">Size after each index <span class="md-key md-key--dq"></span> deque <span class="md-key md-key--heap"></span> heap</div>
+      <div class="md-hist" data-el="hist"></div>
+    </section>
+  </div>
+
+  <p class="md-keys">Keys: click the widget, then use &larr; and &rarr; to step, space to play or pause.</p>
+  </div>
+</details>
+
+<style>
+  .monodeque.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius-glass); margin:1.6rem 0; background:transparent; overflow:hidden; color:var(--text); }
+  .monodeque > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--heading); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .monodeque > .ae-summary::-webkit-details-marker { display:none; }
+  .monodeque > .ae-summary::before { content:"\25B8"; }
+  .monodeque[open] > .ae-summary::before { content:"\25BE"; }
+  .monodeque[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .monodeque > .ae-content { padding:1rem; }
+  .monodeque .md-stage:focus { outline:none; }
+  .monodeque .md-stage:focus-visible { outline:2px solid var(--color-emerald); outline-offset:-2px; }
+  .monodeque { --md-win: rgba(46,134,89,.14); --md-dq: var(--color-emerald); --md-back: var(--color-emerald); --md-front: var(--color-amber); --md-heap: var(--color-clay); --md-line: rgba(23,73,47,.18); }
+  .dark .monodeque { --md-win: rgba(95,191,153,.16); --md-line: rgba(255,255,255,.14); }
+
+  .monodeque p { margin:.5rem 0; }
+  .monodeque .md-lede { font-family:var(--font-serif); margin-top:0; }
+  .monodeque .md-presets { display:flex; flex-wrap:wrap; gap:.4rem; }
+  .monodeque .md-chip, .monodeque .md-btn { font-family:var(--font-sans); font-size:.85rem; border-radius:var(--radius-pill); border:1px solid var(--md-line); background:var(--surface); color:var(--heading); padding:.35rem .8rem; cursor:pointer; line-height:1.2; }
+  .monodeque .md-chip[aria-pressed="true"] { background:var(--gel-green); color:#fff; border-color:transparent; }
+  .monodeque .md-btn { background:var(--gel-green); color:#fff; border-color:transparent; min-width:2.4rem; }
+  .monodeque .md-btn--ghost { background:var(--surface); color:var(--heading); border-color:var(--md-line); }
+  .monodeque .md-btn:disabled { opacity:.4; cursor:default; }
+  .monodeque .md-caption { font-family:var(--font-sans); font-size:.88rem; color:var(--muted); min-height:1.3em; }
+
+  .monodeque .md-own { display:flex; flex-wrap:wrap; gap:.5rem; align-items:flex-end; margin:.6rem 0 .2rem; }
+  .monodeque .md-field { display:flex; flex-direction:column; font-family:var(--font-sans); font-size:.78rem; color:var(--muted); gap:.2rem; }
+  .monodeque .md-field--nums { flex:1 1 12rem; min-width:0; }
+  .monodeque .md-field--k { flex:0 0 4rem; }
+  .monodeque .md-field input { font-family:var(--font-mono); font-size:.9rem; padding:.4rem .5rem; border-radius:.5rem; border:1px solid var(--md-line); background:var(--surface); color:var(--text); width:100%; box-sizing:border-box; }
+  .monodeque .md-error { font-family:var(--font-sans); font-size:.85rem; color:var(--color-clay); }
+
+  .monodeque .md-controls { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.9rem 0 .3rem; }
+  .monodeque .md-speed { font-family:var(--font-sans); font-size:.8rem; color:var(--muted); display:flex; align-items:center; gap:.35rem; }
+  .monodeque .md-speed input { width:5.5rem; accent-color:var(--color-emerald); }
+  .monodeque .md-count { font-family:var(--font-mono); font-size:.78rem; color:var(--muted); margin-left:auto; }
+
+  .monodeque .md-rule { font-family:var(--font-serif); font-size:1.02rem; color:var(--heading); background:var(--surface); border-left:3px solid var(--color-emerald); padding:.6rem .8rem; border-radius:.4rem; min-height:3.2em; }
+
+  .monodeque .md-array-wrap { display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:.4rem; row-gap:.15rem; align-items:center; margin-top:.8rem; }
+  .monodeque .md-rowlabel { font-family:var(--font-mono); font-size:.66rem; color:var(--muted); text-align:right; }
+  .monodeque .md-array, .monodeque .md-ops { display:flex; gap:2px; min-width:0; }
+  .monodeque .md-cell { flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:stretch; border-radius:.3rem; padding:2px 1px; }
+  .monodeque .md-cell.in-win { background:var(--md-win); }
+  .monodeque .md-barbox { height:4.5rem; display:flex; align-items:flex-end; justify-content:center; }
+  .monodeque .md-bar { width:78%; max-width:1.8rem; background:var(--color-moss); border-radius:3px 3px 0 0; opacity:.55; }
+  .monodeque .md-cell.in-win .md-bar { opacity:.85; }
+  .monodeque .md-cell.in-dq .md-bar { background:var(--md-dq); opacity:1; box-shadow:0 0 0 2px var(--md-dq); }
+  .monodeque .md-cell.dead .md-bar { background:transparent; box-shadow:inset 0 0 0 1.5px var(--muted); opacity:.6; }
+  .monodeque .md-cell.hit .md-bar { box-shadow:0 0 0 2px var(--color-amber); }
+  .monodeque .md-cell.cur .md-idx { color:var(--heading); font-weight:700; }
+  .monodeque .md-val, .monodeque .md-idx { font-family:var(--font-mono); text-align:center; overflow:hidden; white-space:nowrap; }
+  .monodeque .md-val { font-size:.72rem; color:var(--text); }
+  .monodeque .md-idx { font-size:.6rem; color:var(--faint); }
+  @media (max-width: 480px) {
+    .monodeque .md-array-wrap { grid-template-columns:minmax(0,1fr); }
+    .monodeque .md-rowlabel { text-align:left; }
+  }
+  .monodeque .md-array.dense, .monodeque .md-ops.dense { gap:1px; }
+  .monodeque .md-array.dense .md-cell { padding:2px 0; }
+  .monodeque .md-array.dense .md-val { font-size:.56rem; letter-spacing:-.04em; }
+  .monodeque .md-array.dense .md-idx, .monodeque .md-ops.dense .md-op { font-size:.54rem; }
+  .monodeque .md-cell.dead .md-val { text-decoration:line-through; color:var(--muted); }
+  .monodeque .md-op { flex:1 1 0; min-width:0; text-align:center; font-family:var(--font-mono); font-size:.66rem; height:1.1rem; line-height:1.1rem; border-radius:3px; color:var(--faint); }
+  .monodeque .md-op.on { background:var(--md-win); color:var(--heading); }
+  .monodeque .md-op.back, .monodeque .md-tag--back { background:var(--md-back); color:#fff; }
+  .monodeque .md-op.front, .monodeque .md-tag--front { background:var(--md-front); color:#1a281c; }
+  .monodeque .md-tag { font-family:var(--font-mono); font-size:.66rem; padding:0 .3rem; border-radius:3px; }
+
+  .monodeque .md-legend, .monodeque .md-total, .monodeque .md-keys, .monodeque .md-hist-label { font-family:var(--font-sans); font-size:.78rem; color:var(--muted); }
+  .monodeque .md-total { color:var(--text); }
+  .monodeque .md-key { display:inline-block; width:.8rem; height:.8rem; border-radius:2px; vertical-align:-1px; margin-left:.35rem; }
+  .monodeque .md-key--win { background:var(--md-win); border:1px solid var(--md-line); }
+  .monodeque .md-key--dq { background:var(--md-dq); }
+  .monodeque .md-key--heap { background:var(--md-heap); }
+  .monodeque .md-key--dead { box-shadow:inset 0 0 0 1.5px var(--muted); }
+
+  .monodeque .md-toggle { display:inline-flex; gap:.4rem; align-items:center; font-family:var(--font-sans); font-size:.88rem; color:var(--heading); margin:.6rem 0; cursor:pointer; }
+  .monodeque .md-toggle input { accent-color:var(--color-emerald); }
+  .monodeque .md-panels { display:grid; grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr)); gap:.8rem; }
+  .monodeque .md-panel { background:var(--surface); border:1px solid var(--md-line); border-radius:.7rem; padding:.7rem .8rem; min-width:0; }
+  .monodeque .md-h { font-family:var(--font-sans); font-size:.9rem; font-weight:700; color:var(--heading); margin:0 0 .4rem; }
+  .monodeque .md-size { font-family:var(--font-mono); font-weight:400; font-size:.78rem; color:var(--muted); }
+  .monodeque .md-ends { display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:.62rem; color:var(--faint); }
+  .monodeque .md-deque, .monodeque .md-heap { display:flex; flex-wrap:wrap; gap:.3rem; min-height:2.6rem; align-items:flex-start; }
+  .monodeque .md-box { font-family:var(--font-mono); border:1.5px solid var(--md-dq); border-radius:.4rem; padding:.15rem .4rem; text-align:center; min-width:2.2rem; background:var(--surface); }
+  .monodeque .md-box b { display:block; font-size:.95rem; color:var(--heading); }
+  .monodeque .md-box small { display:block; font-size:.6rem; color:var(--muted); }
+  .monodeque .md-box.new { box-shadow:0 0 0 2px var(--color-amber); }
+  .monodeque .md-box.ghost { border-style:dashed; border-color:var(--muted); opacity:.55; text-decoration:line-through; }
+  .monodeque .md-box.ghost-front { order:-1; }
+  .monodeque .md-box.heap { border-color:var(--md-heap); }
+  .monodeque .md-box.top { box-shadow:0 0 0 2px var(--md-heap); }
+  .monodeque .md-box.stale { border-style:dashed; border-color:var(--muted); opacity:.5; }
+  .monodeque .md-heaptext { font-family:var(--font-sans); font-size:.82rem; color:var(--text); min-height:2.4em; margin-top:0; }
+  .monodeque .md-out { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); margin-top:.5rem; overflow-wrap:anywhere; }
+  .monodeque .md-out span { color:var(--heading); }
+  .monodeque .md-hist { display:flex; align-items:flex-end; gap:3px; height:3.5rem; border-bottom:1px solid var(--md-line); margin-top:.3rem; }
+  .monodeque .md-hcol { flex:1 1 0; min-width:0; display:flex; align-items:flex-end; gap:1px; height:100%; }
+  .monodeque .md-hbar { flex:1 1 0; min-width:0; border-radius:2px 2px 0 0; }
+  .monodeque .md-hbar.dq { background:var(--md-dq); }
+  .monodeque .md-hbar.hp { background:var(--md-heap); }
+</style>
+
+<script>
+(function () {
+  /* LOGIC:BEGIN (pure functions; the node test extracts and runs this block) */
+  var MAX_LEN = 16, MAX_ABS = 99;
+
+  function parseInput(numsText, kText) {
+    var parts = String(numsText).trim().split(/[\s,]+/).filter(function (s) { return s.length > 0; });
+    if (parts.length === 0) return { error: "Type at least one number." };
+    if (parts.length > MAX_LEN) return { error: "Use at most " + MAX_LEN + " numbers, so the bars fit." };
+    var nums = [];
+    for (var p = 0; p < parts.length; p++) {
+      if (!/^-?\d+$/.test(parts[p])) return { error: "\"" + parts[p] + "\" isn't a whole number. Separate whole numbers with commas or spaces." };
+      var v = parseInt(parts[p], 10);
+      if (Math.abs(v) > MAX_ABS) return { error: "Keep the numbers between -" + MAX_ABS + " and " + MAX_ABS + "." };
+      nums.push(v);
+    }
+    var kt = String(kText).trim();
+    if (!/^\d+$/.test(kt)) return { error: "k must be a whole number from 1 to " + nums.length + "." };
+    var k = parseInt(kt, 10);
+    if (k < 1 || k > nums.length) return { error: "k must be from 1 to " + nums.length + ", the length of your array." };
+    return { nums: nums, k: k };
+  }
+
+  // One entry per micro-step of the deque version. The heap version is one
+  // state per index (it has no interesting micro-steps), attached to each step.
+  function buildTrace(nums, k) {
+    var n = nums.length, steps = [], dq = [], out = [];
+    var pushed = [], popped = [];
+    for (var j = 0; j < n; j++) { pushed.push(false); popped.push(null); }
+    var heap = [], hPush = 0, hPop = 0, hOut = [], heapCur = null, sizes = [];
+
+    function nv(x) { return "nums[" + x + "]=" + nums[x]; }
+    // Same order as Python's heapq on (-value, index): largest value first,
+    // and among equal values the oldest index.
+    function cmp(a, b) { return (b.v - a.v) || (a.idx - b.idx); }
+    function snap(i, phase, text, extra) {
+      var s = { i: i, lo: i < 0 ? -1 : Math.max(0, i - k + 1), phase: phase, text: text,
+        deque: dq.slice(), out: out.slice(), pushed: pushed.slice(), popped: popped.slice(),
+        ghost: null, hit: null, heap: heapCur };
+      if (extra) { for (var key in extra) s[key] = extra[key]; }
+      steps.push(s);
+    }
+
+    snap(-1, "start", "The window holds k = " + k + " numbers and slides one step at a time. Press play, or the right arrow, to start.");
+
+    for (var i = 0; i < n; i++) {
+      var lo = Math.max(0, i - k + 1);
+
+      // Heap + lazy deletion: push (value, index); stale tops go only when they surface.
+      heap.push({ v: nums[i], idx: i }); heap.sort(cmp); hPush++;
+      var htext = "Push (" + nums[i] + ", index " + i + ").", gone = [];
+      if (i >= k - 1) {
+        while (heap[0].idx <= i - k) { gone.push(heap.shift().idx); hPop++; }
+        if (gone.length === 1) htext += " The top, index " + gone[0] + ", is stale (it left the window): pop it.";
+        if (gone.length > 1) htext += " The top " + gone.length + " entries are stale (indices " + gone.join(", ") + "): pop them.";
+        hOut.push(heap[0].v);
+        htext += " The top, index " + heap[0].idx + ", is in the window: output " + heap[0].v + ".";
+      } else {
+        htext += " The window is still filling.";
+      }
+      var stale = 0;
+      for (var h = 0; h < heap.length; h++) { if (heap[h].idx < lo) stale++; }
+      if (stale > 0) htext += " " + stale + (stale === 1 ? " stale entry is" : " stale entries are") + " still buried below the top.";
+      heapCur = { i: i, lo: lo, entries: heap.slice(), text: htext, pushes: hPush, pops: hPop, stale: stale, out: hOut.slice() };
+
+      // Deque (indices, values non-increasing from front to back).
+      if (dq.length && dq[0] <= i - k) {
+        var f = dq.shift(); popped[f] = "front";
+        snap(i, "expire", "Index " + f + " left the window: drop it from the front.", { ghost: { idx: f, side: "front" }, hit: f });
+      }
+      var poppedAny = false;
+      while (dq.length && nums[i] > nums[dq[dq.length - 1]]) {
+        var b = dq.pop(); popped[b] = "back"; poppedAny = true;
+        snap(i, "pop", nv(i) + " beats the back (" + nv(b) + "), so index " + b + " can never be a window's max again: pop it.", { ghost: { idx: b, side: "back" }, hit: b });
+      }
+      var text;
+      if (!dq.length) {
+        text = poppedAny ? "Nothing left for " + nv(i) + " to beat: push index " + i + "." : "The deque is empty: push index " + i + " (" + nv(i) + ").";
+      } else {
+        var bk = dq[dq.length - 1];
+        if (nums[bk] === nums[i]) {
+          text = nv(i) + " ties the back (" + nv(bk) + "). The code pops only when the new number is strictly bigger, so index " + bk + " stays: push index " + i + " behind it.";
+        } else {
+          text = nv(i) + " is smaller than the back (" + nv(bk) + "), so it can't pop anything. Push index " + i + " anyway: it could be the max of a later window, once index " + bk + " has left.";
+        }
+      }
+      dq.push(i); pushed[i] = true;
+      if (i < k - 1) text += " The window is still filling, so no output yet.";
+      snap(i, "push", text, { hit: i });
+      if (i >= k - 1) {
+        out.push(nums[dq[0]]);
+        snap(i, "output", "The front is the window max: output " + nums[dq[0]] + " (index " + dq[0] + ", window " + lo + " to " + i + ").", { hit: dq[0] });
+      }
+      sizes.push({ dq: dq.length, heap: heap.length });
+    }
+    snap(n - 1, "done", "Done. Output [" + out.join(", ") + "]. Every index was pushed once and popped at most once.");
+    return { nums: nums, k: k, steps: steps, sizes: sizes, out: out, heapOut: hOut };
+  }
+  /* LOGIC:END */
+
+  var root = document.getElementById("{{ $id }}");
+  if (!root) return;
+  function $(name) { return root.querySelector('[data-el="' + name + '"]'); }
+
+  var PRESETS = {
+    leetcode: { nums: [1, 3, -1, -3, 5, 3, 6, 7], k: 3,
+      caption: "The example from the problem statement. Watch index 4 (the 5) pop two smaller numbers in a row." },
+    increasing: { nums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], k: 3,
+      caption: "Each new number beats everything before it, so the deque never holds more than one index. Turn on the heap: it keeps every old entry, because none of them reaches the top." },
+    decreasing: { nums: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], k: 4,
+      caption: "Nothing ever beats the back, so the deque holds the whole window and every index leaves from the front." },
+    equal: { nums: [4, 4, 4, 4, 4, 4, 4, 4, 4], k: 3,
+      caption: "Ties stay. The code pops only when the new number is strictly bigger, so the deque fills up like the decreasing case and the oldest copy leaves from the front." },
+    sawtooth: { nums: [1, 4, 7, 2, 5, 8, 3, 6, 9, 4], k: 4,
+      caption: "Each drop leaves small numbers waiting behind a big one, and the next climb clears them out." }
+  };
+  var DELAYS = [1500, 1000, 650, 380, 200];
+
+  var trace = null, pos = 0, timer = null, playing = false;
+
+  function load(nums, k, caption, presetName) {
+    stop();
+    trace = buildTrace(nums, k); pos = 0;
+    $("caption").textContent = caption;
+    $("numsIn").value = nums.join(", "); $("kIn").value = String(k);
+    var chips = root.querySelectorAll("[data-preset]");
+    for (var c = 0; c < chips.length; c++) chips[c].setAttribute("aria-pressed", chips[c].getAttribute("data-preset") === presetName ? "true" : "false");
+    render();
+  }
+
+  function render() {
+    var s = trace.steps[pos], nums = trace.nums, n = nums.length, k = trace.k;
+    var mn = Math.min.apply(null, nums), mx = Math.max.apply(null, nums);
+    var inDq = {};
+    for (var d = 0; d < s.deque.length; d++) inDq[s.deque[d]] = true;
+
+    var cells = "", pushRow = "", popRow = "";
+    for (var j = 0; j < n; j++) {
+      var cls = "md-cell";
+      if (s.i >= 0 && s.phase !== "done" && j >= s.lo && j <= s.i) cls += " in-win";
+      if (inDq[j]) cls += " in-dq";
+      if (s.popped[j] === "back") cls += " dead";
+      if (j === s.hit) cls += " hit";
+      if (j === s.i && s.phase !== "done") cls += " cur";
+      var hgt = mx === mn ? 60 : 12 + 88 * (nums[j] - mn) / (mx - mn);
+      cells += '<div class="' + cls + '"><div class="md-barbox"><div class="md-bar" style="height:' + hgt.toFixed(1) + '%"></div></div>' +
+        '<div class="md-val">' + nums[j] + '</div><div class="md-idx">' + j + '</div></div>';
+      pushRow += '<div class="md-op' + (s.pushed[j] ? " on" : "") + '">' + (s.pushed[j] ? "1" : "0") + '</div>';
+      popRow += '<div class="md-op' + (s.popped[j] ? " " + s.popped[j] : "") + '">' + (s.popped[j] ? "1" : "0") + '</div>';
+    }
+    $("array").innerHTML = cells; $("opsPush").innerHTML = pushRow; $("opsPop").innerHTML = popRow;
+    var dense = n > 10;
+    ["array", "opsPush", "opsPop"].forEach(function (el) { $(el).classList.toggle("dense", dense); });
+
+    var nPush = 0, nBack = 0, nFront = 0;
+    for (j = 0; j < n; j++) {
+      if (s.pushed[j]) nPush++;
+      if (s.popped[j] === "back") nBack++;
+      if (s.popped[j] === "front") nFront++;
+    }
+    $("total").textContent = "So far: " + nPush + " pushes and " + (nBack + nFront) + " pops (" + nBack + " from the back, " + nFront +
+      " from the front), " + (nPush + nBack + nFront) + " operations in all. It can never pass 2n = " + (2 * n) + ".";
+
+    var boxes = "";
+    if (s.ghost && s.ghost.side === "front") boxes += box(s.ghost.idx, "ghost");
+    for (d = 0; d < s.deque.length; d++) boxes += box(s.deque[d], s.phase === "push" && s.deque[d] === s.i ? "new" : "");
+    if (s.ghost && s.ghost.side === "back") boxes += box(s.ghost.idx, "ghost");
+    $("deque").innerHTML = boxes || '<span class="md-size">empty</span>';
+    $("dqSize").textContent = "size " + s.deque.length + " (at most k = " + k + ")";
+    $("out").textContent = "[" + s.out.join(", ") + "]";
+
+    var hp = s.heap;
+    if (!hp) {
+      $("heapText").textContent = "The heap takes one step per index. Nothing pushed yet.";
+      $("heap").innerHTML = '<span class="md-size">empty</span>';
+      $("heapSize").textContent = "size 0";
+      $("heapOut").textContent = "[]";
+    } else {
+      $("heapText").textContent = "Index " + hp.i + ": " + hp.text;
+      var hb = "";
+      for (var e = 0; e < hp.entries.length; e++) {
+        var en = hp.entries[e], hc = "heap" + (e === 0 ? " top" : "") + (en.idx < hp.lo ? " stale" : "");
+        hb += '<div class="md-box ' + hc + '"><b>' + en.v + '</b><small>i' + en.idx + (en.idx < hp.lo ? " stale" : "") + '</small></div>';
+      }
+      $("heap").innerHTML = hb;
+      $("heapSize").textContent = "size " + hp.entries.length + ", " + hp.stale + " stale";
+      $("heapOut").textContent = "[" + hp.out.join(", ") + "]";
+    }
+    var hist = "", upto = s.i;
+    for (j = 0; j <= upto; j++) {
+      var dqs = j === s.i && s.phase !== "done" ? s.deque.length : trace.sizes[j].dq;
+      hist += '<div class="md-hcol" title="index ' + j + '"><div class="md-hbar dq" style="height:' + (100 * dqs / n).toFixed(1) + '%"></div>' +
+        '<div class="md-hbar hp" style="height:' + (100 * trace.sizes[j].heap / n).toFixed(1) + '%"></div></div>';
+    }
+    for (; j < n; j++) hist += '<div class="md-hcol"></div>';
+    $("hist").innerHTML = hist;
+
+    $("rule").textContent = s.text;
+    $("count").textContent = "step " + pos + " of " + (trace.steps.length - 1);
+    $("prev").disabled = pos === 0; $("reset").disabled = pos === 0;
+    $("next").disabled = pos === trace.steps.length - 1;
+    $("play").textContent = playing ? "Pause" : (pos === trace.steps.length - 1 ? "Replay" : "Play");
+  }
+
+  function box(idx, extra) {
+    return '<div class="md-box ' + extra + (extra === "ghost" && trace.steps[pos].ghost.side === "front" ? " ghost-front" : "") +
+      '"><b>' + trace.nums[idx] + '</b><small>i' + idx + '</small></div>';
+  }
+
+  function go(p) { pos = Math.max(0, Math.min(trace.steps.length - 1, p)); render(); }
+  function stop() { playing = false; if (timer) { clearTimeout(timer); timer = null; } }
+  function tick() {
+    if (!playing) return;
+    if (pos >= trace.steps.length - 1) { stop(); render(); return; }
+    go(pos + 1);
+    timer = setTimeout(tick, DELAYS[+$("speed").value - 1]);
+  }
+  function togglePlay() {
+    if (playing) { stop(); render(); return; }
+    if (pos >= trace.steps.length - 1) pos = 0;
+    playing = true; render();
+    timer = setTimeout(tick, DELAYS[+$("speed").value - 1]);
+  }
+
+  $("next").addEventListener("click", function () { stop(); go(pos + 1); });
+  $("prev").addEventListener("click", function () { stop(); go(pos - 1); });
+  $("reset").addEventListener("click", function () { stop(); go(0); });
+  $("play").addEventListener("click", togglePlay);
+  $("heapToggle").addEventListener("change", function () { $("heapPanel").hidden = !this.checked; });
+
+  $("presets").addEventListener("click", function (ev) {
+    var btn = ev.target.closest("[data-preset]");
+    if (!btn) return;
+    var name = btn.getAttribute("data-preset"), pr = PRESETS[name];
+    $("error").hidden = true;
+    load(pr.nums, pr.k, pr.caption, name);
+  });
+
+  $("form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var r = parseInput($("numsIn").value, $("kIn").value);
+    if (r.error) { $("error").textContent = r.error; $("error").hidden = false; return; }
+    $("error").hidden = true;
+    load(r.nums, r.k, "Your array, with k = " + r.k + ".", null);
+  });
+
+  var stage = $("stage");
+  stage.addEventListener("click", function (ev) {
+    if (!ev.target.closest("input, button, label")) stage.focus({ preventScroll: true });
+  });
+  stage.addEventListener("keydown", function (ev) {
+    var t = ev.target;
+    if (t.tagName === "INPUT" || t.tagName === "TEXTAREA") return;
+    if (ev.key === "ArrowRight") { ev.preventDefault(); stop(); go(pos + 1); }
+    else if (ev.key === "ArrowLeft") { ev.preventDefault(); stop(); go(pos - 1); }
+    else if (ev.key === "Home") { ev.preventDefault(); stop(); go(0); }
+    else if ((ev.key === " " || ev.key === "Spacebar") && t.tagName !== "BUTTON") { ev.preventDefault(); togglePlay(); }
+  });
+
+  var first = PRESETS.leetcode;
+  load(first.nums, first.k, first.caption, "leetcode");
+})();
+</script>
