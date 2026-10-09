@@ -1,32 +1,38 @@
 ---
 author: "Isaac Owomugisha"
-title: "The elements that can never win, part 1: the monotonic deque"
-date: "2026-09-27"
+title: "Monotonic deques and stacks: Part 1"
+date: "2026-10-09"
 draft: true
-description: "Exploring the monnotic deque by solving Sliding Window Maximum from Leetcode. We step through the algorithm, and take a look at a real world example."
+description: "Exploring the monotonic deque by solving Sliding Window Maximum from LeetCode. We step through the algorithm and look at a real-world example."
 tags: [ "algorithms", "data-structures", "leetcode", "visualization" ]
 ---
 
-Say you're keeping track of the biggest number in the last three, and a 5 arrives. Behind it in the window sit a -1 and
-a -3. Can either of them ever be the biggest number again?
+It's a cold night, and a weather station logs the temperature once an hour. Its display shows the latest reading and,
+next to it, the warmest reading of the last three hours. Here's the night so far, in °C:
 
-No. The 5 is bigger than both of them, and it arrived after them, so it stays in the window longer than they do. Every
-future window that contains the -1 also contains the 5. The -1 can never win, so you can forget it right now.
+```text
+hour      0   1   2   3   4   5   6   7
+reading   1   3  -1  -3   5   3   6   7
+```
 
-That one rule is what this series is about: **a candidate beaten by a newer, better one can never be the answer, so drop
-it.** In this part it gives you a deque that answers Sliding Window Maximum in O(n). In part 2 the same rule gives you a
-stack.
+At hour 4, a 5 comes in, and the last three hours read -1, -3, 5. Look at the -1 and the -3. Can either of them be the
+warmest reading in any later three-hour window?
+
+No. The 5 is warmer than both of them, and it arrived after them, so it stays in the window longer than they do. Every
+later window that still holds the -1 also holds the 5. The -1 can never win, so the station can forget it right now.
+
 
 ## The problem
 
-[Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) (LeetCode 239) gives you an array
+Take away the weather station and you have
+[Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) (LeetCode 239). You get an array
 `nums` and a window size `k`. Slide the window from left to right, one step at a time, and report the largest number in
-each window.
+each window. The problem's own example is the night above:
 
 ```text
 nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
 
-window              max
+window                        max
 [1  3  -1] -3  5  3  6  7     3
  1 [3  -1  -3] 5  3  6  7     3
  1  3 [-1  -3  5] 3  6  7     5
@@ -35,16 +41,16 @@ window              max
  1  3  -1  -3  5 [3  6  7]    7
 ```
 
-The obvious answer scans each window, which is O(nk). With `n` up to 10^5 and `k` allowed to be as big as `n`, that's
-too slow.
+The obvious answer scans each window, which is O(nk). For three hours that's fine. For the warmest reading of the last
+week, logged every minute, each step rescans 10,080 readings. LeetCode allows `n` up to 10^5 with `k` as big as `n`, and
+there O(nk) is too slow.
 
 ## The heap version, and why it wastes work
 
-My first answer, which I got to on my own, was a max-heap. Push each number as it arrives, and the top of the heap is
+My first solution used a max-heap. Push each number as it arrives, and the top of the heap is
 the max. The trouble is removing the number that leaves the window: a heap can't delete from the middle cheaply.
 
-So I didn't delete it. This trick is called lazy deletion. Leave the old number in the heap, and only throw it away if
-it ever reaches the top. A number at the top that's no longer in the window is stale, so pop it and look again.
+So don't delete it until it reaches the top. This trick is called lazy deletion. A number at the top that's no longer in the window is stale, so pop it and look again.
 
 My first version kept a counter next to the heap to know which values were still in the window, and the two had to stay
 in step on every add and every remove. The cleaner form pushes `(-value, index)` pairs (the minus sign turns Python's
@@ -67,7 +73,7 @@ def max_sliding_window(nums, k):
 It's accepted. But what does it cost? Stale entries only leave when they surface, and on some inputs they never
 surface. Feed it an increasing array: each new number goes straight to the top, and every old number sits underneath it
 forever. The heap grows to `n` entries, not `k`, and each push costs O(log n). That's O(n log n) time and O(n) space.
-An interviewer will ask for O(n).
+Can we find an O(n) solution?
 
 ## The question that unlocked it
 
@@ -118,49 +124,20 @@ ends.
 ## Step through it
 
 The widget below runs the deque on any array you give it, one rule at a time. Start with the problem example and step
-forward with the arrow keys. Watch the bars that turn hollow: those are the numbers that have been beaten and can never
-win. Then try the presets. Each one makes the deque behave differently.
+to index 4, where the 5 arrives. Three things happen in that one index. The 3 has left the window, so it goes from the
+front. Then the 5 beats the -3 at the back, and after that the -1. Watch the bars that turn hollow: those are the numbers
+that have been beaten and can never win.
+
+Then try the presets. Each one makes the deque behave differently, and the caption under the buttons says how. On
+Increasing, tick "Show the heap version beside it" to see the stale entries from the heap section pile up.
 
 {{< monotonic-deque >}}
 
-### Increasing
-
-`[1, 2, ..., 10]` with `k = 3`. Every number beats the one before it, so every push after the first comes right after a pop, and the deque
-never holds more than one index. Now tick "Show the heap version beside it". The heap keeps all ten entries, because the
-newest number is always on top and nothing stale ever surfaces to be removed. By the last index, seven of the ten entries
-are stale. This is the input where the gap between the two versions is widest.
-
-### Decreasing
-
-`[10, 9, ..., 1]` with `k = 4` is the opposite. Nothing ever beats the back, so step 2 never fires. The deque fills up
-to the whole window, and every index leaves from the front when it gets too old. The deque is bounded by `k`, and this
-input reaches that bound.
-
-### All equal
-
-Nine 4s with `k = 3`. Should a new 4 pop the old 4 in front of it? The code says no, because the pop in step 2 is
-strict (`num > nums[dq[-1]]`). The ties stay, the deque fills up like the decreasing case, and the oldest copy leaves
-from the front.
-
-Popping on ties (`>=`) would also give the right answer when the deque holds indices. My first deque stored values
-instead, and it checked whether the front equals `nums[i - k]` to decide whether to drop it. That check only works
-because the pop is strict. With a strict pop, the front can only equal `nums[i - k]` when it is the number at `i - k`.
-With `>=`, a later equal number could stand in its place and get dropped too early. This took me a while to convince
-myself of. Storing indices, as the code above does, means you don't need the argument at all.
-
-### Sawtooth
-
-`[1, 4, 7, 2, 5, 8, 3, 6, 9, 4]` with `k = 4`. Each drop (7 to 2, 8 to 3) leaves a small number waiting behind a big
-one. The climb that follows clears it out, and when the climb goes past the last peak it clears the peak too. At index 5
-the 8 pops the 5 and then the 7. At index 8 the 9 pops the 6 and then the 8. Keep an eye on the "popped" row: the back
-pops come in bursts of two.
-
-### The problem example
-
-Go back to `[1, 3, -1, -3, 5, 3, 6, 7]` and step to index 4, where the 5 arrives. Three things happen in that one index.
-Index 1 (the 3) has left the window, so it goes from the front. Then the 5 beats the -3 at the back, and after that it
-beats the -1. The deque that held three indices now holds one. The -1 and the -3 were never the max of any window, and now they
-never will be.
+One thing the widget doesn't show is why the pop in step 2 is strict (`>`, not `>=`). With indices in the deque, either
+works. My first deque stored values, and it dropped the front when the front equalled `nums[i - k]`. That check is only
+safe with a strict pop. With `>=`, a newer equal number takes the old one's place, and the check drops it too early. On
+`[4, 4, 1]` with `k = 2`, that version reports 1 for the last window instead of 4. Storing indices means you don't need
+the argument at all.
 
 ## Why it's O(n)
 
@@ -176,8 +153,9 @@ extra space, against the heap's O(n log n) and O(n).
 
 ## In the wild
 
-If you've called `df.rolling(3).max()` in pandas, you've run this algorithm. I went looking for where else the rule
-shows up, and it's in more places than I expected.
+I'm always curious about where algorithms like this one show up in real code, and AI makes that much easier to go looking
+for. If you've called `df.rolling(3).max()` in pandas, you've run this one, and it turns up in more places than I
+expected.
 
 **Data libraries.** SciPy's `maximum_filter1d` and Bottleneck's `move_max` both credit Richard Harter, who described it
 in 2001 as the ascending minima algorithm
@@ -203,7 +181,7 @@ comment says "Upon getting a new min, we can forget everything earlier", which i
 only three samples means the answer is sometimes approximate, and in return every update does a constant amount of work
 in a constant amount of memory.
 
-### The input that broke Polars
+### The Polars example in detail
 
 The Polars story is the one I like best, because it's the idea I had before I found the deque.
 
@@ -243,7 +221,4 @@ person who reported the bug. It's the deque from this post.
 The deque drops from both ends: from the back when a number is beaten, and from the front when it gets too old. Take away
 the window, and nothing ever gets too old. What's left is a stack that only drops from the top.
 
-The stack has one more property. When a number gets popped, you know what beat it, and often that's exactly the answer
-the problem is asking for. Daily Temperatures asks "how many days until a warmer one?", and the answer for each day is
-known the moment a warmer day pops it. Part 2 covers that, Largest Rectangle in Histogram, and a stack version of
-Trapping Rain Water.
+We shall take a look at the monotonic stack (and its applications) in part 2.
