@@ -2,7 +2,7 @@
 author: "Isaac Owomugisha"
 title: "Monotonic deques and stacks: Part 1"
 date: "2026-10-09"
-draft: true
+draft: false
 description: "Exploring the monotonic deque by solving Sliding Window Maximum from LeetCode. We step through the algorithm and look at a real-world example."
 tags: [ "algorithms", "data-structures", "leetcode", "visualization" ]
 ---
