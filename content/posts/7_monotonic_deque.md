@@ -204,9 +204,16 @@ Why does that input hurt? It's almost increasing, so the smallest value in each 
 the oldest values are. It slides out every other step, and every time it does, the code looks through the window again:
 up to 100,000 values, about 450,000 times.
 
-[Playable: the reader gets the 2023 algorithm and tries to build the input that makes it slowest, with a comparison
-counter and a target to beat. Then the deque runs on the same input. To be grilled before building: draw the input or
-pick from building blocks, what the target is, and whether it reuses the stepper above or stands alone.]
+Here's that input at a size you can step through: 16 values and a window of 6. It's the same stepper as before, set to a
+rolling minimum, so the deque now pops from the back while the new number is *smaller*. The panel beside it runs the 2023
+code. Step to index 7, where the remembered minimum leaves the window for the first time, and compare what each one has
+to do next.
+
+{{< monotonic-deque mode="polars" >}}
+
+The 2023 code remembers one value. When that value leaves, it knows nothing about the rest of the window, so it has to
+look at all of it again. The deque has the answer at its front already, because it kept every value that could still
+become the minimum, in order. The value the 2023 code rescans for is already sitting at the deque's front.
 
 On random data, the 2023 code does fewer comparisons than the deque. I counted 2,499 against 3,973 on 2,000 random
 values with a window of 500, which may be why it looked fine in its benchmark. It only loses badly when the input puts

@@ -87,4 +87,55 @@ assert(parseInput("1 2 3", "two").error);
 assert(parseInput("1 2 300", "1").error);
 assert(parseInput(Array(17).fill(1).join(" "), "1").error);
 
-console.log("OK: " + cases + " (array, k) cases, " + withTies + " random arrays with ties, k=1 and k=n in every random case");
+// Min mode (the Polars section): deque and the 2023 remember-the-min code against a brute-force window min.
+function bruteMin(nums, k) {
+  const out = [];
+  for (let i = k - 1; i < nums.length; i++) out.push(Math.min(...nums.slice(i - k + 1, i + 1)));
+  return out;
+}
+// The 2023 code written plainly: remember the min (newest copy on ties), rescan the window when it leaves.
+function polarsRef(nums, k) {
+  let m = null, mi = -1, cmp = 0, rescans = 0;
+  for (let i = 0; i < nums.length; i++) {
+    const lo = Math.max(0, i - k + 1);
+    if (mi < lo) {
+      if (mi >= 0) rescans++;
+      m = null;
+      for (let j = lo; j <= i; j++) { cmp++; if (m === null || nums[j] <= m) { m = nums[j]; mi = j; } }
+    } else { cmp++; if (nums[i] <= m) { m = nums[i]; mi = i; } }
+  }
+  return { cmp, rescans };
+}
+let minCases = 0;
+for (let t = 0; t < 600; t++) {
+  const n = randInt(1, 16);
+  const range = t % 3 === 0 ? 2 : t % 3 === 1 ? 5 : 99;
+  const nums = Array.from({ length: n }, () => randInt(-range, range));
+  for (const k of [1, n, randInt(1, n)]) {
+    const tr = buildTrace(nums, k, "min"), want = bruteMin(nums, k), ref = polarsRef(nums, k);
+    assert.deepStrictEqual(tr.out, want, "min deque output");
+    assert.deepStrictEqual(tr.polOut, want, "polars output");
+    const last = tr.steps[tr.steps.length - 1];
+    assert.strictEqual(last.pol.cmp, ref.cmp, "polars comparison count");
+    assert.strictEqual(last.pol.rescans, ref.rescans, "polars rescan count");
+    for (const s of tr.steps) {
+      for (let a = 1; a < s.deque.length; a++) assert(nums[s.deque[a - 1]] <= nums[s.deque[a]], "non-decreasing for min");
+      assert(!/—/.test(s.text) && !/[“”’]/.test(s.text), "plain punctuation");
+      if (s.pol) assert(!/—/.test(s.pol.text), "plain punctuation (polars)");
+    }
+    minCases++;
+  }
+}
+// Max mode carries no Polars state.
+assert.strictEqual(buildTrace([3, 1, 2], 2).polOut.length, 0);
+
+// The preset numbers the post and captions quote.
+function presetReport(nums, k) {
+  const tr = buildTrace(nums, k, "min"), p = tr.steps[tr.steps.length - 1].pol;
+  const first = tr.steps.find((s) => s.pol && s.pol.rescans === 1);
+  return { dq: tr.dqCmp, pol: p.cmp, rescans: p.rescans, firstRescanAt: first ? first.pol.i : null };
+}
+console.log("issue preset:", JSON.stringify(presetReport([1, 0, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14], 6)));
+console.log("random preset:", JSON.stringify(presetReport([42, 17, 63, 8, 55, 71, 29, 90, 12, 47, 81, 36, 5, 68, 23, 59], 6)));
+
+console.log("OK: " + cases + " (array, k) cases, " + withTies + " random arrays with ties, k=1 and k=n in every random case; " + minCases + " min-mode cases");
