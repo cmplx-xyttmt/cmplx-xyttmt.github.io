@@ -71,13 +71,67 @@
 %%%%%%  CV STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+% Polaris version (Google DeepMind, Research Engineer, Polaris), drafted Oct 10 2026 from resume.tex.
+% Every fact below was checked against files on disk; gaps are marked TODO(Isaac).
+
 \begin{document}
 
 %----------HEADING-----------------
 \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
   \textbf{\Large Isaac Owomugisha} & Personal Site : \href{https://cmplx-xyttmt.github.io/}{https://cmplx-xyttmt.github.io/}\\
-  \href{https://github.com/cmplx-xyttmt}{https://github.com/cmplx-xyttmt} & Mobile : +256 775908973 \\
+  \href{https://github.com/cmplx-xyttmt}{https://github.com/cmplx-xyttmt} & Email : \href{mailto:archimedesisaac@gmail.com}{archimedesisaac@gmail.com}\\
+   & Mobile : +256 775908973 \\
 \end{tabular*}
+
+%-----------SUMMARY-----------------
+\vspace{2pt}
+{\small Software engineer since 2018. Builds automatic graders (the heuristic guide's checker, acu-primer's answer grading) and works daily with coding agents (Claude Code, Codex). IMO 2015 (Uganda); Codeforces max rating 1661.}
+
+%-----------PROJECTS-----------------
+\section{Projects}
+  \resumeSubHeadingListStart
+    \resumeSubItem{\href{https://acu-primer.cmplxxyttmt.workers.dev}{acu-primer}}
+      {Graded lesson player and authoring tool (work in progress; live demo linked; Devpost Build With AI: Basics entry)}
+      \resumeItemListStart
+        \resumeItem{Each check is graded against a rubric of anticipated wrong answers}
+          {The wrong answers are exact options or numeric ranges, each tied to a misconception from a catalogue with cited research, plus a general fallback for unplanned answers and a two-level stop. Lessons are drafted from textbook pages by a \textbf{Claude Code skill} (\texttt{/draft-lesson}) and must pass the app's own schema and consistency checks (for example, no wrong-answer range may overlap the right answer) before import. A person signs a lesson off before students see it. 43 unit tests. TypeScript, Svelte 5, Cloudflare Workers + D1.}
+      \resumeItemListEnd
+    \resumeSubItem{\href{https://github.com/cmplx-xyttmt/heuristic-guide}{Heuristic guide}}
+      {Ten-level course for heuristic optimization contests (AtCoder AHC, CodinGame, ICPC Challenge)}
+      \resumeItemListStart
+        \resumeItem{Each level ends in an automatic grader}
+          {\texttt{python -m lab.check L2 solver.py} re-runs a baseline on the same seeds and time limit, and passes the solver only if it clears a threshold calibrated against a reference solution \emph{and} the paired difference beats its own noise ($|t| > 2$). Four problem types (TSP, scheduling, packing, tiles), a race harness and a parameter sweep tool; thresholds calibrated for levels 0 to 3 so far. Standard-library Python.}
+      \resumeItemListEnd
+    \resumeSubItem{\href{https://github.com/cmplx-xyttmt/acu-gemma}{AcuGemma}}
+      {On-device AI tutoring app}
+      \resumeItemListStart
+        \resumeItem{Offline tutor for primary school students}
+        {Runs the Gemma 3n 2B model on an Android phone through MediaPipe, so it works fully offline. A prompting system guides each lesson, evaluates the student's answers and gives feedback in context.}
+      \resumeItemListEnd
+    \resumeSubItem{\href{https://github.com/cmplx-xyttmt/uganda-coffee-traceability}{Uganda Coffee Traceability Dashboard}}
+      {Geospatial verification tool}
+      \resumeItemListStart
+        \resumeItem{Checks 97,000+ coffee plots against 2020 satellite baselines}
+        {10m-resolution Google Earth Engine data in a GeoDjango and PostGIS backend, a GraphQL API for coordinate checks, and a React-Leaflet interface with district filtering for dense spatial layers.}
+      \resumeItemListEnd
+    \resumeSubItem{Writing}
+      {\href{https://cmplx-xyttmt.github.io/posts/7_monotonic_deque/}{Monotonic deques and stacks, Part 1} (Oct 2026, with an interactive algorithm stepper) and \href{https://cmplx-xyttmt.github.io/posts/6_cryptopals_ai_tutor/}{Learning cryptography with an AI guide: Cryptopals Set 1} (Aug 2026, Claude Code as critic and tutor)}
+  \resumeSubHeadingListEnd
+
+%-----------COMPETITIONS-----------------
+\section{Competitions}
+  \resumeSubHeadingListStart
+    \resumeSubItem{International Mathematical Olympiad (IMO) 2015, Chiang Mai, Thailand}
+      {Represented \textbf{Uganda} on the national team.}
+      % TODO(Isaac): add an award (honourable mention, medal) if you got one; leave as is if not.
+    \resumeSubItem{ICPC 2026 Online Challenge 1, powered by Huawei (Codeforces, Aug 2026)}
+      {Final rank \textbf{1,173 of 4,428} after system tests (13,593.7 points; 338th on the provisional pretest standings). Interactive scheduling for edge-cloud LLM inference. Wrote a C++ solver, plus a local interactor and scorer that matched the judge's worked example on the first run, seeded test generators and rehearsal suites, built with Claude Code as coding partner.}
+    \resumeSubItem{CodinGame Summer Challenge 2026 (Sep 2026)}
+      {\textbf{Silver league, 124 of 628} in Silver. Python bot iterated over versions against the official referee run locally.}
+    \resumeSubItem{Competitive programming}
+      {\href{https://codeforces.com/profile/cmplx-xyttmt}{Codeforces} (max rating 1661), \href{https://atcoder.jp/users/cmplxXyttmt}{AtCoder} (max rating 1256) and Project Euler; solutions and algorithm library in \href{https://github.com/cmplx-xyttmt/competitive-programming}{competitive-programming}.}
+      % TODO(Isaac): Midnight Code Cup 2026 result, if you want it listed (~/Projects/midnight-code-cup has work, no result).
+  \resumeSubHeadingListEnd
 
 %-----------EXPERIENCE-----------------
 \section{Experience}
@@ -87,14 +141,16 @@
       {Tunga}{Kampala, Uganda}
   {Backend Software Engineer (Django)}{Nov 2023 - Present}
   \resumeItemListStart
-    \resumeItem{Architected AI Talent Matching and Outreach Agent (Tunga-agent)}
-      {Led end-to-end development of a multi-stage agentic pipeline that autonomously classifies companies, matches developers, and runs multi-variant email outreach with engagement-triggered follow-ups. Uses \textbf{RAG} with Pinecone vector search and OpenAI embeddings — top-K nearest-neighbour matching with cosine-similarity thresholds and relaxed-criteria fallback — and \textbf{GPT-4o-mini} for company ICP classification and personalized outreach. Cut LLM costs \textbf{$\sim$90\%} via hybrid OpenAI/local-\textbf{Ollama} inference, domain-keyed classification caching, and hard pre-filters. Exposed a \textbf{Model Context Protocol (MCP)} server surfacing live pipeline analytics; instrumented with \textbf{Sentry}, health probes, and a full pipeline audit trail. Deployed on \textbf{Kubernetes} with \textbf{Celery/Redis}. \\ \textbf{Core Technologies:} Python, Django, OpenAI, Pinecone, Ollama, MCP, Celery, Redis, SendGrid, Kubernetes, Sentry.}
-    \resumeItem{Built AI-powered B2B Lead Identification System (Lead-ID)}
-      {Designed and led a multi-signal lead-scoring engine detecting \textbf{40+ buying-intent signal types across 6 intent streams}, with recency-decay weighting, per-signal caps, and multi-stream reinforcement to rank companies by purchase intent. Generalized the platform to power \textbf{three independent verticals} (IT staffing, accounting \& finance, AI consulting) via DB-stored, per-use-case ICP rules, signal weights, and thresholds tunable without code changes. Uses GPT-4o-mini for job-description classification and "why now" outreach narratives, with regex fallback when the LLM is unavailable. Processes \textbf{500+ companies per batch} with score delta tracking across runs. \\ \textbf{Core Technologies:} Python, Django, OpenAI, Celery, Redis, PostgreSQL, Clay.}
-    \resumeItem{Developed an AI-powered resume parser}
-      {Implemented a feature that automatically populates developer profiles during onboarding by intelligently parsing resumes. This improved the efficiency of the profile creation workflow and reduced manual entry for developers.}
-    \resumeItem{Optimized platform performance and billing}
-      {Diagnosed and resolved "N + 1 query" issues across several backend endpoints, leading to significant API performance improvements. Implemented multi-line and multi-developer invoicing, and expanded payment options to USD (previously EUR-only), reducing currency conversion fees for developers.}
+    \resumeItem{AI talent matching and outreach agent (tunga-agent)}
+      {Led development of a multi-stage agentic pipeline that classifies companies, matches developers to open roles, and runs multi-variant email and LinkedIn outreach with engagement-triggered follow-ups. Matching uses \textbf{RAG} over Pinecone (OpenAI embeddings, top-K cosine matching with thresholds and a relaxed fallback), and \textbf{GPT-4o-mini} classifies company fit and writes personalized outreach. Cut LLM costs \textbf{$\sim$90\%} with hybrid OpenAI/local \textbf{Ollama} inference, domain-keyed classification caching and hard pre-filters. Exposed a \textbf{Model Context Protocol (MCP)} server with live pipeline analytics and tools for Claude-driven lead collection. Instrumented with Sentry, health probes and a full audit trail; deployed on Kubernetes with Celery/Redis.}
+    \resumeItem{AI-powered B2B lead identification (Lead-ID)}
+      {Designed a lead-scoring engine that detects \textbf{40+ buying-intent signal types across 6 intent streams}, with recency-decay weighting, per-signal caps and multi-stream reinforcement. Generalized it to \textbf{three verticals} (IT staffing, accounting \& finance, AI consulting) through per-use-case rules, weights and thresholds stored in the database, so tuning needs no code change. GPT-4o-mini classifies job descriptions and writes ``why now'' narratives, with a regex fallback when the LLM is unavailable. Processes \textbf{500+ companies per batch} and tracks score changes across runs.}
+    \resumeItem{Coding agents in daily work}
+      {Build and review with \textbf{Claude Code} (project skills, MCP connectors) and Codex. Review teammates' merge requests against written step-by-step test checklists.}
+    \resumeItem{Tunga Desk}
+      {Built an Electron prototype that runs Claude Code or Codex headless over the team's shared AI kit (skills, team agents, a daily decision log), as part of Tunga's AI-first initiative.}
+    \resumeItem{Tunga Works platform}
+      {Built features across Tunga Works, the platform where developers, clients and staff run their engagements: timesheets, invoicing, payouts and onboarding. Ran a performance audit of the backend and frontend, and profiled and sped up slow endpoints (N+1 queries, lighter serializers for search). Features include invoicing (line items, multi-developer and partial invoices, credit notes, Exact Online sync), USD and Payoneer payouts, a timesheets redesign with comment threads and notifications, and onboarding with an AI resume parser.}
   \resumeItemListEnd
 
     \resumeSubheading
@@ -102,15 +158,13 @@
       {Software Engineer and Team Lead}{May 2020 - Oct 2023}
       \resumeItemListStart
         \resumeItem{Leadership}
-          {Provided technical leadership and mentorship to a team of developers and interns, ensuring the successful productization of ML models and effective management of MLOps workflows.}
-        \resumeItem{Model Deployment}
-          {Spearheaded the deployment of language translation models to an Amazon Sagemaker endpoint, facilitating seamless integration through an API for external users. Later on, led the migration from Sagemaker to GCP Vertex AI. These models power the Sunbird API.}
-        \resumeItem{Language Translation API}
-          {Developed and led the implementation of the Sunbird AI API, offering language technology services including translation, speech recognition, and text-to-speech in Ugandan local languages. Currently, the API is being utilised by Ugandan companies within their applications and was used in the IndabaX language technology hackathon.}
-        \resumeItem{Language Translation Frontend}
-          {Revamped the front end of the Ugandan languages translation app, transitioning it from vanilla Javascript to React, thus enabling faster feature development and eliminating a whole class of state-related bugs. This app played a pivotal role in the successful launch of Sunbird AI.}
-        \resumeItem{Noise Monitoring}
-          {Established the end-to-end infrastructure (including back end and front end) for the Environmental Noise Monitoring System in Kampala and Entebbe. Subsequently, orchestrated the migration of core components from a self-hosted setup to AWS IoT, significantly enhancing reliability and robustness. The Mayor of Entebbe relies on this system for monitoring and mitigating noise in the city.}
+          {Led and mentored a team of developers and interns that took ML models to production and ran the MLOps workflows.}
+        \resumeItem{Model deployment and API}
+          {Deployed the language translation models to an Amazon SageMaker endpoint, then led the migration to GCP Vertex AI. Built and led the Sunbird AI API (translation, speech recognition and text-to-speech in Ugandan languages), used by Ugandan companies in their apps and in the IndabaX language technology hackathon.}
+        \resumeItem{Translation frontend}
+          {Rewrote the Ugandan languages translation app from vanilla JavaScript to React, which made new features faster to build.}
+        \resumeItem{Noise monitoring}
+          {Built the back end and front end of the environmental noise monitoring system in Kampala and Entebbe, then moved its core from a self-hosted setup to AWS IoT. The Mayor of Entebbe uses it to monitor and reduce noise in the city.}
       \resumeItemListEnd
 
     \resumeSubheading
@@ -118,17 +172,15 @@
       {Software Engineer}{Aug. 2018 -- Apr. 2020}
       \resumeItemListStart
         \resumeItem{Android development}
-          {Built offline-functionality features for the Converge app (an internal meeting room management mobile app). Also improved how we wrote instrumented tests to mimic offline situations using the Test Butler library.}
-        \resumeItem{Leadership}
-          {Mentored new developers during their apprenticeship period by assigning them tasks, conducting code reviews and providing technical guidance.}
+          {Built offline features for Converge (an internal meeting-room app) and instrumented tests that simulate going offline, using Test Butler. Mentored apprentice developers through tasks and code reviews.}
       \resumeItemListEnd
 
     \resumeSubheading
-      {Makerere University Data Science and Artficial Intelligence Lab}{Kampala, Uganda}
+      {Makerere University Data Science and Artificial Intelligence Lab}{Kampala, Uganda}
       {Software Engineer Intern}{Jun. 2017 -- Sept. 2017}
       \resumeItemListStart
         \resumeItem{Android development}
-          {Developed a photo-annotation feature in the Android White-Fly count app which helped farmers to annotate pictures of white-fly infested cassava leaves.}
+          {Built photo annotation in the White-Fly count app, so farmers could mark white-fly infested cassava leaves.}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
@@ -139,59 +191,16 @@
     \resumeSubheading
       {Makerere University}{Kampala, Uganda}
       {Bachelor of Science in Computer Science}{Aug. 2015 - Apr. 2018}
-    \resumeSubheading
-      {Coursera Courses}{online}
-      {key specializations}{}
-      \begin{itemize}
-          \item \href{https://www.coursera.org/account/accomplishments/specialization/WZ4GBDD2XK6G}{Machine Learning Specialization}
-          \item \href{https://www.coursera.org/account/accomplishments/specialization/LWLVJGJHGMES}{Mathematics for Machine Learning}
-          \item \href{https://www.credly.com/badges/5c1873aa-4f91-407a-8acc-49829db0c712}{Deep Learning Specialization}
-      \end{itemize}
+    \item \small{\textbf{Coursera}: \href{https://www.coursera.org/account/accomplishments/specialization/WZ4GBDD2XK6G}{Machine Learning Specialization}, \href{https://www.coursera.org/account/accomplishments/specialization/LWLVJGJHGMES}{Mathematics for Machine Learning}, \href{https://www.credly.com/badges/5c1873aa-4f91-407a-8acc-49829db0c712}{Deep Learning Specialization}}
   \resumeSubHeadingListEnd
 
-
-%-----------PROJECTS-----------------
-\section{Projects}
-  \resumeSubHeadingListStart
-    \resumeSubItem{\href{https://github.com/cmplx-xyttmt/acu-gemma}{AcuGemma}}
-      {On-Device AI Tutoring App}
-      \resumeItemListStart
-        \resumeItem{Developed an on-device AI tutoring application for primary school students}
-        {Integrated the Gemma 3n 2B LLM directly onto an Android device using MediaPipe, which ensures user privacy, rapid response times, and full offline capability. The application features a dynamic prompting system that guides lessons, evaluates student responses, and provides context-aware feedback.}
-      \resumeItemListEnd
-    \resumeSubItem{\href{https://github.com/cmplx-xyttmt/uganda-coffee-traceability}{Uganda Coffee Traceability Dashboard}}
-      {Geospatial Data Visualization \& Verification Tool}
-      \resumeItemListStart
-        \resumeItem{Developed a dashboard to verify 97,000+ coffee plots against 2020 satellite baselines.}
-        {Integrated 10m-resolution Google Earth Engine data into a GeoDjango and PostGIS backend, featuring a GraphQL API for real-time coordinate verification and a React-Leaflet interface that manages high-density spatial layers through district-level filtering and geometry optimization.}
-      \resumeItemListEnd
-  \resumeSubHeadingListEnd
-
-% %-----------PROJECTS-----------------
-% \section{Projects}
-%   \resumeSubHeadingListStart
-%     \resumeSubheading
-%       {AcuGemma}{}
-%       {On-Device AI Tutoring App}{}
-%       \resumeItemListStart
-%         \resumeItem{Developed an on-device AI tutoring application for primary school students.}
-%           {Integrated the \textbf{Gemma LLM directly onto an Android device} using MediaPipe, which ensures user privacy, rapid response times, and full offline capability. The application features a dynamic prompting system that guides lessons, evaluates student responses, and provides context-aware feedback.}
-%         \resumeItem{Key technologies:}
-%           {Android, Gemma AI, MediaPipe, Kotlin, TensorFlow Lite.}
-%       \resumeItemListEnd
-%   \resumeSubHeadingListEnd
-
-%
 %--------PROGRAMMING SKILLS------------
-\section{Programming Skills}
+\section{Skills}
  \resumeSubHeadingListStart
-   \item{
-     \textbf{Languages}{: Python, Javascript, Kotlin}
-     \hfill
-     \textbf{Technologies}{: Django, React, FastAPI, PostgreSQL, AWS, GCP, Celery/Redis, Pinecone, OpenAI API, MCP, Kubernetes}
-   }
+   \item \small{\textbf{Languages}: Python, TypeScript/JavaScript, C++, Kotlin}
+   \item \small{\textbf{AI tools}: Claude Code (skills, MCP servers), Codex, OpenAI API, Ollama, Pinecone, Gemma via MediaPipe}
+   \item \small{\textbf{Technologies}: Django, FastAPI, React, Svelte, PostgreSQL, Celery/Redis, Kubernetes, Cloudflare Workers + D1, AWS, GCP}
  \resumeSubHeadingListEnd
-
 
 %-------------------------------------------
 \end{document}
