@@ -1,0 +1,320 @@
+{{ $id := printf "threat-models-%d" now.UnixNano }}
+<details class="not-prose threat-models artifact-embed" id="{{ $id }}" open>
+  <summary class="ae-summary">Interactive &middot; The same cipher, three attack models</summary>
+  <div class="ae-content">
+  <p>Pick an attack model. The table shows what that attacker has.</p>
+  <div class="models" data-el="models"></div>
+  <div class="card">
+    <table class="grid">
+      <thead><tr><th>Asset</th><th>You can see it</th><th>You can choose it</th></tr></thead>
+      <tbody data-el="gridBody"></tbody>
+    </table>
+    <p class="verdict" data-el="modelNote"></p>
+  </div>
+
+  <p>Below is real AES-128, encrypting the text in the box two ways. Each tile is one
+  16-byte block, coloured by its contents, so two tiles with the same colour are two
+  identical ciphertext blocks. Repeats get an amber border.</p>
+  <div class="card">
+    <div class="lockbar">
+      <span data-el="lockIcon">&#128274;</span>
+      <span data-el="lockNote"></span>
+      <button class="btn" data-el="fillBtn" type="button">Fill with repeated text</button>
+      <button class="btn" data-el="againBtn" type="button">Encrypt again</button>
+    </div>
+    <textarea data-el="input" spellcheck="false" aria-label="Plaintext"></textarea>
+    <div class="cols">
+      <div class="col">
+        <h3>ECB <span class="verdict" data-el="ecbCount"></span></h3>
+        <div class="blocks" data-el="ecbBlocks"></div>
+        <p class="verdict" data-el="ecbVerdict"></p>
+      </div>
+      <div class="col">
+        <h3>CBC <span class="verdict" data-el="cbcCount"></span></h3>
+        <div class="blocks" data-el="cbcBlocks"></div>
+        <p class="verdict" data-el="cbcVerdict"></p>
+      </div>
+    </div>
+  </div>
+  <p class="foot">Real AES-128 in about 60 lines of JavaScript, checked against the FIPS-197
+  and SP 800-38A test vectors and against a full S-box table. No libraries, no network.</p>
+  </div>
+</details>
+
+<style>
+  .threat-models {
+    --cream:#f7f3e9; --surface:#fffdf7; --surface-border:#e4dcc7;
+    --forest:#1f3d2b; --pine:#2f5a3d; --emerald:#2e7d52; --moss:#6b7a5a;
+    --amber:#c8862a; --clay:#b1552f; --ink:#16261c; --muted:#6a7568; --radius:16px;
+    --font-serif:Georgia,"Times New Roman",serif;
+    --font-sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  .dark .threat-models { --cream:#10180f; --surface:#17231a; --surface-border:#2b3d2f; --forest:#cfe3d1;
+          --pine:#a9d0b3; --emerald:#6fd39a; --ink:#e6f0e6; --muted:#92a290; --amber:#e0a44e; --clay:#e08c63; }
+  .threat-models * { box-sizing:border-box; }
+  .threat-models { color:var(--ink); font-family:var(--font-serif); line-height:1.6; }
+  .threat-models p { margin:.6rem 0; }
+  .threat-models h3 { font-size:1rem; color:var(--forest); font-family:var(--font-sans); }
+  .threat-models .card { background:var(--surface); border:1px solid var(--surface-border);
+          border-radius:var(--radius); padding:1.1rem 1.2rem; margin:1rem 0;
+          box-shadow:0 2px 10px rgba(31,61,43,.06); }
+
+  .threat-models .models { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0 .2rem; }
+  .threat-models .model { font-family:var(--font-sans); font-size:.85rem; cursor:pointer; text-align:left;
+          border:1px solid var(--surface-border); background:var(--surface); color:var(--ink);
+          border-radius:10px; padding:.5rem .8rem; flex:1 1 200px; line-height:1.35; }
+  .threat-models .model b { display:block; color:var(--pine); font-size:.9rem; }
+  .threat-models .model small { color:var(--muted); }
+  .threat-models .model[aria-pressed="true"] { border-color:var(--emerald); background:rgba(46,125,82,.12); }
+  .threat-models .model[aria-pressed="true"] b { color:var(--forest); }
+
+  .threat-models table.grid { width:100%; border-collapse:collapse; font-family:var(--font-sans); font-size:.88rem; margin:0; }
+  .threat-models table.grid th, .threat-models table.grid td { padding:.5rem .6rem;
+          border-bottom:1px solid var(--surface-border); text-align:left; }
+  .threat-models table.grid th { color:var(--moss); font-weight:600; font-size:.76rem;
+          text-transform:uppercase; letter-spacing:.06em; }
+  .threat-models table.grid td.asset { color:var(--forest); font-weight:600; }
+  .threat-models .yes { color:var(--emerald); font-weight:700; }
+  .threat-models .no  { color:var(--muted); }
+  .threat-models .key-row td { background:rgba(177,85,47,.07); }
+
+  .threat-models .lockbar { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+          font-family:var(--font-sans); font-size:.85rem; margin-bottom:.5rem; }
+  .threat-models textarea { width:100%; min-height:72px; font-family:var(--font-mono); font-size:.85rem;
+          padding:.6rem .7rem; border-radius:10px; border:1px solid var(--surface-border);
+          background:var(--cream); color:var(--ink); resize:vertical; }
+  .threat-models textarea[readonly] { opacity:.75; cursor:not-allowed; border-style:dashed; }
+  .threat-models .btn { font-family:var(--font-sans); font-size:.82rem; cursor:pointer;
+          border:1px solid var(--surface-border); background:var(--cream); color:var(--pine);
+          border-radius:8px; padding:.35rem .75rem; }
+  .threat-models .btn:hover:not(:disabled) { background:rgba(46,125,82,.12); }
+  .threat-models .btn:disabled { opacity:.4; cursor:not-allowed; }
+
+  .threat-models .cols { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+  @media (max-width:640px) { .threat-models .cols { grid-template-columns:1fr; } }
+  .threat-models .col h3 { margin:0 0 .5rem; display:flex; justify-content:space-between; align-items:baseline; }
+  .threat-models .blocks { display:flex; flex-wrap:wrap; gap:.35rem; }
+  .threat-models .blk { width:56px; height:56px; border-radius:8px; font-family:var(--font-mono);
+          font-size:.56rem; color:#fff; display:flex; align-items:flex-end; justify-content:center;
+          padding-bottom:3px; text-shadow:0 1px 2px rgba(0,0,0,.55); border:2px solid transparent; }
+  .threat-models .blk.dup { border-color:var(--amber); box-shadow:0 0 0 2px rgba(200,134,42,.35); }
+  .threat-models .verdict { font-family:var(--font-sans); font-size:.82rem; margin-top:.55rem; color:var(--muted); }
+  .threat-models .verdict b.hit { color:var(--amber); }
+  .threat-models .verdict b.miss { color:var(--emerald); }
+  .threat-models .foot { color:var(--muted); font-size:.85rem; margin-top:1.5rem; text-align:center; }
+
+  /* embed chrome, same as the other artifact shortcodes */
+  .threat-models.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
+  .threat-models > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .threat-models > .ae-summary::-webkit-details-marker { display:none; }
+  .threat-models > .ae-summary::before { content:"\25B8"; }
+  .threat-models[open] > .ae-summary::before { content:"\25BE"; }
+  .threat-models[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
+  .threat-models > .ae-content { padding:1rem; }
+  .dark .threat-models { --surface: transparent; --cream: transparent; }
+  .threat-models, .dark .threat-models { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
+  .threat-models { --muted: rgba(26, 40, 28, 0.72); }
+  .dark .threat-models { --muted: rgba(212, 218, 227, 0.70); }
+</style>
+
+<script>
+(function () {
+  const root = document.getElementById("{{ $id }}");
+  const $ = name => root.querySelector('[data-el="' + name + '"]');
+  /* ---------- AES-128 (encryption only), verified against NIST vectors ---------- */
+  function xtime(a){ return ((a << 1) ^ ((a >> 7) & 1 ? 0x1b : 0)) & 0xff; }
+  const SBOX = (function () {
+    const pow = new Uint8Array(256), log = new Uint8Array(256);
+    let x = 1;
+    for (let i = 0; i < 255; i++) { pow[i] = x; log[x] = i; x ^= xtime(x); }
+    const s = new Uint8Array(256);
+    for (let a = 0; a < 256; a++) {
+      const inv = a === 0 ? 0 : pow[(255 - log[a]) % 255];   /* the %255 matters: log[1] is 0 */
+      let v = inv;
+      for (let r = 1; r <= 4; r++) v ^= ((inv << r) | (inv >> (8 - r))) & 0xff;
+      s[a] = v ^ 0x63;
+    }
+    return s;
+  })();
+  function expandKey(key) {
+    const w = [];
+    for (let i = 0; i < 4; i++) w.push([key[4*i], key[4*i+1], key[4*i+2], key[4*i+3]]);
+    let rcon = 1;
+    for (let i = 4; i < 44; i++) {
+      let t = w[i-1];
+      if (i % 4 === 0) { t = [SBOX[t[1]] ^ rcon, SBOX[t[2]], SBOX[t[3]], SBOX[t[0]]]; rcon = xtime(rcon); }
+      w.push(w[i-4].map((b, j) => b ^ t[j]));
+    }
+    const keys = [];
+    for (let r = 0; r < 11; r++) {
+      const rk = new Uint8Array(16);
+      for (let c = 0; c < 4; c++) for (let j = 0; j < 4; j++) rk[4*c+j] = w[4*r+c][j];
+      keys.push(rk);
+    }
+    return keys;
+  }
+  function encryptBlock(rk, input) {
+    const s = new Uint8Array(input);
+    for (let i = 0; i < 16; i++) s[i] ^= rk[0][i];
+    for (let round = 1; round <= 10; round++) {
+      for (let i = 0; i < 16; i++) s[i] = SBOX[s[i]];
+      const t = s.slice();
+      for (let r = 1; r < 4; r++) for (let c = 0; c < 4; c++) s[r+4*c] = t[r + 4*((c+r) % 4)];
+      if (round < 10) {
+        for (let c = 0; c < 4; c++) {
+          const i = 4*c, a0 = s[i], a1 = s[i+1], a2 = s[i+2], a3 = s[i+3];
+          s[i]   = xtime(a0) ^ xtime(a1) ^ a1 ^ a2 ^ a3;
+          s[i+1] = a0 ^ xtime(a1) ^ xtime(a2) ^ a2 ^ a3;
+          s[i+2] = a0 ^ a1 ^ xtime(a2) ^ xtime(a3) ^ a3;
+          s[i+3] = xtime(a0) ^ a0 ^ a1 ^ a2 ^ xtime(a3);
+        }
+      }
+      for (let i = 0; i < 16; i++) s[i] ^= rk[round][i];
+    }
+    return s;
+  }
+  function pkcs7(b) {
+    const n = 16 - (b.length % 16), out = new Uint8Array(b.length + n);
+    out.set(b); out.fill(n, b.length); return out;
+  }
+  function ecbEncrypt(key, data) {
+    const rk = expandKey(key), p = pkcs7(data), out = new Uint8Array(p.length);
+    for (let i = 0; i < p.length; i += 16) out.set(encryptBlock(rk, p.subarray(i, i+16)), i);
+    return out;
+  }
+  function cbcEncrypt(key, data, iv) {
+    const rk = expandKey(key), p = pkcs7(data), out = new Uint8Array(p.length);
+    let prev = iv;
+    for (let i = 0; i < p.length; i += 16) {
+      const blk = new Uint8Array(16);
+      for (let j = 0; j < 16; j++) blk[j] = p[i+j] ^ prev[j];
+      prev = encryptBlock(rk, blk);
+      out.set(prev, i);
+    }
+    return out;
+  }
+  
+  /* ---------- the attack models ---------- */
+  const MODELS = {
+    wire: {
+      label: "Ciphertext only, one message",
+      blurb: "You caught a single ciphertext on the wire.",
+      rows: { key:["no","no"], plaintext:["no","no"], ciphertext:["one of them","no"] },
+      note: "Set 1 put you here for all eight challenges. You are handed something and you stare at it.",
+      locked: true,
+      sample: "We hold these truths to be self-evident, that all are created equal."
+    },
+    many: {
+      label: "Ciphertext only, many messages",
+      blurb: "You are logging traffic and have collected plenty.",
+      rows: { key:["no","no"], plaintext:["no","no"], ciphertext:["as many as you like","no"] },
+      note: "More data, and still no say over what goes in. You can now compare messages, which helps a lot more than it sounds when the same input always gives the same output.",
+      locked: true,
+      sample: "We hold these truths to be self-evident, that all are created equal."
+    },
+    chosen: {
+      label: "Chosen plaintext",
+      blurb: "You can feed it input and read what comes back.",
+      rows: { key:["no","no"], plaintext:["yes","yes, and this is the difference"], ciphertext:["as many as you like","no"] },
+      note: "The key is still secret and always will be. You never learn it. You do not need to.",
+      locked: false,
+      sample: "We hold these truths to be self-evident, that all are created equal."
+    }
+  };
+  let model = "wire";
+  
+  const modelsEl = $("models");
+  Object.entries(MODELS).forEach(([id, s]) => {
+    const b = document.createElement("button");
+    b.className = "model"; b.type = "button"; b.dataset.model = id;
+    b.setAttribute("aria-pressed", String(id === model));
+    b.innerHTML = "<b>" + s.label + "</b><small>" + s.blurb + "</small>";
+    b.addEventListener("click", () => setModel(id));
+    modelsEl.appendChild(b);
+  });
+  
+  function setModel(id) {
+    model = id;
+    [...modelsEl.children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.model === id)));
+    const s = MODELS[id];
+    const cell = v => v === "no" ? '<span class="no">no</span>' : '<span class="yes">' + v + "</span>";
+    $("gridBody").innerHTML =
+      Object.entries(s.rows).map(([asset, [see, choose]]) =>
+        '<tr' + (asset === "key" ? ' class="key-row"' : '') + '><td class="asset">' + asset +
+        "</td><td>" + cell(see) + "</td><td>" + cell(choose) + "</td></tr>").join("");
+    $("modelNote").textContent = s.note;
+  
+    const ta = $("input");
+    ta.readOnly = s.locked;
+    ta.value = s.sample;
+    $("lockIcon").textContent = s.locked ? "\u{1F512}" : "\u{1F513}";
+    $("lockNote").textContent = s.locked
+      ? "The input is not yours. You get what you are given."
+      : "The input is yours. Type anything.";
+    $("fillBtn").disabled = s.locked;
+    if (!s.locked) ta.focus();
+    render();
+  }
+  
+  /* ---------- the block view ---------- */
+  const KEY = new TextEncoder().encode("YELLOW SUBMARINE");
+  let iv = randomBytes();
+  function randomBytes() {
+    const b = new Uint8Array(16);
+    if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(b);
+    else for (let i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256);
+    return b;
+  }
+  function blocksOf(bytes) {
+    const out = [];
+    for (let i = 0; i < bytes.length; i += 16) out.push(bytes.subarray(i, i + 16));
+    return out;
+  }
+  function hexOf(b) { return Array.from(b).map(x => x.toString(16).padStart(2, "0")).join(""); }
+  function colourOf(b) {
+    const h = ((b[0] << 8 | b[1]) * 360 / 65536) % 360;
+    return "hsl(" + h.toFixed(0) + " " + (46 + b[9] % 34) + "% " + (36 + b[13] % 24) + "%)";
+  }
+  function paint(el, blocks) {
+    const seen = new Map();
+    blocks.forEach(b => { const k = hexOf(b); seen.set(k, (seen.get(k) || 0) + 1); });
+    el.innerHTML = "";
+    blocks.forEach(b => {
+      const k = hexOf(b), d = document.createElement("div");
+      d.className = "blk" + (seen.get(k) > 1 ? " dup" : "");
+      d.style.background = colourOf(b);
+      d.textContent = k.slice(0, 6);
+      d.title = k;
+      el.appendChild(d);
+    });
+    return new Set(seen.keys()).size;
+  }
+  function render() {
+    const data = new TextEncoder().encode($("input").value);
+    const ecb = blocksOf(ecbEncrypt(KEY, data));
+    const cbc = blocksOf(cbcEncrypt(KEY, data, iv));
+    const ecbDistinct = paint($("ecbBlocks"), ecb);
+    const cbcDistinct = paint($("cbcBlocks"), cbc);
+  
+    $("ecbCount").textContent = ecb.length + " blocks, " + ecbDistinct + " distinct";
+    $("cbcCount").textContent = cbc.length + " blocks, " + cbcDistinct + " distinct";
+    $("ecbVerdict").innerHTML = ecbDistinct < ecb.length
+      ? '<b class="hit">Repeats found.</b> Identical plaintext blocks became identical ciphertext blocks. You can spot that without the key.'
+      : '<b class="miss">No repeats.</b> Nothing to detect here. ECB is just as broken, this text just did not happen to show it.';
+    $("cbcVerdict").innerHTML = cbcDistinct < cbc.length
+      ? '<b class="hit">Repeats found</b>, which with this much text is a coincidence worth a second look.'
+      : '<b class="miss">No repeats.</b> Each block is mixed with the one before it, so identical plaintext blocks land on different ciphertext.';
+  }
+  
+  $("input").addEventListener("input", render);
+  $("againBtn").addEventListener("click", () => { iv = randomBytes(); render(); });
+  $("fillBtn").addEventListener("click", () => {
+    const ta = $("input");
+    ta.value = "the same sixteen".repeat(4);
+    ta.focus(); render();
+  });
+  
+  setModel("wire");
+})();
+</script>
