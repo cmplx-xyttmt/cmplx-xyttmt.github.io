@@ -24,7 +24,11 @@ workflow are documented in `README.md` (`hugo server -D` to preview drafts).
   (`partials/sidebar.html`: handle, name, bio, nav, links, light/dark switch).
   Every other page gets a full-width top bar (`partials/topbar.html`: handle,
   nav, theme switch) and, on posts, the table of contents in the rail
-  (`partials/toc.html`). The menu itself is `partials/nav.html`. Below 1080px
+  (`partials/toc.html`). The top bar is sticky, and TOC links scroll smoothly
+  (`scroll-behavior`, off under reduced motion); headings get
+  `scroll-margin-top` from `--topbar-h` so they land below the bar. The theme's
+  `body { height: 100% }` is overridden to `auto`, or sticky stops working.
+  The menu itself is `partials/nav.html`. Below 1080px
   the TOC is dropped; below 820px everything stacks. The theme's header is not
   used.
 - **Home** (`layouts/_default/list.html` + `partials/post-row.html`) lists every

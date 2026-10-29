@@ -64,7 +64,10 @@
   <!---->
 
   <!-- Favicon -->
-  <link rel="icon" href="{{ `favicon.ico` | absURL }}" />
+  {{/* The accent square from the sidebar/top bar (static/favicon.svg);
+       favicon.ico is the fallback for browsers without SVG icons. */}}
+  <link rel="icon" href="{{ `favicon.ico` | absURL }}" sizes="any" />
+  <link rel="icon" href="{{ `favicon.svg` | absURL }}" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="{{ `apple-touch-icon.png` | absURL }}" />
 
   <!-- Generator -->

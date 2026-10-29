@@ -17,6 +17,9 @@
 /* Note: the theme puts an inline `--bg` on <html>, so the page colour is
    `--page` here to avoid being overridden by it. */
 :root {
+  /* Height of the sticky top bar on non-home pages */
+  --topbar-h: 68px;
+
   /* Ground and surfaces */
   --page: #fbfaf7;
   --panel: #ffffff;
@@ -132,7 +135,21 @@ html,
 body {
   background: var(--page) !important;
 }
+/* In-page links (the TOC) glide to their section instead of jumping.
+   Turned off below for prefers-reduced-motion. */
+html {
+  scroll-behavior: smooth;
+}
+/* Leave room for the sticky top bar when jumping to a heading. */
+:target,
+.prose :is(h2, h3, h4) {
+  scroll-margin-top: calc(var(--topbar-h) + 24px);
+}
 body {
+  /* The theme sets html, body { height: 100% }, which caps body at one
+     screen and makes the sticky top bar stop sticking after that. */
+  height: auto;
+  min-height: 100%;
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -167,14 +184,22 @@ a {
   padding: 4px;
   margin: -4px;
 }
+.nb-shell:not(.nb-shell--home) .nb-rail {
+  top: calc(var(--topbar-h) + 32px);
+  max-height: calc(100vh - var(--topbar-h) - 48px);
+}
 .nb-main {
   min-width: 0;
 }
 
 /* ---- Top bar (every page but home) ---- */
 .nb-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--page);
   padding: 0 clamp(16px, 5vw, 80px);
-  min-height: 68px;
+  min-height: var(--topbar-h);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -820,6 +845,10 @@ a.tag:hover {
   .nb-side {
     gap: 18px;
   }
+  :root {
+    /* the bar wraps to two rows on phones */
+    --topbar-h: 96px;
+  }
   .nb-topbar {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -859,6 +888,9 @@ a.tag:hover {
 /* Motion: gentle, and fully disabled on request                       */
 /* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   ::before,
   ::after {
