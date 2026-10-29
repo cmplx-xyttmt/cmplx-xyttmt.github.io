@@ -1,0 +1,17 @@
+{{/* Main menu links, shared by the home sidebar and the top bar.
+     "Posts" points at the home page, so it is current on home, the posts
+     section, tag pages and posts themselves. */}}
+{{ $current := . }}
+{{ with site.Menus.main }}
+<nav class="nb-nav" aria-label="Main">
+  {{ range . }}
+  {{ $active := false }}
+  {{ if eq .URL "/" }}
+    {{ $active = or $current.IsHome (eq $current.Section "posts") (eq $current.Kind "taxonomy") (eq $current.Kind "term") }}
+  {{ else }}
+    {{ $active = eq $current.RelPermalink .URL }}
+  {{ end }}
+  <a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a>
+  {{ end }}
+</nav>
+{{ end }}

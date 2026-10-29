@@ -2,7 +2,7 @@
 title = 'Design System Demo (draft)'
 date = 2026-07-23T09:00:00+03:00
 draft = true
-description = 'A scratch page to preview the 2brain-inspired reskin: reading type, gel cards, callouts, and the interactive solution shortcode.'
+description = 'A scratch page to preview the Notebook design: reading type, panels, callouts, and the interactive solution shortcode.'
 tags = ['meta', 'design']
 math = true
 +++
@@ -11,8 +11,8 @@ This is a throwaway page to preview the redesign. Delete it before publishing.
 
 ## Reading type
 
-The body now sets in a warm serif for an editorial feel, on a soft cream
-gradient. Headings are forest green. Here's some `inline code`, a [link](/),
+The body sets in IBM Plex Serif on a warm white page. Headings are Plex Sans
+in near-black, and vermilion is the only accent. Here's some `inline code`, a [link](/),
 and a blockquote:
 
 > Understand the user's problems, goals, and perspective deeply.
@@ -31,8 +31,8 @@ And some math, since `math = true`: $\; e^{i\pi} + 1 = 0$.
 
 ## Interactive shortcode
 
-Below the fold is a collapsible solution card — the signature "gel" surface
-with a gradient button. Click it:
+Below is a collapsible solution card: a bordered panel with an accent
+button. Click it:
 
 {{< solution title="Closed form" button="Reveal solution" >}}
 The $n$-th Fibonacci number has a closed form (Binet's formula):
@@ -48,15 +48,15 @@ Callouts are shortcodes (raw HTML in markdown is stripped by Hugo), with a
 meaning-colored accent bar:
 
 {{< callout title="Note" >}}
-The default callout uses the emerald accent.
+The default callout is a plain note.
 {{< /callout >}}
 
 {{< callout type="amber" title="Heads up" >}}
-The amber variant signals caution.
+The amber variant adds an accent tint for caution.
 {{< /callout >}}
 
 ## Gel card
 
 {{< gelcard title="Grouped content" >}}
-A frosted glass container for grouping notes or wrapping a small demo.
+A bordered panel for grouping notes or wrapping a small demo.
 {{< /gelcard >}}

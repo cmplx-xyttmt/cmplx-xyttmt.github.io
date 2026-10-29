@@ -1,44 +1,68 @@
 {{ $id := printf "atcoder-device-%d" (now.UnixNano) }}
 
-<div class="atcoder-device" id="{{ $id }}">
+<div class="atcoder-device not-prose" id="{{ $id }}">
+    <div class="device-caption">Interactive &middot; AtCoder device</div>
     <div class="device-screen">
         <span class="display-text"></span>
     </div>
     <div class="device-buttons">
-        <button class="button-a">Button A</button>
-        <button class="button-b">Button B</button>
-        <button class="button-clear">Clear</button>
+        <button type="button" class="button-a">Button A</button>
+        <button type="button" class="button-b">Button B</button>
+        <button type="button" class="button-clear">Clear</button>
     </div>
     <div class="device-challenge">
         <div class="challenge-info">
-            <div class="target-string">Target: <span class="target-value"></span></div>
-            <div class="moves">Moves: <span class="moves-count">0</span></div>
-            <div class="expected-moves">Expected minimum moves: <span class="expected-value"></span></div>
+            <div class="target-string">Target <span class="target-value"></span></div>
+            <div class="moves">Moves <span class="moves-count">0</span></div>
+            <div class="expected-moves">Expected minimum moves <span class="expected-value"></span></div>
         </div>
         <div class="challenge-status"></div>
-        <button class="new-challenge-btn">New Challenge</button>
+        <button type="button" class="new-challenge-btn">New Challenge</button>
     </div>
 </div>
 
 <style>
+/* Notebook design: flat panel, tokens from assets/custom.css. */
 .atcoder-device {
     max-width: 600px;
     margin: 2rem auto;
-    padding: 2rem;
-    border: 2px solid #333;
-    border-radius: 10px;
-    background: #f5f5f5;
+    padding: 20px 22px 22px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-card);
+    background: var(--panel);
+    color: var(--text);
+    font-family: var(--font-sans);
 }
 
-.device-screen {
-    background: #000;
-    color: #0f0;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    font-family: monospace;
+.atcoder-device .device-caption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+.atcoder-device .device-caption::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    flex-shrink: 0;
+}
+
+/* The device's display: inverted ink panel so it reads as a screen. */
+.atcoder-device .device-screen {
+    background: var(--ink);
+    color: var(--page);
+    padding: 0 16px;
+    margin-bottom: 12px;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
     font-size: 1.5rem;
-    height: 3rem;
+    height: 3.5rem;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -46,92 +70,128 @@
     white-space: nowrap;
 }
 
-.device-buttons {
+/* In dark mode an inverted screen would be a bright slab, so sink it instead. */
+.dark .atcoder-device .device-screen {
+    background: var(--page);
+    color: var(--ink);
+    border: 1px solid var(--line);
+}
+
+.atcoder-device .device-buttons {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
-.device-buttons button {
-    flex: 1;
-    padding: 0.5rem;
-    font-size: 1rem;
+.atcoder-device button {
+    min-height: 40px;
+    padding: 0 16px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background 0.3s;
+    border-radius: var(--radius);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.atcoder-device button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-.device-buttons button:hover {
-    background: #45a049;
+.atcoder-device .device-buttons button {
+    flex: 1;
+    background: var(--accent);
+    color: var(--on-accent);
+    border: 1px solid var(--accent);
+}
+.atcoder-device .device-buttons button:hover:not(:disabled) {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
 }
 
-.button-clear {
-    background: #f44336 !important;
+.atcoder-device .device-buttons .button-clear,
+.atcoder-device .new-challenge-btn {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+}
+.atcoder-device .device-buttons .button-clear:hover,
+.atcoder-device .new-challenge-btn:hover {
+    background: transparent;
+    border-color: var(--ink);
 }
 
-.button-clear:hover {
-    background: #d32f2f !important;
+.atcoder-device .device-challenge {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
 }
 
-.device-challenge {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-.challenge-info {
+.atcoder-device .challenge-info {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-    color: #333;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
 }
 
-.challenge-info > div {
+.atcoder-device .challenge-info > div {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: baseline;
+    gap: 10px;
+}
+.atcoder-device .challenge-info span {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
 }
 
-.challenge-status {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: bold;
+.atcoder-device .challenge-status {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+}
+.atcoder-device .challenge-status:empty {
+    display: none;
 }
 
-.challenge-status.success {
-    background: #e8f5e9;
-    color: #2e7d32;
+/* Reached the target in the fewest moves: green. Reached it, but in
+   more moves: accent. Each also has a different marker glyph. */
+.atcoder-device .challenge-status.success {
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    background: var(--green-soft);
+    border-left: 3px solid var(--green);
+}
+.atcoder-device .challenge-status.success::before {
+    content: "\2713  ";
+    color: var(--green);
+}
+.atcoder-device .challenge-status.failure {
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    border-left: 3px dashed var(--accent);
+}
+.atcoder-device .challenge-status.failure::before {
+    content: "\2192  ";
+    color: var(--accent);
 }
 
-.challenge-status.failure {
-    background: #ffebee;
-    color: #c62828;
-}
-
-.new-challenge-btn {
+.atcoder-device .new-challenge-btn {
     display: block;
     width: 100%;
-    margin-top: 1rem;
-    padding: 0.75rem;
-    background: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
+    margin-top: 14px;
 }
 
-.new-challenge-btn:hover {
-    background: #1976D2;
+@media (max-width: 480px) {
+    .atcoder-device { padding: 16px; }
+    .atcoder-device .device-buttons button { padding: 0 8px; }
 }
 </style>
 

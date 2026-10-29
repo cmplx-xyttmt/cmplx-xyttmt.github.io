@@ -1,0 +1,36 @@
+{{ define "main" }}
+{{/* Single page (Notebook design). Posts get a mono meta line (date and
+     tags) above the title, and previous/next links at the end. The table of
+     contents lives in the sidebar. */}}
+<article>
+  <header class="nb-post-head">
+    {{ if ne .Type "page" }}
+    <div class="nb-post-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+      {{ range .Params.tags }}
+      <span>&nbsp;·&nbsp;<a href="{{ "tags/" | relLangURL }}{{ . | urlize }}/">{{ . | lower }}</a></span>
+      {{ end }}
+    </div>
+    {{ end }}
+    <h1 class="nb-post-title">{{ .Title }}</h1>
+  </header>
+
+  <div class="prose">{{ .Content }}</div>
+
+  {{ if not site.Params.disablePostNavigation }}
+  {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+  {{ if and (gt (len $pages) 1) (in $pages .) }}
+  <nav class="nb-postnav" aria-label="More posts">
+    {{ with $pages.Next . }}
+    <a href="{{ .RelPermalink }}"><span class="nb-label">← NEWER</span><span>{{ .Title }}</span></a>
+    {{ end }}
+    {{ with $pages.Prev . }}
+    <a class="nb-next" href="{{ .RelPermalink }}"><span class="nb-label">OLDER →</span><span>{{ .Title }}</span></a>
+    {{ end }}
+  </nav>
+  {{ end }}
+  {{ end }}
+
+  {{- partial "mermaid.html" . -}}
+</article>
+{{ end }}

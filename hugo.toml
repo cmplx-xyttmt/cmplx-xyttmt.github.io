@@ -12,8 +12,15 @@ theme = 'paper'
 
     avatar = "https://avatars.githubusercontent.com/u/26762336?s=400&u=897a77ff678657345a82d196b192f2fd8fcaca06&v=4"
     name = "Hello, I'm Isaac Owomugisha"
+    fullName = "Isaac Owomugisha"
     bio = "Software engineer and perpetual learner. I like digging into CS and math for fun: algorithms, distributed systems, graphics, performance engineering, and AI. This site is where I explore and write about what I learn."
     math = true
+
+    # Notebook redesign: code is highlighted at build time by Chroma with CSS
+    # classes (styled in assets/custom.css), so the theme's highlight.js is off.
+    disableHLJS = true
+    # Posts that embed one of these shortcodes get an "interactive" marker.
+    interactiveShortcodes = ['atcoder-device', 'bytes-vs-strings', 'ecb-penguin', 'monotonic-deque', 'threat-models', 'vigenere-keysize']
 
 [menu]
     [[menu.main]]
@@ -36,3 +43,10 @@ theme = 'paper'
 #        name = "Algo Log"
 #        url = "/algorithms/"
 #        weight = 10
+
+[markup.highlight]
+    noClasses = false
+
+[markup.tableOfContents]
+    startLevel = 2
+    endLevel = 2

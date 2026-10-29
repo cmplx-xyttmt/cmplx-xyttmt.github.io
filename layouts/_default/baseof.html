@@ -1,0 +1,74 @@
+<!doctype html>
+{{/* Site-level override of the paper theme's baseof.html (Notebook design).
+
+     Home: a sidebar (partials/sidebar.html) pinned to the left edge of the
+     window, with the post list centred on the page.
+     Every other page: a full-width top bar (partials/topbar.html), with the
+     content centred on the page and, on posts, the table of contents pinned
+     to the left edge (partials/toc.html).
+
+     The grid is three columns: left rail, centred main column, and an empty
+     right column that keeps the main column centred. */}}
+<html class="not-ready" lang="{{ or site.LanguageCode site.Language.Lang }}">
+  {{ partial "head.html" . }}
+  <body>
+    {{/* Dark mode runs first so the page never flashes the wrong colours.
+         Same localStorage key ("dark") as the paper theme used. */}}
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var stored = null;
+        try { stored = localStorage.getItem('dark'); } catch (e) {}
+        var dark = stored ? stored === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        root.classList.toggle('dark', dark);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#181715' : '#fbfaf7');
+        setTimeout(function () { root.classList.remove('not-ready'); }, 10);
+      })();
+    </script>
+
+    {{ if not .IsHome }}{{ partial "topbar.html" . }}{{ end }}
+
+    <div class="nb-shell{{ if .IsHome }} nb-shell--home{{ end }}">
+      <div class="nb-rail">
+        {{ if .IsHome }}{{ partial "sidebar.html" . }}{{ else }}{{ partial "toc.html" . }}{{ end }}
+      </div>
+
+      <main class="nb-main">
+        {{ block "main" . }}{{ end }}
+        {{ partial "footer.html" . }}
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var dark = !root.classList.contains('dark');
+            root.classList.toggle('dark', dark);
+            try { localStorage.setItem('dark', dark); } catch (e) {}
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', dark ? '#181715' : '#fbfaf7');
+          });
+        });
+
+        // Highlight the TOC entry for the section being read.
+        var toc = document.querySelector('.nb-toc');
+        if (!toc || !('IntersectionObserver' in window)) return;
+        var links = {};
+        toc.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          links[decodeURIComponent(a.getAttribute('href').slice(1))] = a;
+        });
+        var heads = Object.keys(links).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+        var obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            Object.keys(links).forEach(function (k) { links[k].classList.toggle('is-current', k === e.target.id); });
+          });
+        }, { rootMargin: '0px 0px -70% 0px' });
+        heads.forEach(function (h) { obs.observe(h); });
+      })();
+    </script>
+  </body>
+</html>

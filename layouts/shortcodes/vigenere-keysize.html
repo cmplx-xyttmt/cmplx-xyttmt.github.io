@@ -56,8 +56,8 @@
     </div>
     <div class="hint" style="margin-top:.5rem">Ciphertext length: <span data-el="ctlen">&ndash;</span> bytes.
       <strong>Taller = lower normalised distance = more likely the key length.</strong>
-      Best candidate is <span style="color:var(--emerald)">green</span>; its
-      <em>multiples</em> get a green ring. Click any bar to break with that K below.</div>
+      The best candidate is the solid <span class="kbest" aria-hidden="true"></span> accent bar; its
+      <em>multiples</em> get a pale fill with an accent outline <span class="kmult" aria-hidden="true"></span>. Click any bar to break with that K below.</div>
     <div data-el="chart" class="chart"></div>
     <div data-el="xaxis" class="xaxis"></div>
   </div>
@@ -142,134 +142,134 @@
 </details>
 
 <style>
-  .vigenere-keysize {
-    --cream: #f7f3e9; --surface: #fffdf7; --surface-border: #e4dcc7;
-    --forest: #1f3d2b; --pine: #2f5a3d; --emerald: #2e7d52; --moss: #6b7a5a;
-    --amber: #c8862a; --clay: #b1552f; --ink: #16261c; --muted: #6a7568;
-    --code-bg: #14251b; --code-text: #e8f0e4; --radius: 16px;
-    --font-serif: Georgia, "Times New Roman", serif;
-    --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-  }
-  .dark .vigenere-keysize {
-    --cream:#10180f; --surface:#17231a; --surface-border:#2b3d2f; --forest:#cfe3d1;
-    --pine:#a9d0b3; --emerald:#6fd39a; --ink:#e6f0e6; --muted:#92a290;
-    --code-bg:#0b130d; --code-text:#dcead9;
-  }
-  .vigenere-keysize * { box-sizing: border-box; }
-  .vigenere-keysize { color:var(--ink);
-         font-family:var(--font-serif); line-height:1.6; }
-  .vigenere-keysize.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
-  .vigenere-keysize > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  /* "Notebook" design: every colour comes from the site tokens in
+     assets/custom.css, so light and dark mode flip on their own. */
+  .vigenere-keysize * { box-sizing:border-box; }
+  .dark .vigenere-keysize { color-scheme:dark; } /* native radios, sliders, scrollbars */
+  .vigenere-keysize { color:var(--text); font-family:var(--font-serif); line-height:1.6; }
+  .vigenere-keysize.artifact-embed { background:var(--panel); border:1px solid var(--rule);
+    border-radius:var(--radius-card); margin:2rem 0; overflow:hidden; }
+  .vigenere-keysize > .ae-summary { cursor:pointer; list-style:none; padding:14px 22px;
+    font-family:var(--font-mono); font-size:12px; font-weight:400; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; }
   .vigenere-keysize > .ae-summary::-webkit-details-marker { display:none; }
-  .vigenere-keysize > .ae-summary::before { content:"\25B8"; }
-  .vigenere-keysize[open] > .ae-summary::before { content:"\25BE"; }
-  .vigenere-keysize[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
-  .vigenere-keysize > .ae-content { padding:1rem; }
-  .vigenere-keysize h1 { font-size:1.8rem; color:var(--forest); margin:0 0 .3rem; }
-  .vigenere-keysize h2 { font-size:1.25rem; color:var(--pine); margin:2.2rem 0 .5rem;
-       border-bottom:2px solid var(--surface-border); padding-bottom:.3rem; }
-  .vigenere-keysize p { margin:.5rem 0; } .vigenere-keysize .lede { color:var(--muted); font-size:1.05rem; }
-  .vigenere-keysize code, .vigenere-keysize .mono { font-family:var(--font-mono); }
-  .vigenere-keysize .card { background:var(--surface); border:1px solid var(--surface-border);
-          border-radius:var(--radius); padding:1.1rem 1.2rem; margin:1rem 0;
-          box-shadow:0 2px 10px rgba(31,61,43,.06); }
-  .vigenere-keysize label { font-family:var(--font-sans); font-size:.8rem; text-transform:uppercase;
-          letter-spacing:.05em; color:var(--moss); display:block; margin-bottom:.35rem; }
-  .vigenere-keysize input[type=text], .vigenere-keysize textarea {
-    width:100%; font-family:var(--font-mono); font-size:.95rem; padding:.55rem .7rem;
-    border:1px solid var(--surface-border); border-radius:10px; background:var(--cream);
-    color:var(--ink); }
-  .vigenere-keysize textarea { min-height: 5.5rem; resize: vertical; line-height:1.4; }
-  .vigenere-keysize input:focus, .vigenere-keysize textarea:focus { outline:2px solid var(--emerald); border-color:var(--emerald); }
+  .vigenere-keysize > .ae-summary::before { content:""; width:7px; height:7px; flex:0 0 7px; background:var(--accent); }
+  .vigenere-keysize > .ae-summary::after { content:"\25B8"; margin-left:auto; color:var(--muted); font-size:12px; }
+  .vigenere-keysize[open] > .ae-summary::after { content:"\25BE"; }
+  .vigenere-keysize > .ae-summary:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+  .vigenere-keysize[open] > .ae-summary { border-bottom:1px solid var(--rule); }
+  .vigenere-keysize > .ae-content { padding:20px 22px 22px; }
+  .vigenere-keysize h1 { font-family:var(--font-sans); font-size:1.5rem; font-weight:600; line-height:1.25;
+    color:var(--ink); margin:0 0 .4rem; letter-spacing:-.01em; }
+  .vigenere-keysize h2 { font-family:var(--font-sans); font-size:1.15rem; font-weight:600; color:var(--ink);
+    margin:2.2rem 0 .5rem; border-bottom:1px solid var(--rule); padding-bottom:.35rem; }
+  .vigenere-keysize p { margin:.5rem 0; }
+  .vigenere-keysize .lede { color:var(--text-2); font-size:1.05rem; }
+  .vigenere-keysize strong { color:var(--ink); }
+  .vigenere-keysize code, .vigenere-keysize .mono { font-family:var(--font-mono); font-size:.9em; }
+  .vigenere-keysize p code, .vigenere-keysize .revealbody code { background:var(--inline-code-bg); padding:.05em .3em; border-radius:4px; }
+  .vigenere-keysize .card { background:var(--page); border:1px solid var(--rule);
+    border-radius:var(--radius-card); padding:18px 20px; margin:1rem 0; }
+  .vigenere-keysize label { font-family:var(--font-mono); font-size:12px; text-transform:uppercase;
+    letter-spacing:.04em; color:var(--muted); display:block; margin-bottom:.35rem; }
+  .vigenere-keysize input[type=text], .vigenere-keysize input[type=number], .vigenere-keysize textarea {
+    width:100%; font-family:var(--font-mono); font-size:14px; padding:.55rem .7rem; min-height:40px;
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--page); color:var(--ink); }
+  .vigenere-keysize textarea { min-height:5.5rem; resize:vertical; line-height:1.45; }
+  .vigenere-keysize input:focus, .vigenere-keysize textarea:focus { outline:none; }
+  .vigenere-keysize input[type=text]:focus-visible, .vigenere-keysize input[type=number]:focus-visible,
+  .vigenere-keysize textarea:focus-visible { outline:2px solid var(--accent); outline-offset:0; border-color:var(--accent); }
+  .vigenere-keysize input[type=range]:focus-visible, .vigenere-keysize input[type=radio]:focus-visible {
+    outline:2px solid var(--accent); outline-offset:2px; }
+  .vigenere-keysize input[type=range], .vigenere-keysize input[type=radio] { accent-color:var(--accent); }
   .vigenere-keysize .row { display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end; }
   .vigenere-keysize .row > div { flex:1 1 auto; }
-  .vigenere-keysize .num { font-family:var(--font-sans); }
-  .vigenere-keysize .num b { color:var(--emerald); font-size:1.1rem; }
-  .vigenere-keysize .quest { border-left:4px solid var(--amber); background:rgba(200,134,42,.08);
-           padding:.6rem .9rem; border-radius:8px; margin:.9rem 0; font-size:.97rem; }
-  .vigenere-keysize .quest strong { color:var(--clay); }
-  .vigenere-keysize .modes { display:flex; gap:1.3rem; margin-bottom:.7rem; font-family:var(--font-sans); }
-  .vigenere-keysize .modes label { display:inline-flex; align-items:center; gap:.35rem; text-transform:none;
-                 letter-spacing:0; color:var(--ink); font-size:.92rem; margin:0; cursor:pointer; }
+  .vigenere-keysize .num { font-family:var(--font-mono); font-size:13px; color:var(--muted); }
+  .vigenere-keysize .num b { color:var(--accent); font-size:1.1rem; font-weight:600; }
+  .vigenere-keysize .quest { background:var(--note-bg); border-radius:var(--radius);
+    padding:14px 18px; margin:1rem 0 .2rem; font-family:var(--font-sans); font-size:15px; color:var(--text); }
+  .vigenere-keysize .modes { display:flex; flex-wrap:wrap; gap:.5rem 1.3rem; margin-bottom:.8rem; font-family:var(--font-sans); }
+  .vigenere-keysize .modes label { display:inline-flex; align-items:center; gap:.4rem; text-transform:none;
+    letter-spacing:0; color:var(--ink); font-family:var(--font-sans); font-size:14px; margin:0; cursor:pointer; }
   .vigenere-keysize .hidden { display:none; }
-  /* bit grids */
+  /* bit grids: neutral cells, differing bits solid accent */
   .vigenere-keysize .bits { display:flex; flex-wrap:wrap; gap:7px; margin:.4rem 0 .6rem; }
   .vigenere-keysize .byteblk { display:inline-flex; flex-direction:column; align-items:center; }
   .vigenere-keysize .byterow { display:flex; gap:1px; }
   .vigenere-keysize .byterow + .byterow { margin-top:2px; }
   .vigenere-keysize .bit { width:1rem; height:1rem; display:flex; align-items:center; justify-content:center;
-         font-family:var(--font-mono); font-size:.7rem; border-radius:2px;
-         background:#e7eede; color:#3a4a38; }
-  .vigenere-keysize .bit.diff { background:var(--clay); color:#fff; font-weight:bold; }
-  .vigenere-keysize .bytelabel { font-family:var(--font-mono); font-size:.72rem; color:var(--muted);
-               margin-top:3px; min-height:1em; white-space:pre; }
-  .vigenere-keysize .bitlegend { font-family:var(--font-sans); font-size:.78rem; color:var(--moss); margin:.2rem 0 .3rem; }
-  /* bar chart */
-  .vigenere-keysize .chart { display:flex; align-items:flex-end; gap:3px; height:180px; margin:.6rem 0 .2rem;
-           border-bottom:2px solid var(--surface-border); padding-top:4px; overflow-x:auto; }
-  .vigenere-keysize .bar { flex:1 0 14px; background:var(--moss); border-radius:3px 3px 0 0; position:relative;
-         cursor:pointer; transition:background .1s; min-width:14px; }
-  .vigenere-keysize .bar:hover { background:var(--pine); outline:2px solid var(--pine); }
-  .vigenere-keysize .bar.min { background:var(--emerald); }
-  .vigenere-keysize .bar.mult { box-shadow: inset 0 0 0 2px var(--emerald); }
-  .vigenere-keysize .bar.sel { outline:3px solid var(--amber); }
-  .vigenere-keysize .xaxis { display:flex; gap:3px; font-family:var(--font-mono); font-size:.62rem;
-           color:var(--muted); overflow-x:auto; }
+    font-family:var(--font-mono); font-size:.7rem; border-radius:2px;
+    background:var(--code-bg); color:var(--text-2); box-shadow:inset 0 0 0 1px var(--rule); }
+  .vigenere-keysize .bit.diff { background:var(--accent); color:var(--on-accent); font-weight:700; box-shadow:none; }
+  .vigenere-keysize .bytelabel { font-family:var(--font-mono); font-size:12px; color:var(--muted);
+    margin-top:3px; min-height:1em; white-space:pre; }
+  .vigenere-keysize .bitlegend { font-family:var(--font-mono); font-size:12px; color:var(--muted); margin:.2rem 0 .3rem; }
+  /* bar chart: best = accent, multiples = soft fill + accent ring, others neutral */
+  .vigenere-keysize .chart { display:flex; align-items:flex-end; gap:3px; height:180px; margin:.8rem 0 .2rem;
+    border-bottom:1px solid var(--line); padding-top:4px; overflow-x:auto; }
+  .vigenere-keysize .bar { flex:1 0 14px; min-width:14px; background:var(--faint); border-radius:2px 2px 0 0;
+    position:relative; cursor:pointer; transition:background .1s; }
+  .vigenere-keysize .bar:hover { background:var(--muted); }
+  .vigenere-keysize .bar.min { background:var(--accent); }
+  .vigenere-keysize .bar.mult { background:var(--accent-soft); box-shadow:inset 0 0 0 2px var(--accent); }
+  .vigenere-keysize .bar.sel { outline:2px solid var(--ink); outline-offset:1px; }
+  .vigenere-keysize .xaxis { display:flex; gap:3px; font-family:var(--font-mono); font-size:11px;
+    color:var(--muted); overflow-x:auto; }
   .vigenere-keysize .xaxis span { flex:1 0 14px; min-width:14px; text-align:center; }
   .vigenere-keysize .slider { width:100%; }
-  .vigenere-keysize .pill { display:inline-block; font-family:var(--font-mono); font-size:.8rem;
-          background:var(--cream); border:1px solid var(--surface-border); color:var(--pine);
-          border-radius:999px; padding:.15rem .55rem; }
+  .vigenere-keysize .pill { display:inline-block; font-family:var(--font-mono); font-size:13px;
+    background:transparent; border:1px solid var(--line); color:var(--ink);
+    border-radius:var(--radius-pill); padding:.05rem .6rem; }
+  .vigenere-keysize .kbest { display:inline-block; width:.7em; height:.7em; background:var(--accent); vertical-align:baseline; }
+  .vigenere-keysize .kmult { display:inline-block; width:.7em; height:.7em; background:var(--accent-soft);
+    box-shadow:inset 0 0 0 2px var(--accent); vertical-align:baseline; }
   /* break: controls + transpose grid */
   .vigenere-keysize .breakctrls { display:flex; flex-wrap:wrap; gap:.6rem 1.1rem; align-items:center;
-                font-family:var(--font-sans); font-size:.9rem; margin-bottom:.6rem; }
-  .vigenere-keysize .breakctrls input[type=number] { width:4rem; font-family:var(--font-mono); padding:.3rem .4rem;
-    border:1px solid var(--surface-border); border-radius:8px; background:var(--cream); color:var(--ink); }
-  .vigenere-keysize .btn { font-family:var(--font-sans); font-size:.85rem; cursor:pointer;
-         border:1px solid var(--surface-border); background:var(--cream); color:var(--pine);
-         border-radius:8px; padding:.3rem .7rem; }
-  .vigenere-keysize .btn:hover { background:#e9f2e6; }
-  .vigenere-keysize .btn.primary { background:var(--emerald); color:#fff; border-color:var(--emerald); }
+    font-family:var(--font-sans); font-size:14px; color:var(--text-2); margin-bottom:.8rem; }
+  .vigenere-keysize .breakctrls > span { display:inline-flex; align-items:center; gap:.45rem; flex-wrap:wrap; }
+  .vigenere-keysize .breakctrls input[type=number] { width:4.5rem; padding:.3rem .5rem; }
+  .vigenere-keysize .btn { font-family:var(--font-sans); font-size:14px; font-weight:500; cursor:pointer;
+    min-height:40px; padding:0 14px; display:inline-flex; align-items:center; gap:.35rem;
+    border:1px solid var(--line); background:transparent; color:var(--ink); border-radius:var(--radius);
+    transition:border-color .15s ease, background .15s ease; }
+  .vigenere-keysize .btn:hover { border-color:var(--ink); }
+  .vigenere-keysize .btn.primary { background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
+  .vigenere-keysize .btn.primary:hover { background:var(--accent-hover); border-color:var(--accent-hover); }
+  .vigenere-keysize .btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   .vigenere-keysize .speed { width:90px; }
   .vigenere-keysize .tgrid { display:grid; gap:2px; overflow-x:auto; padding-bottom:5px; margin:.3rem 0; }
-  .vigenere-keysize .ghead { font-family:var(--font-mono); font-size:.58rem; color:var(--muted); text-align:center; }
-  .vigenere-keysize .ghead.solved { color:var(--emerald); font-weight:bold; }
-  .vigenere-keysize .gcell { font-family:var(--font-mono); font-size:.72rem; text-align:center; padding:.15rem 0;
-           background:var(--cream); color:var(--muted); border-radius:2px; cursor:pointer; }
-  .vigenere-keysize .gcell.solved { background:rgba(46,125,82,.20); color:var(--forest); font-weight:bold; }
-  .vigenere-keysize .gcell.focus { outline:2px solid var(--amber); }
+  .vigenere-keysize .ghead { font-family:var(--font-mono); font-size:11px; color:var(--muted); text-align:center; }
+  .vigenere-keysize .ghead.solved { color:var(--green); font-weight:700; }
+  .vigenere-keysize .gcell { font-family:var(--font-mono); font-size:12px; text-align:center; padding:.15rem 0;
+    background:var(--code-bg); color:var(--muted); border-radius:2px; cursor:pointer; }
+  .vigenere-keysize .gcell.solved { background:var(--green-soft); color:var(--ink); font-weight:700;
+    box-shadow:inset 0 -2px 0 var(--green); }
+  .vigenere-keysize .gcell.focus { outline:2px solid var(--accent); outline-offset:-1px; }
   .vigenere-keysize .gempty { background:transparent; cursor:default; }
-  .vigenere-keysize .keyout { font-family:var(--font-mono); font-size:.95rem; background:var(--code-bg);
-            color:var(--code-text); padding:.5rem .7rem; border-radius:8px; word-break:break-all;
-            margin:.5rem 0; }
-  .vigenere-keysize .ptout { font-family:var(--font-mono); font-size:.82rem; background:var(--code-bg);
-           color:var(--code-text); padding:.7rem .8rem; border-radius:8px; white-space:pre-wrap;
-           max-height:200px; overflow:auto; line-height:1.4; }
-  .vigenere-keysize .err { color:var(--clay); font-family:var(--font-sans); font-size:.88rem; }
-  .vigenere-keysize .foot { color:var(--muted); font-size:.85rem; margin-top:2.5rem; text-align:center; }
-  .vigenere-keysize .hint { color:var(--muted); font-size:.85rem; }
-  .vigenere-keysize details.reveal { background:var(--surface); border:1px solid var(--surface-border);
-                   border-radius:var(--radius); padding:.2rem 1.1rem; margin:1rem 0; }
-  .vigenere-keysize details.reveal > summary { cursor:pointer; font-family:var(--font-sans); font-weight:bold;
-                             color:var(--pine); padding:.7rem 0; list-style:revert; }
+  .vigenere-keysize .keyout { font-family:var(--font-mono); font-size:15px; background:var(--code-bg);
+    color:var(--code-text); border:1px solid var(--rule); padding:.5rem .75rem; border-radius:var(--radius);
+    word-break:break-all; margin:.8rem 0; }
+  .vigenere-keysize .ptout { font-family:var(--font-mono); font-size:13px; background:var(--code-bg);
+    color:var(--code-text); border:1px solid var(--rule); padding:.7rem .85rem; border-radius:var(--radius);
+    white-space:pre-wrap; max-height:200px; overflow:auto; line-height:1.45; }
+  .vigenere-keysize .err { color:var(--accent); font-family:var(--font-mono); font-size:13px; }
+  .vigenere-keysize .foot { color:var(--muted); font-family:var(--font-mono); font-size:12px; margin-top:2.5rem; text-align:center; }
+  .vigenere-keysize .hint { color:var(--muted); font-family:var(--font-sans); font-size:13.5px; }
+  .vigenere-keysize .hint strong { color:var(--text-2); }
+  .vigenere-keysize details.reveal { background:var(--page); border:1px solid var(--rule);
+    border-radius:var(--radius-card); padding:.1rem 1.2rem; margin:1rem 0; }
+  .vigenere-keysize details.reveal > summary { cursor:pointer; font-family:var(--font-sans); font-weight:600;
+    color:var(--ink); padding:.75rem 0; list-style:revert; }
+  .vigenere-keysize details.reveal > summary::marker { color:var(--accent); }
+  .vigenere-keysize details.reveal > summary:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   .vigenere-keysize .revealbody { padding-bottom:.8rem; }
-  .vigenere-keysize .revealbody code { font-family:var(--font-mono); }
-  .vigenere-keysize pre.eq { background:var(--code-bg); color:var(--code-text); padding:.8rem 1rem;
-           border-radius:8px; overflow-x:auto; font-family:var(--font-mono);
-           font-size:.85rem; line-height:1.55; }
-  /* dark mode: drop the green-tinted surfaces so the artifact reads transparent */
-  .dark .vigenere-keysize { --surface: transparent; --cream: transparent; }
-  /* text: match the article's reading + heading colours (accents kept) */
-  .vigenere-keysize { color: var(--text, #16261c); }
-  .vigenere-keysize h1, .vigenere-keysize h2 { color: var(--heading, #1f3d2b); }
-  .vigenere-keysize > .ae-summary { color: var(--heading, #1f3d2b); }
-  /* reading text -> article tokens (functional accents kept) */
-  .vigenere-keysize, .dark .vigenere-keysize { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
-  .vigenere-keysize { --muted: rgba(26, 40, 28, 0.72); }
-  .dark .vigenere-keysize { --muted: rgba(212, 218, 227, 0.70); }
-  .vigenere-keysize .bar { background: #6b7a5a; }
-  .vigenere-keysize .bar:hover { background: #2f5a3d; outline-color: #2f5a3d; }
+  .vigenere-keysize pre.eq { background:var(--code-bg); color:var(--code-text); border:1px solid var(--rule);
+    padding:.8rem 1rem; border-radius:var(--radius); overflow-x:auto; font-family:var(--font-mono);
+    font-size:13px; line-height:1.55; }
+  @media (max-width: 520px) {
+    .vigenere-keysize > .ae-content { padding:16px; }
+    .vigenere-keysize .card { padding:14px; }
+  }
 </style>
 
 <script>

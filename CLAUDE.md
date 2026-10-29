@@ -6,14 +6,35 @@ Guidance for working on this Hugo site, especially **writing blog posts** and
 ## What this site is
 
 A personal blog built with **Hugo** using the `paper` theme (git submodule at
-`themes/paper`). Content is Markdown under `content/`. Local dev and the résumé
+`themes/paper`, heavily overridden in `layouts/`). Content is Markdown under `content/`. Local dev and the résumé
 workflow are documented in `README.md` (`hugo server -D` to preview drafts).
 
 ## How styling works (important)
 
-- The visual design is a **2brain-inspired reskin** ("Verdant Glass"): warm cream
-  background, forest-green serif reading type, soft green-tinted depth, with
-  glass/gel treatments reserved for chrome and interactive widgets.
+- The visual design is **"Notebook"**: a warm white page, near-black ink, and
+  one vermilion accent, set in IBM Plex (Sans for chrome and headings, Serif
+  for reading, Mono for dates, labels and code). Flat: no gradients, glass,
+  glows or background decoration. Dark mode is a warm near-black with a lighter
+  vermilion so the accent stays readable as text. (It replaced the older
+  "Verdant Glass" design in Oct 2026.)
+- **Page shell:** `layouts/_default/baseof.html` is a three-column grid: a
+  left rail pinned near the window edge, the main column (max 680px) centred
+  on the page, and an empty right column that keeps it centred, so the rail
+  never narrows the reading column. Home puts the sidebar in the rail
+  (`partials/sidebar.html`: handle, name, bio, nav, links, light/dark switch).
+  Every other page gets a full-width top bar (`partials/topbar.html`: handle,
+  nav, theme switch) and, on posts, the table of contents in the rail
+  (`partials/toc.html`). The menu itself is `partials/nav.html`. Below 1080px
+  the TOC is dropped; below 820px everything stacks. The theme's header is not
+  used.
+- **Home** (`layouts/_default/list.html` + `partials/post-row.html`) lists every
+  post grouped by year, with working topic filters (tags used by 2+ posts;
+  `?topic=<tag>` in the URL). Posts that embed a shortcode listed in
+  `params.interactiveShortcodes` (hugo.toml) get an "interactive" marker, so add
+  new widget shortcodes to that list.
+- **Code** is highlighted at build time by Chroma with CSS classes
+  (`markup.highlight.noClasses = false`); the colours are the `.chroma` rules in
+  `custom.css`. The theme's highlight.js is off (`disableHLJS`).
 - **All custom styling lives in `assets/custom.css`** (a site-level file that
   overrides the theme's copy). The theme ships precompiled Tailwind in
   `themes/paper/assets/main.css`; Hugo only **concatenates** `main.css` +
@@ -26,24 +47,34 @@ workflow are documented in `README.md` (`hugo server -D` to preview drafts).
 
 ### Design tokens (defined in `assets/custom.css`)
 
-Colors: `--color-forest` `--color-pine` `--color-emerald` `--color-moss`
-`--color-leaf` (greens); `--color-amber` `--color-peach` `--color-clay`
-`--color-teal` (warm accents); `--color-cream` `--color-sage` `--color-ink`.
-Semantic: `--text` `--heading` `--link` `--muted` `--faint`.
-Surfaces: `--surface` `--surface-border` `--surface-shadow` `--glass-blur`.
-Gradients: `--gel-green` `--gel-amber`. Code: `--code-bg` `--code-text`
-`--inline-code-bg`. Shape: `--radius-glass` `--radius-button` `--radius-pill`.
-Type: `--font-serif` (reading + headings), `--font-sans` (UI/chrome),
-`--font-mono` (code, meta, tags).
+Surfaces: `--page` (not `--bg`, which the theme sets inline on `<html>`)
+`--panel` `--code-bg` `--inline-code-bg` `--note-bg`.
+Ink: `--ink` (headings, titles) `--text` (reading) `--text-2` (descriptions)
+`--muted` (meta, labels; passes 4.5:1) `--faint` (decoration only).
+Lines: `--rule` (hairlines) `--line` (control borders).
+Accent: `--accent` `--accent-hover` `--on-accent` (text on accent fills)
+`--accent-soft` (tinted fill).
+Extra hues for widgets that must show several states: `--blue` `--blue-soft`
+`--green` `--green-soft`. Pair accent with blue; make states differ in
+lightness or pattern too, not hue alone.
+Shape: `--radius` (8px, controls) `--radius-card` (10px, panels) `--radius-pill`.
+Type: `--font-sans` (UI, headings) `--font-serif` (reading) `--font-mono`
+(code, dates, labels, tags).
+The old Verdant Glass names (`--color-emerald`, `--surface`, `--gel-green`, …)
+still exist as aliases of these; don't use them in new code.
 
 ### Component classes (use in shortcodes / layouts)
 
-- `.gel-card` + `.gel-card__title` — frosted glass container for demos/notes.
-- `.gel-btn` (green), `.gel-btn--amber`, add `.pill` for fully rounded — gradient buttons.
-- `.glass` — bare frosted surface for chrome.
-- `.callout`, `.callout--amber`, `.callout--clay` — labelled asides.
-- `.tag` — mono uppercase chip.
-- `.post-card` (list page).
+- `.nb-panel` (alias `.gel-card`) — flat bordered panel; `.gel-card__title` is a
+  mono uppercase accent label.
+- `.nb-btn` (solid accent; alias `.gel-btn`), `.nb-btn--ghost` (outlined; alias
+  `.gel-btn--amber`), add `.pill` for fully rounded.
+- `.callout` + `.callout__label`, `.callout--amber`, `.callout--clay` — notes.
+- `.nb-sq` / `.nb-sq--s` — the small accent square used as a marker.
+- `.tag` — plain mono tag text.
+- Interactive widgets: a `--panel` box with a 1px `--rule` border, a mono
+  uppercase accent caption ("INTERACTIVE · …") with a small square, accent for
+  the active item, `--ink` outline for "in focus", neutral `--code-bg` cells.
 - Wrap interactive widget chrome in `.not-prose` so the theme's prose typography
   doesn't restyle it.
 
@@ -82,7 +113,7 @@ Available shortcodes (`layouts/shortcodes/`):
 |-----------|---------|---------|
 | `solution` | Collapsible reveal card (interactive) | `{{</* solution title="Approach" button="Reveal" */>}}…{{</* /solution */>}}` |
 | `callout` | Labelled aside (`type="amber"`/`"clay"`) | `{{</* callout type="amber" title="Note" */>}}…{{</* /callout */>}}` |
-| `gelcard` | Frosted container for grouped content | `{{</* gelcard title="Try it" */>}}…{{</* /gelcard */>}}` |
+| `gelcard` | Bordered panel for grouped content | `{{</* gelcard title="Try it" */>}}…{{</* /gelcard */>}}` |
 | `atcoder-device` | Self-contained interactive demo (example) | `{{</* atcoder-device */>}}` |
 
 ### Writing a NEW interactive shortcode

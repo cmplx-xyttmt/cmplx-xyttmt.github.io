@@ -1,0 +1,22 @@
+{{/* Home sidebar (Notebook design): handle, name, bio, nav, links and the
+     light/dark switch. Pinned to the left edge of the window on wide screens;
+     stacks above the post list on phones. Other pages use partials/topbar.html. */}}
+<aside class="nb-side">
+  <a class="nb-handle" href="{{ `` | absURL }}"><span class="nb-sq" aria-hidden="true"></span>{{ site.Title }}</a>
+
+  <div class="nb-id">
+    <h1 class="nb-name">{{ site.Params.fullName | default site.Params.name }}</h1>
+    {{ with site.Params.bio }}<p class="nb-bio">{{ . }}</p>{{ end }}
+  </div>
+
+  {{ partial "nav.html" . }}
+
+  <div class="nb-ext">
+    {{ with site.Params.github }}<a href="https://github.com/{{ . }}" rel="me" target="_blank">github ↗</a>{{ end }}
+    {{ with site.Params.linkedin }}<a href="https://linkedin.com/in/{{ . }}" rel="me" target="_blank">linkedin ↗</a>{{ end }}
+    {{ with site.Params.twitter }}<a href="https://x.com/{{ . }}" rel="me" target="_blank">x ↗</a>{{ end }}
+    <a href="{{ `index.xml` | absURL }}" rel="alternate">rss</a>
+  </div>
+
+  <button type="button" class="nb-theme" data-theme-toggle aria-label="Switch between light and dark mode">light / dark</button>
+</aside>

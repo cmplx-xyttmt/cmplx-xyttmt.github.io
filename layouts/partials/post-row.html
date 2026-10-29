@@ -1,0 +1,21 @@
+{{/* One post in a year-grouped list (Notebook design).
+     data-tags holds the post's urlized tags for the topic filter on home. */}}
+{{ $page := . }}
+{{ $live := false }}
+{{ range site.Params.interactiveShortcodes }}
+  {{ if $page.HasShortcode . }}{{ $live = true }}{{ end }}
+{{ end }}
+{{ $slugs := slice }}
+{{ range .Params.tags }}{{ $slugs = $slugs | append (urlize .) }}{{ end }}
+<li class="nb-row" data-tags="{{ delimit $slugs " " }}">
+  <time class="nb-row__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
+  <div class="nb-row__body">
+    <a class="nb-row__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{ with .Description }}<span class="nb-row__desc">{{ . }}</span>{{ end }}
+    <span class="nb-row__meta">
+      {{ if gt .Weight 0 }}<span class="nb-featured">featured</span>{{ end }}
+      {{ if $live }}<span class="nb-live"><span class="nb-sq nb-sq--s" aria-hidden="true"></span>interactive</span>{{ end }}
+      {{ with .Params.tags }}<span>{{ delimit (first 3 .) " · " }}</span>{{ end }}
+    </span>
+  </div>
+</li>

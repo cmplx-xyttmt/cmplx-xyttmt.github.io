@@ -1,0 +1,8 @@
+{{/* "On this page" for posts with at least two `##` headings (Notebook
+     design). Sits in the left rail; hidden on phones. */}}
+{{ if and .IsPage (eq .Section "posts") (gt (len .TableOfContents) 32) }}
+<nav class="nb-toc" aria-label="On this page">
+  <span class="nb-label">ON THIS PAGE</span>
+  {{ .TableOfContents }}
+</nav>
+{{ end }}

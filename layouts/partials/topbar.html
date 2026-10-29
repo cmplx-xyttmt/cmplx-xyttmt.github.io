@@ -1,0 +1,11 @@
+{{/* Full-width top bar for every page except home (Notebook design):
+     handle on the left, menu and light/dark switch on the right. */}}
+<header class="nb-topbar">
+  <a class="nb-handle" href="{{ `` | absURL }}"><span class="nb-sq" aria-hidden="true"></span>{{ site.Title }}</a>
+  <div class="nb-topbar__right">
+    {{ partial "nav.html" . }}
+    <button type="button" class="nb-theme nb-theme--icon" data-theme-toggle aria-label="Switch between light and dark mode">
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"></path></svg>
+    </button>
+  </div>
+</header>

@@ -14,13 +14,15 @@
 
   <p>Below is real AES-128, encrypting the text in the box two ways. Each tile is one
   16-byte block, coloured by its contents, so two tiles with the same colour are two
-  identical ciphertext blocks. Repeats get an amber border.</p>
+  identical ciphertext blocks. Repeats get an orange outline and a corner mark.</p>
   <div class="card">
     <div class="lockbar">
       <span data-el="lockIcon">&#128274;</span>
-      <span data-el="lockNote"></span>
-      <button class="btn" data-el="fillBtn" type="button">Fill with repeated text</button>
-      <button class="btn" data-el="againBtn" type="button">Encrypt again</button>
+      <span class="locknote" data-el="lockNote"></span>
+      <span class="lockbtns">
+        <button class="btn" data-el="fillBtn" type="button">Fill with repeated text</button>
+        <button class="btn btn--primary" data-el="againBtn" type="button">Encrypt again</button>
+      </span>
     </div>
     <textarea data-el="input" spellcheck="false" aria-label="Plaintext"></textarea>
     <div class="cols">
@@ -42,80 +44,106 @@
 </details>
 
 <style>
-  .threat-models {
-    --cream:#f7f3e9; --surface:#fffdf7; --surface-border:#e4dcc7;
-    --forest:#1f3d2b; --pine:#2f5a3d; --emerald:#2e7d52; --moss:#6b7a5a;
-    --amber:#c8862a; --clay:#b1552f; --ink:#16261c; --muted:#6a7568; --radius:16px;
-    --font-serif:Georgia,"Times New Roman",serif;
-    --font-sans:system-ui,-apple-system,"Segoe UI",sans-serif;
-    --font-mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
-  }
-  .dark .threat-models { --cream:#10180f; --surface:#17231a; --surface-border:#2b3d2f; --forest:#cfe3d1;
-          --pine:#a9d0b3; --emerald:#6fd39a; --ink:#e6f0e6; --muted:#92a290; --amber:#e0a44e; --clay:#e08c63; }
+  /* "Notebook" widget: flat panel, hairlines, one accent. Every colour is a
+     site token from assets/custom.css, so light and dark mode come for free.
+     The block tiles keep their per-ciphertext hues on purpose: same colour
+     means same ciphertext block, which is the thing the widget shows. */
   .threat-models * { box-sizing:border-box; }
-  .threat-models { color:var(--ink); font-family:var(--font-serif); line-height:1.6; }
+  .threat-models { color:var(--text); font-family:var(--font-serif); line-height:1.6; }
   .threat-models p { margin:.6rem 0; }
-  .threat-models h3 { font-size:1rem; color:var(--forest); font-family:var(--font-sans); }
-  .threat-models .card { background:var(--surface); border:1px solid var(--surface-border);
-          border-radius:var(--radius); padding:1.1rem 1.2rem; margin:1rem 0;
-          box-shadow:0 2px 10px rgba(31,61,43,.06); }
+  .threat-models h3 { font-size:15px; font-weight:600; color:var(--ink); font-family:var(--font-sans); }
+  .threat-models .card { background:transparent; border:1px solid var(--rule);
+          border-radius:var(--radius-card); padding:18px 20px; margin:1rem 0; }
 
-  .threat-models .models { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0 .2rem; }
-  .threat-models .model { font-family:var(--font-sans); font-size:.85rem; cursor:pointer; text-align:left;
-          border:1px solid var(--surface-border); background:var(--surface); color:var(--ink);
-          border-radius:10px; padding:.5rem .8rem; flex:1 1 200px; line-height:1.35; }
-  .threat-models .model b { display:block; color:var(--pine); font-size:.9rem; }
-  .threat-models .model small { color:var(--muted); }
-  .threat-models .model[aria-pressed="true"] { border-color:var(--emerald); background:rgba(46,125,82,.12); }
-  .threat-models .model[aria-pressed="true"] b { color:var(--forest); }
+  /* attack-model presets: selected = ink fill, page text */
+  .threat-models .models { display:flex; flex-wrap:wrap; gap:8px; margin:1rem 0 .2rem; }
+  .threat-models .model { font-family:var(--font-sans); font-size:13px; cursor:pointer; text-align:left;
+          border:1px solid var(--line); background:transparent; color:var(--text-2);
+          border-radius:var(--radius); padding:10px 14px; min-height:40px; flex:1 1 200px; line-height:1.4;
+          transition:border-color .15s, background .15s; }
+  .threat-models .model:hover { border-color:var(--ink); }
+  .threat-models .model:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .threat-models .model b { display:block; font-family:var(--font-mono); font-weight:500; font-size:13px;
+          color:var(--ink); margin-bottom:2px; }
+  .threat-models .model small { font-size:13px; color:var(--muted); }
+  .threat-models .model[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); }
+  .threat-models .model[aria-pressed="true"] b,
+  .threat-models .model[aria-pressed="true"] small { color:var(--page); }
 
-  .threat-models table.grid { width:100%; border-collapse:collapse; font-family:var(--font-sans); font-size:.88rem; margin:0; }
+  .threat-models table.grid { width:100%; border-collapse:collapse; font-family:var(--font-sans); font-size:14px; margin:0; }
   .threat-models table.grid th, .threat-models table.grid td { padding:.5rem .6rem;
-          border-bottom:1px solid var(--surface-border); text-align:left; }
-  .threat-models table.grid th { color:var(--moss); font-weight:600; font-size:.76rem;
-          text-transform:uppercase; letter-spacing:.06em; }
-  .threat-models table.grid td.asset { color:var(--forest); font-weight:600; }
-  .threat-models .yes { color:var(--emerald); font-weight:700; }
+          border-bottom:1px solid var(--rule); text-align:left; }
+  .threat-models table.grid th { color:var(--muted); font-family:var(--font-mono); font-weight:400; font-size:12px;
+          text-transform:uppercase; letter-spacing:.04em; border-bottom-color:var(--line); }
+  .threat-models table.grid td.asset { font-family:var(--font-mono); color:var(--ink); font-weight:500; }
+  .threat-models .yes { color:var(--green); font-weight:600; }
   .threat-models .no  { color:var(--muted); }
-  .threat-models .key-row td { background:rgba(177,85,47,.07); }
+  /* the key row: the one thing no model ever gives you */
+  .threat-models .key-row td { background:var(--accent-soft); }
+  .threat-models .key-row td.asset { color:var(--accent); }
 
-  .threat-models .lockbar { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
-          font-family:var(--font-sans); font-size:.85rem; margin-bottom:.5rem; }
-  .threat-models textarea { width:100%; min-height:72px; font-family:var(--font-mono); font-size:.85rem;
-          padding:.6rem .7rem; border-radius:10px; border:1px solid var(--surface-border);
-          background:var(--cream); color:var(--ink); resize:vertical; }
-  .threat-models textarea[readonly] { opacity:.75; cursor:not-allowed; border-style:dashed; }
-  .threat-models .btn { font-family:var(--font-sans); font-size:.82rem; cursor:pointer;
-          border:1px solid var(--surface-border); background:var(--cream); color:var(--pine);
-          border-radius:8px; padding:.35rem .75rem; }
-  .threat-models .btn:hover:not(:disabled) { background:rgba(46,125,82,.12); }
-  .threat-models .btn:disabled { opacity:.4; cursor:not-allowed; }
+  .threat-models .lockbar { display:flex; align-items:center; gap:8px 10px; flex-wrap:wrap;
+          font-family:var(--font-sans); font-size:14px; color:var(--text-2); margin-bottom:10px; }
+  .threat-models .locknote { flex:1 1 220px; }
+  .threat-models .lockbtns { display:flex; flex-wrap:wrap; gap:8px; }
+  .threat-models textarea { display:block; width:100%; min-height:72px; font-family:var(--font-mono); font-size:13px;
+          padding:10px 12px; border-radius:var(--radius); border:1px solid var(--line);
+          background:var(--page); color:var(--ink); resize:vertical; }
+  .threat-models textarea:focus { outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+  .threat-models textarea[readonly] { color:var(--text-2); cursor:not-allowed; border-style:dashed; background:transparent; }
+  .threat-models textarea[readonly]:focus { outline-color:var(--line); border-color:var(--line); }
 
-  .threat-models .cols { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+  /* secondary = outlined; primary = solid accent */
+  .threat-models .btn { display:inline-flex; align-items:center; justify-content:center; min-height:40px;
+          font-family:var(--font-sans); font-size:14px; font-weight:500; cursor:pointer;
+          border:1px solid var(--line); background:transparent; color:var(--ink);
+          border-radius:var(--radius); padding:0 16px; transition:border-color .15s, background .15s; }
+  .threat-models .btn:hover:not(:disabled) { border-color:var(--ink); }
+  .threat-models .btn--primary { background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
+  .threat-models .btn--primary:hover:not(:disabled) { background:var(--accent-hover); border-color:var(--accent-hover); }
+  .threat-models .btn:active:not(:disabled) { transform:translateY(1px); }
+  .threat-models .btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .threat-models .btn:disabled { opacity:.45; cursor:not-allowed; }
+
+  .threat-models .cols { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-top:1rem; }
+  .threat-models .col { min-width:0; }
   @media (max-width:640px) { .threat-models .cols { grid-template-columns:1fr; } }
-  .threat-models .col h3 { margin:0 0 .5rem; display:flex; justify-content:space-between; align-items:baseline; }
-  .threat-models .blocks { display:flex; flex-wrap:wrap; gap:.35rem; }
-  .threat-models .blk { width:56px; height:56px; border-radius:8px; font-family:var(--font-mono);
-          font-size:.56rem; color:#fff; display:flex; align-items:flex-end; justify-content:center;
-          padding-bottom:3px; text-shadow:0 1px 2px rgba(0,0,0,.55); border:2px solid transparent; }
-  .threat-models .blk.dup { border-color:var(--amber); box-shadow:0 0 0 2px rgba(200,134,42,.35); }
-  .threat-models .verdict { font-family:var(--font-sans); font-size:.82rem; margin-top:.55rem; color:var(--muted); }
-  .threat-models .verdict b.hit { color:var(--amber); }
-  .threat-models .verdict b.miss { color:var(--emerald); }
-  .threat-models .foot { color:var(--muted); font-size:.85rem; margin-top:1.5rem; text-align:center; }
+  .threat-models .col h3 { margin:0 0 .5rem; display:flex; justify-content:space-between; align-items:baseline; gap:.5rem; flex-wrap:wrap; }
+  .threat-models .col h3 .verdict { font-family:var(--font-mono); font-size:12px; font-weight:400; margin:0; }
+  .threat-models .blocks { display:flex; flex-wrap:wrap; gap:8px; }
+  /* each tile: flat hue from its bytes, hex label on a dark band so it stays
+     readable whatever the hue */
+  .threat-models .blk { position:relative; width:56px; height:56px; border-radius:6px; font-family:var(--font-mono);
+          font-size:9px; color:#fff; display:flex; align-items:flex-end; justify-content:center;
+          overflow:hidden; }
+  .threat-models .blk { box-shadow:inset 0 -16px 0 rgba(0,0,0,.5); padding-bottom:2px; line-height:12px; }
+  /* repeated block: accent outline plus a corner mark, so it reads without colour */
+  .threat-models .blk.dup { outline:2px solid var(--accent); outline-offset:2px; overflow:visible; }
+  .threat-models .blk.dup::after { content:""; position:absolute; top:-1px; right:-1px; width:0; height:0;
+          border-style:solid; border-width:0 14px 14px 0; border-color:transparent var(--accent) transparent transparent; }
+  .threat-models .verdict { font-family:var(--font-sans); font-size:14px; margin-top:.6rem; color:var(--text-2); }
+  .threat-models .verdict b.hit { color:var(--accent); }
+  .threat-models .verdict b.miss { color:var(--green); }
+  .threat-models .foot { color:var(--muted); font-family:var(--font-mono); font-size:12px; margin-top:1.5rem; text-align:center; }
 
   /* embed chrome, same as the other artifact shortcodes */
-  .threat-models.artifact-embed { border:1px solid var(--surface-border); border-radius:var(--radius); margin:1.6rem 0; background:transparent; overflow:hidden; }
-  .threat-models > .ae-summary { cursor:pointer; list-style:none; padding:.65rem 1rem; font-family:var(--font-sans); font-size:.82rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--pine); background:var(--surface); display:flex; align-items:center; gap:.5rem; }
+  .threat-models.artifact-embed { background:var(--panel); border:1px solid var(--rule); border-radius:var(--radius-card);
+          margin:2rem 0; overflow:hidden; }
+  .threat-models > .ae-summary { cursor:pointer; list-style:none; padding:14px 22px; font-family:var(--font-mono);
+          font-size:12px; font-weight:400; letter-spacing:.04em; text-transform:uppercase; color:var(--accent);
+          display:flex; align-items:center; gap:10px; }
   .threat-models > .ae-summary::-webkit-details-marker { display:none; }
-  .threat-models > .ae-summary::before { content:"\25B8"; }
-  .threat-models[open] > .ae-summary::before { content:"\25BE"; }
-  .threat-models[open] > .ae-summary { border-bottom:1px solid var(--surface-border); }
-  .threat-models > .ae-content { padding:1rem; }
-  .dark .threat-models { --surface: transparent; --cream: transparent; }
-  .threat-models, .dark .threat-models { --ink: var(--text, #16261c); --moss: var(--muted); --pine: var(--heading, #2f5a3d); --forest: var(--heading, #1f3d2b); }
-  .threat-models { --muted: rgba(26, 40, 28, 0.72); }
-  .dark .threat-models { --muted: rgba(212, 218, 227, 0.70); }
+  .threat-models > .ae-summary::before { content:""; flex:none; width:7px; height:7px; background:var(--accent); }
+  .threat-models > .ae-summary::after { content:"\25B8"; margin-left:auto; color:var(--muted); }
+  .threat-models[open] > .ae-summary::after { content:"\25BE"; }
+  .threat-models > .ae-summary:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+  .threat-models[open] > .ae-summary { border-bottom:1px solid var(--rule); }
+  .threat-models > .ae-content { padding:20px 22px 22px; }
+  @media (max-width:560px) {
+    .threat-models > .ae-summary { padding:12px 16px; }
+    .threat-models > .ae-content { padding:16px; }
+    .threat-models .card { padding:14px; }
+  }
 </style>
 
 <script>
